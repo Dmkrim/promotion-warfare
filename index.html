@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Promotion Warfare System - Mobile App</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fef2f2',
+                            100: '#ffe1e1',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            900: '#7f1d1d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- PWA / Android Mobile Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Base Styling & Custom Background Image support */
+        body {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #0f172a;
+        }
+
+        /* Custom Background with Dark Overlay Fallback */
+        .app-bg-overlay {
+            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.96)), url('004.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Card Animations */
+        .card-enter {
+            animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Slide Drawer & Modal Animations */
+        .drawer-animate {
+            animation: drawerSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes drawerSlide {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .modal-animate {
+            animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar Styles */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ===== V04 additions ===== */
+        .av-ring{border-radius:9999px;overflow:hidden;border:2px solid rgba(251,191,36,.85);background:#1e293b;flex-shrink:0;display:inline-block;vertical-align:middle}
+        .av-ring>svg,.av-ring>img{width:100%;height:100%;display:block;object-fit:cover}
+        .hp-logo{width:2.5rem;height:2.5rem;border-radius:9999px;overflow:hidden;flex-shrink:0;border:1.5px solid rgba(251,191,36,.9);box-shadow:0 2px 6px rgba(0,0,0,.35);background:transparent}
+        .hp-logo img{width:100%;height:100%;object-fit:cover;display:block}
+        .hp-big .hp-logo{width:6.5rem;height:6.5rem;border-width:2px}
+        .sel-on{background:#f59e0b!important;color:#0f172a!important;border-color:#f59e0b!important}
+        .av-opt{border:2px solid transparent;width:100%;aspect-ratio:1/1;display:block;background:transparent;padding:0}
+        .av-opt svg{width:100%;height:100%;display:block}
+        .av-sel{border-color:#fbbf24;box-shadow:0 0 0 2px rgba(251,191,36,.55)}
+        .selectable{-webkit-user-select:text;user-select:text}
+        input,textarea{-webkit-user-select:text;user-select:text}
+        .typing span{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:9999px;background:#94a3b8;animation:twBlink 1s infinite}
+        .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+        @keyframes twBlink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+        .fab-pulse{animation:fabPulse 2.6s ease-in-out infinite}
+        @keyframes fabPulse{0%,100%{box-shadow:0 10px 25px rgba(127,29,29,.45)}50%{box-shadow:0 10px 30px rgba(245,158,11,.6)}}
+        details>summary{list-style:none}details>summary::-webkit-details-marker{display:none}
+        details[open]>summary{color:#fbbf24}
+
+        /* ===== Day mode (night is the default) ===== */
+        body.light{color:#0f172a}
+        body.light.app-bg-overlay{background-image:linear-gradient(to bottom,rgba(241,245,249,.94),rgba(241,245,249,.97)),url('004.jpg')}
+        body.light [class*="bg-slate-950"]{background-color:rgba(255,255,255,.92)!important}
+        body.light [class*="bg-slate-900"]{background-color:rgba(255,255,255,.9)!important}
+        body.light [class*="bg-slate-800"]{background-color:rgba(248,250,252,.96)!important}
+        body.light [class*="bg-slate-700"]{background-color:#e2e8f0!important}
+        body.light [class*="bg-slate-600"]{background-color:#cbd5e1!important}
+        body.light #drawer-menu,body.light #modal-container,body.light #adviser-sheet{background-color:rgba(15,23,42,.45)!important}
+        body.light [class*="border-slate-"]{border-color:#cbd5e1!important}
+        body.light .text-white,body.light [class*="text-slate-100"],body.light [class*="text-slate-200"]{color:#0f172a!important}
+        body.light [class*="text-slate-300"]{color:#334155!important}
+        body.light [class*="text-slate-400"]{color:#475569!important}
+        body.light [class*="text-slate-500"]{color:#64748b!important}
+        body.light .text-amber-400,body.light .text-amber-300,body.light .text-amber-200\/90{color:#b45309!important}
+        body.light .text-emerald-300,body.light .text-emerald-400{color:#047857!important}
+        body.light .text-purple-300,body.light .text-purple-400{color:#7e22ce!important}
+        body.light .text-orange-300,body.light .text-orange-400{color:#c2410c!important}
+        body.light .text-red-300,body.light .text-red-400{color:#b91c1c!important}
+        body.light .text-blue-400,body.light .text-blue-300{color:#1d4ed8!important}
+        body.light .bg-red-600.text-white,body.light .bg-red-500.text-white,body.light .bg-blue-600.text-white,body.light .bg-emerald-600.text-white,body.light .bg-emerald-500.text-white,body.light [class*="from-red-600"],body.light [class*="from-red-600"] *{color:#fff!important}
+        body.light .text-slate-950{color:#0f172a!important}
+        body.light .sel-on{background:#f59e0b!important;color:#0f172a!important}
+        body.light .av-ring{background:#e2e8f0}
+        body.light details[open]>summary{color:#b45309}
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between select-none antialiased transition-colors duration-300 dark app-bg-overlay" id="app-body">
+
+    <!-- Reusable Template for the HiProgress logo (circular picture, no black corners) -->
+    <template id="hiprogress-logo-template">
+        <div class="hp-logo"><img src="hiprogress-logo.png" alt="HiProgress Logo" onerror="this.style.display='none'"></div>
+    </template>
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex items-center justify-between shadow-lg">
+        <div class="flex items-center space-x-2 min-w-0">
+            <button onclick="toggleDrawer()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition active:scale-95" title="Menu" aria-label="Menu">
+                <i class="fa-solid fa-bars text-base"></i>
+            </button>
+            <div class="flex items-center space-x-2 cursor-pointer min-w-0" onclick="goToStep('step-welcome', 0)">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-red-900/30 shrink-0">
+                    <i class="fa-solid fa-chess-knight text-sm"></i>
+                </div>
+                <div class="min-w-0">
+                    <h1 class="font-bold text-sm tracking-wide text-white leading-tight truncate">Promotion Warfare</h1>
+                    <p class="text-[10px] text-slate-400 font-medium">Career Strategy Guide</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center space-x-1.5 shrink-0">
+            <button onclick="goToStep('step-action-plan', 0)" class="p-2 rounded-xl bg-red-600/30 hover:bg-red-600/50 border border-red-500/40 text-red-300 transition active:scale-95" title="Action Plan" aria-label="Action Plan">
+                <i class="fa-solid fa-list-check text-sm"></i>
+            </button>
+            <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 transition active:scale-95" id="theme-btn" title="Day / Night mode" aria-label="Day or Night mode">
+                <i class="fa-solid fa-sun text-sm" id="theme-icon"></i>
+            </button>
+            <button id="hdr-avatar" onclick="goToStep('step-profile', 0)" class="rounded-full active:scale-95" aria-label="My profile"></button>
+        </div>
+    </header>
+
+    <!-- Slide-Out Navigation Menu -->
+    <div id="drawer-menu" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden transition-opacity" onclick="toggleDrawer()">
+        <div class="bg-slate-900 border-r border-slate-800 w-4/5 max-w-xs h-full p-4 shadow-2xl flex flex-col drawer-animate" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-slate-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-halved text-red-500 text-lg"></i>
+                    <span class="font-bold text-white text-base">Menu</span>
+                </div>
+                <button onclick="toggleDrawer()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800" aria-label="Close menu">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="drawer-nav" class="flex-1 overflow-y-auto no-scrollbar pb-2"></div>
+            <div class="pt-3 border-t border-slate-800 text-center">
+                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V04</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Layout Area -->
+    <main id="app-main" class="flex-1 max-w-md w-full mx-auto px-4 py-5 flex flex-col justify-center">
+
+        <!-- HiProgress Top Shop Banner -->
+        <a href="https://hiprogress.etsy.com" target="_blank" rel="noopener noreferrer" class="mb-4 block p-3 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-amber-500/40 hover:border-amber-400 rounded-2xl shadow-lg transition-all transform active:scale-98 group">
+            <div class="flex items-center space-x-3">
+                <div class="hiprogress-logo-container"></div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs text-slate-200 font-medium leading-snug">
+                        Enjoying this App? Support us and visit our shop. <span class="text-amber-400 font-semibold underline underline-offset-2">Tap the HiProgress logo.</span>
+                    </p>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-amber-400 text-xs opacity-70 group-hover:opacity-100 transition-opacity"></i>
+            </div>
+        </a>
+
+        <!-- Stage Progress Indicator -->
+        <div class="hidden mb-5 bg-slate-800/70 backdrop-blur-sm rounded-2xl p-3 border border-slate-700/60 shadow-sm" id="progress-container">
+            <div class="flex justify-between items-center text-xs font-semibold mb-2 text-slate-400">
+                <span id="step-label">Stage 1 of 5</span>
+                <span id="step-percentage" class="text-red-400">20% Completed</span>
+            </div>
+            <div class="w-full bg-slate-700/70 h-2 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-red-500 to-amber-500 h-full w-1/5 transition-all duration-300 rounded-full" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Dynamic Card Holder Container -->
+        <div id="card-holder" class="relative">
+
+            <!-- STEP 1: BATTLEFIELD -->
+            <section id="step-start" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-blue-500/30 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">🏰</span>
+                    <h2 class="text-xl font-bold text-white">Step 1: The Battlefield</h2>
+                </div>
+                <p class="text-slate-300 text-sm mb-4 leading-relaxed font-medium">
+                    Map out the positions held by others. Who controls the high ground in your organization?
+                </p>
+                <div class="space-y-3 mb-5">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-blue-400 block mb-1">Assess the Landscape</span>
+                        <p class="text-slate-300 text-xs leading-relaxed italic">Identify key decision-makers, stakeholders, and informal power brokers in your organization.</p>
+                    </div>
+                    <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-blue-400 block mb-1">Identify the "High Ground"</span>
+                        <p class="text-slate-300 text-xs leading-relaxed italic">Determine who holds budgetary control, strategic vision, or direct influence over executive leadership.</p>
+                    </div>
+                </div>
+
+                <!-- Create the Map Launcher Button -->
+                <div class="mb-5">
+                    <button onclick="goToStep('step-map-builder', 1.5)" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs tracking-wide shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 transition active:scale-98">
+                        <i class="fa-solid fa-sitemap text-sm"></i> Create the Map
+                    </button>
+                </div>
+
+                <div class="flex justify-between items-center pt-2 border-t border-slate-700/60">
+                    <button disabled class="opacity-40 px-4 py-2.5 rounded-xl bg-slate-700 text-slate-400 text-xs font-bold flex items-center gap-2 cursor-not-allowed">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-square', 2)" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-lg shadow-blue-600/30 flex items-center gap-2 active:scale-95 transition">
+                        Forward <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- STEP 1.5: MAP BUILDER (EDITABLE TABLE) -->
+            <section id="step-map-builder" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">🗺️</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Power Rank Table</h2>
+                        <p class="text-[11px] text-amber-400 font-medium">Input Key Organization Members</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                    Fill in names, titles, and Power Ranks (<strong>1 = Top Executive</strong>, <strong>4 = Entry / Base</strong>) to plot your organization's hierarchy pyramid.
+                </p>
+
+                <!-- Responsive Table Wrapper -->
+                <div class="overflow-x-auto mb-4 border border-slate-700 rounded-2xl bg-slate-900/80 max-h-[45vh] overflow-y-auto no-scrollbar">
+                    <table class="w-full text-left text-xs text-slate-200">
+                        <thead class="bg-slate-950 text-slate-400 font-semibold border-b border-slate-800 sticky top-0 z-10">
+                            <tr>
+                                <th class="p-2.5 min-w-[100px]">Name</th>
+                                <th class="p-2.5 min-w-[110px]">Position</th>
+                                <th class="p-2.5 min-w-[90px] text-center">Power Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody id="map-table-body" class="divide-y divide-slate-800">
+                            <!-- Dynamic Table Rows Rendered via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table Controls -->
+                <div class="grid grid-cols-2 gap-3 mb-5">
+                    <button onclick="addMapRow()" class="py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95">
+                        <i class="fa-solid fa-plus text-emerald-400"></i> Add Row
+                    </button>
+                    <button onclick="removeLastMapRow()" class="py-2 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 transition active:scale-95">
+                        <i class="fa-solid fa-minus text-red-400"></i> Remove Last Row
+                    </button>
+                </div>
+
+                <!-- Primary Action: Show Map -->
+                <div class="mb-5">
+                    <button onclick="generateVisualMap()" class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-extrabold text-xs shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 transition active:scale-98">
+                        <i class="fa-solid fa-pyramid text-sm"></i> Show the Map
+                    </button>
+                </div>
+
+                <div class="flex justify-between items-center pt-2 border-t border-slate-700/60">
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </section>
+
+            <!-- STEP 1.6: VISUAL POWER PYRAMID DISPLAY -->
+            <section id="step-map-pyramid" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/80">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">👑</span>
+                        <div>
+                            <h2 class="text-base font-bold text-amber-400">Corporate Power Pyramid</h2>
+                            <p class="text-[10px] text-slate-400 font-semibold">Hierarchy Visual Map</p>
+                        </div>
+                    </div>
+                    <button onclick="goToStep('step-map-builder', 1.5)" class="px-2.5 py-1 rounded-xl bg-slate-700 hover:bg-slate-600 text-amber-300 text-[10px] font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit
+                    </button>
+                </div>
+
+                <!-- Visual Hierarchy Pyramid Container -->
+                <div id="pyramid-container" class="space-y-3 mb-6 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
+                    <!-- Dynamic Tier Pyramid Rendered Here -->
+                </div>
+
+                <!-- Simple picture of the pyramid -->
+                <div class="mb-5 p-3 rounded-2xl bg-slate-900/60 border border-amber-500/30">
+                    <p class="text-xs font-bold text-amber-400 mb-1">🎨 Draw it</p>
+                    <p class="text-[11px] text-slate-300 mb-2 leading-snug">Turn your table into a simple picture of your company pyramid. Choose which person is you (optional).</p>
+                    <select id="pyr-me" class="w-full bg-slate-900 text-slate-100 text-xs rounded-xl p-2.5 border border-slate-700 focus:border-amber-400 outline-none mb-2"></select>
+                    <button onclick="showPyramidDrawing()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2 transition active:scale-98">
+                        <i class="fa-solid fa-pencil"></i> Draw it
+                    </button>
+                    <div id="pyr-svg" class="hidden mt-3 rounded-2xl overflow-hidden"></div>
+                    <div id="pyr-actions" class="hidden mt-2 grid grid-cols-2 gap-2">
+                        <button onclick="showPyramidDrawing()" class="py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-rotate"></i> Redraw</button>
+                        <button onclick="savePyramidImage()" class="py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-share-nodes"></i> Save / Share</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2 border-t border-slate-700/60">
+                    <button onclick="goToStep('step-map-builder', 1.5)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Table
+                    </button>
+                    <button onclick="goToStep('step-square', 2)" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 flex items-center gap-2 active:scale-95 transition">
+                        Next: Step 2 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- STEP 2: STRATEGIC SQUARE -->
+            <section id="step-square" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/30 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">📐</span>
+                    <h2 class="text-xl font-bold text-white">Step 2: Strategic Square</h2>
+                </div>
+                <p class="text-slate-300 text-sm mb-4 leading-relaxed font-medium">
+                    Choosing how to wage the battle is the first and most important decision. It depends entirely on your position in the hierarchy.
+                </p>
+                <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 mb-6 text-xs text-amber-200/90 leading-relaxed">
+                    <i class="fa-solid fa-compass mr-1.5 text-amber-400"></i> Next, you will answer 3 quick questions to determine whether you should play Defensive, Offensive, Flanking, or Guerrilla warfare.
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-q1', 3)" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 flex items-center gap-2 active:scale-95 transition">
+                        Forward <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- QUESTION A: LEADER? -->
+            <section id="step-q1" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-emerald-500/30 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">👑</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Phase A: Are You #1?</h2>
+                        <p class="text-[11px] text-emerald-400 font-medium">Top Performer / Department Head</p>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-xs mb-6 leading-relaxed">
+                    If you already hold the top position, your primary focus is retention, defense, and consolidation.
+                </p>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="pickPosition('leader'); showStrategy('leader', 5)" class="p-4 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 hover:bg-emerald-600/30 text-emerald-300 font-bold text-xs text-center transition active:scale-95 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check text-xl text-emerald-400"></i>
+                        Yes (I am #1)
+                    </button>
+                    <button onclick="goToStep('step-q2', 3.5)" class="p-4 rounded-2xl bg-slate-700/50 border border-slate-600 hover:bg-slate-700 text-slate-300 font-bold text-xs text-center transition active:scale-95 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-xmark text-xl text-slate-400"></i>
+                        No
+                    </button>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-square', 2)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </section>
+
+            <!-- QUESTION B: CHALLENGER? -->
+            <section id="step-q2" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-purple-500/30 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">🏆</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Phase B: Are You #2?</h2>
+                        <p class="text-[11px] text-purple-400 font-medium">The Direct Challenger</p>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-xs mb-6 leading-relaxed">
+                    If you are the clear runner-up directly challenging the top performer or incumbent leader:
+                </p>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="pickPosition('challenger'); showStrategy('challenger', 5)" class="p-4 rounded-2xl bg-purple-600/20 border border-purple-500/40 hover:bg-purple-600/30 text-purple-300 font-bold text-xs text-center transition active:scale-95 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check text-xl text-purple-400"></i>
+                        Yes (I am #2)
+                    </button>
+                    <button onclick="goToStep('step-q3', 4)" class="p-4 rounded-2xl bg-slate-700/50 border border-slate-600 hover:bg-slate-700 text-slate-300 font-bold text-xs text-center transition active:scale-95 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-xmark text-xl text-slate-400"></i>
+                        No
+                    </button>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q1', 3)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </section>
+
+            <!-- QUESTION C: FLANKER OR GUERRILLA? -->
+            <section id="step-q3" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-orange-500/30 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-lg">🎯</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Phase C: Strategic Position</h2>
+                        <p class="text-[11px] text-orange-400 font-medium">Middle Tier vs. Underdog</p>
+                    </div>
+                </div>
+                <p class="text-slate-300 text-xs mb-6 leading-relaxed">
+                    Select your current operational standing in the group:
+                </p>
+                <div class="grid grid-cols-1 gap-3 mb-6">
+                    <button onclick="pickPosition('flanker'); showStrategy('flanker', 5)" class="p-3.5 rounded-2xl bg-orange-500/10 border border-orange-500/30 hover:bg-orange-500/20 text-orange-300 font-bold text-xs flex items-center justify-between transition active:scale-95">
+                        <span class="flex items-center gap-2">🚀 Yes, I am #3 (The Flanker)</span>
+                        <i class="fa-solid fa-chevron-right text-orange-400 text-xs"></i>
+                    </button>
+                    <button onclick="pickPosition('guerrilla'); showStrategy('guerrilla', 5)" class="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-300 font-bold text-xs flex items-center justify-between transition active:scale-95">
+                        <span class="flex items-center gap-2">🥷 No, I am an Underdog (Guerrilla)</span>
+                        <i class="fa-solid fa-chevron-right text-red-400 text-xs"></i>
+                    </button>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q2', 3.5)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </section>
+
+            <!-- STRATEGY 1: LEADER (DEFENSIVE) -->
+            <section id="strat-leader" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-emerald-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">🛡️</span>
+                        <div>
+                            <h2 class="text-base font-bold text-emerald-400">Defensive Warfare</h2>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Leader Strategy</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">#1 Position</span>
+                </div>
+
+                <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Defensive warfare is a game only for the leader.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Protect your territory, institutional knowledge, and key accounts.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-1')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-1" onclick="addToPlan('modal-1')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">2. The best defense is the courage to attack yourself.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Continuously disrupt your own workflows before management forces you to.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-2')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-2" onclick="addToPlan('modal-2')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">3. Always block your competitors' strong moves.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Anticipate rivals trying to encroach on your projects and preemptively act.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-3')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-3" onclick="addToPlan('modal-3')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">4. Keep something in reserve.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Never burn all political capital on a single project. Save energy for crises.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-4')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-4" onclick="addToPlan('modal-4')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q1', 3)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-red-400 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Restart
+                    </button>
+                </div>
+            </section>
+
+            <!-- STRATEGY 2: CHALLENGER (OFFENSIVE) -->
+            <section id="strat-challenger" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-purple-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">⚔️</span>
+                        <div>
+                            <h2 class="text-base font-bold text-purple-400">Offensive Warfare</h2>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Challenger Strategy</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold">#2 Position</span>
+                </div>
+
+                <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-purple-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Gain relative advantage at decisive points.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Focus intensely on one critical skill or project where you can decisively outperform.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-challenger-1')" class="w-full py-1.5 px-3 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-challenger-1" onclick="addToPlan('modal-challenger-1')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-purple-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">2. Find the leader's weak spot and attack it.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Observe where top performers drop the ball and excel specifically in those gaps.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-challenger-2')" class="w-full py-1.5 px-3 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-challenger-2" onclick="addToPlan('modal-challenger-2')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-purple-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">3. Attack on the narrowest front possible.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Focus your campaign on a single highly visible initiative rather than spreading thin.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-challenger-3')" class="w-full py-1.5 px-3 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-challenger-3" onclick="addToPlan('modal-challenger-3')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-purple-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">4. Strength Is Weakness.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Do not fight the leader on their strongest turf; win on quantifiable output instead.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-challenger-4')" class="w-full py-1.5 px-3 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-challenger-4" onclick="addToPlan('modal-challenger-4')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q2', 3.5)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-red-400 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Restart
+                    </button>
+                </div>
+            </section>
+
+            <!-- STRATEGY 3: FLANKER (NO. 3) -->
+            <section id="strat-flanker" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-orange-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">🚀</span>
+                        <div>
+                            <h2 class="text-base font-bold text-orange-400">Flanking Warfare</h2>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">No. 3 Strategy</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-orange-500/20 text-orange-300 text-[10px] font-bold">#3 Position</span>
+                </div>
+
+                <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-orange-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Pursuit is the second act of victory.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">When the leader stumbles, position your supplementary work to highlight superior methods.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-flanker-1')" class="w-full py-1.5 px-3 rounded-xl bg-orange-600/30 hover:bg-orange-600/50 text-orange-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-flanker-1" onclick="addToPlan('modal-flanker-1')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-orange-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">2. Target territory that is not yet contested.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Volunteer for emerging tech or niche problems that others ignore.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-flanker-2')" class="w-full py-1.5 px-3 rounded-xl bg-orange-600/30 hover:bg-orange-600/50 text-orange-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-flanker-2" onclick="addToPlan('modal-flanker-2')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-orange-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">3. Tactical surprise must be central.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Deliver unexpected, fully realized solutions quietly before others realize a shift.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-flanker-3')" class="w-full py-1.5 px-3 rounded-xl bg-orange-600/30 hover:bg-orange-600/50 text-orange-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-flanker-3" onclick="addToPlan('modal-flanker-3')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q3', 4)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-red-400 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Restart
+                    </button>
+                </div>
+            </section>
+
+            <!-- STRATEGY 4: GUERRILLA (UNDERDOG) -->
+            <section id="strat-guerrilla" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-red-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/60">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl">🥷</span>
+                        <div>
+                            <h2 class="text-base font-bold text-red-400">Guerrilla Warfare</h2>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Underdog Strategy</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-red-500/20 text-red-300 text-[10px] font-bold">Underdog</span>
+                </div>
+
+                <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Retreat when enemy advances; attack when tired.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Avoid political confrontations. Pick battles wisely and offer subtle constructive critiques.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-1')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-guerrilla-1" onclick="addToPlan('modal-guerrilla-1')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">2. Find a segment small enough to defend.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Carve out an essential, highly specific niche or tool that nobody else wants to manage.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-2')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-guerrilla-2" onclick="addToPlan('modal-guerrilla-2')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">3. Whatever success you achieve, never behave like leader.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Maintain humility and agility. Do not isolate yourself with bureaucracy or arrogance.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-3')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-guerrilla-3" onclick="addToPlan('modal-guerrilla-3')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+
+                    <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
+                        <p class="text-xs font-bold text-slate-100 mb-1">4. Be ready to pack up and move at any moment.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Keep options open. Pivot strategically if a project becomes toxic or stagnant.</p>
+                        <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-4')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
+                        </button><button data-id="modal-guerrilla-4" onclick="addToPlan('modal-guerrilla-4')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-q3', 4)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </button>
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-red-400 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Restart
+                    </button>
+                </div>
+            </section>
+
+            <!-- INTERACTIVE CAREER ACTION PLAN & TO-DO BUILDER -->
+            <section id="step-action-plan" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-red-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-lg">📋</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Interactive Action Plan</h2>
+                        <p class="text-[11px] text-red-400 font-medium">Build Your Career Battle Plan</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+  <div class="p-2 rounded-2xl bg-slate-900/70 border border-slate-700"><p id="stat-picks" class="text-lg font-extrabold text-amber-400">0</p><p class="text-[10px] text-slate-400">My Moves</p></div>
+  <div class="p-2 rounded-2xl bg-slate-900/70 border border-slate-700"><p id="stat-done" class="text-lg font-extrabold text-emerald-400">0</p><p class="text-[10px] text-slate-400">Done</p></div>
+  <div class="p-2 rounded-2xl bg-slate-900/70 border border-slate-700"><p id="stat-power" class="text-lg font-extrabold text-red-400">0%</p><p class="text-[10px] text-slate-400">Power Level</p></div>
+</div>
+<div class="mb-4"><div class="w-full bg-slate-700/70 h-2.5 rounded-full overflow-hidden"><div id="power-bar" class="h-full bg-gradient-to-r from-red-500 via-amber-500 to-emerald-500 transition-all duration-500 rounded-full" style="width:0%"></div></div><p id="power-msg" class="text-[11px] text-slate-400 mt-1.5 text-center"></p></div>
+<div class="mb-5 p-3 rounded-2xl bg-slate-900/60 border border-amber-500/30">
+  <div class="flex items-center justify-between mb-2"><span class="text-xs font-bold text-amber-400">🗺️ My Power Map</span>
+  <button onclick="goToStep('step-map-builder', 1.5)" class="px-2.5 py-1 rounded-xl bg-slate-700 hover:bg-slate-600 text-amber-300 text-[10px] font-bold"><i class="fa-solid fa-pen-to-square"></i> Edit map</button></div>
+  <div id="plan-map" class="space-y-1.5"></div>
+</div>
+<!-- Position Selection -->
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">1. Select Your Current Position:</label>
+                    <select id="plan-position" onchange="generateActionPlan()" class="w-full bg-slate-900 text-slate-100 text-xs rounded-xl p-3 border border-slate-700 focus:border-red-500 outline-none cursor-pointer">
+                        <option value="leader">🛡️ Leader (#1 - Defensive Warfare)</option>
+                        <option value="challenger" selected>⚔️ Challenger (#2 - Offensive Warfare)</option>
+                        <option value="flanker">🚀 Flanker (#3 - Niche Flanking)</option>
+                        <option value="guerrilla">🥷 Underdog (Guerrilla Warfare)</option>
+                    </select>
+                </div>
+
+                <!-- Challenge Multi-Select -->
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">2. Select Workplace Challenges:</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
+                            <input type="checkbox" value="toxic" onchange="generateActionPlan()" class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
+                            <span class="text-xs text-slate-300">Toxic or aggressive office politics</span>
+                        </label>
+                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
+                            <input type="checkbox" value="visibility" onchange="generateActionPlan()" checked class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
+                            <span class="text-xs text-slate-300">Lack of executive visibility</span>
+                        </label>
+                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
+                            <input type="checkbox" value="stagnant" onchange="generateActionPlan()" class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
+                            <span class="text-xs text-slate-300">Stagnant projects or bureaucracy</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-5 pt-3 border-t border-slate-700/80">
+  <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">⚔️ My Moves (from "Do it")</h3>
+  <div id="my-moves" class="space-y-2 max-h-[30vh] overflow-y-auto pr-1 no-scrollbar mb-3"></div>
+  <div class="flex gap-2 mb-3"><input id="custom-task" type="text" placeholder="Add your own move..." class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
+  <button onclick="addCustomTask()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-plus"></i></button></div>
+  <p class="text-[10px] text-slate-500 mb-1.5">Quick ideas (tap to add):</p>
+  <div id="quick-chips" class="flex flex-wrap gap-1.5"></div>
+</div>
+<!-- Dynamic Action Plan Checklist -->
+                <div class="pt-3 border-t border-slate-700/80">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Tactical To-Do List</h3>
+                        <span id="plan-counter" class="text-[10px] bg-slate-900 px-2 py-0.5 rounded-full text-slate-400 font-semibold">0 / 0 Done</span>
+                    </div>
+
+                    <div id="plan-checklist" class="space-y-2.5 max-h-[35vh] overflow-y-auto pr-1 no-scrollbar mb-4">
+                        <!-- Dynamically Inserted Tasks -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center pt-2">
+                    <button onclick="goToStep('step-start', 1)" class="px-4 py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center gap-2 active:scale-95 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Home
+                    </button>
+                    <button onclick="generateActionPlan()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 active:scale-95 transition shadow-lg shadow-red-600/30">
+                        <i class="fa-solid fa-arrows-rotate"></i> Reset Plan
+                    </button>
+                </div>
+            </section>
+
+            <!-- NEW PAGES (V04) -->
+            
+            <!-- WELCOME -->
+            <section id="step-welcome" class="card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl text-center">
+                <div class="hiprogress-logo-container hp-big flex justify-center mb-3"></div>
+                <h2 class="text-2xl font-extrabold text-white leading-tight">Promotion Warfare</h2>
+                <p class="text-xs text-amber-400 font-semibold mb-1">Win your career with strategy, not luck</p>
+                <p id="welcome-greet" class="text-sm text-slate-200 font-bold mt-3">Welcome!</p>
+                <div id="welcome-name-form" class="mt-2 flex gap-2">
+                    <input id="welcome-name" type="text" maxlength="30" placeholder="What should I call you?" class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
+                    <button onclick="saveWelcomeName()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95">Save</button>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed mt-3 mb-3">Map your workplace, pick the strategy that fits your position and take one small smart move every week.</p>
+                <div id="welcome-tip" class="text-left p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-4"></div>
+                <button onclick="goToStep('step-start', 1)" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-extrabold text-sm shadow-lg shadow-red-900/30 flex items-center justify-center gap-2 active:scale-98 transition mb-3">
+                    <i class="fa-solid fa-play"></i> Start the Strategy
+                </button>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <button onclick="goToStep('step-help', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📖</span>How to use this App</button>
+                    <button onclick="goToStep('step-examples', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">🏆</span>Examples of Promotions</button>
+                    <button onclick="openAdviser()" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">🧭</span>Ask the Adviser</button>
+                    <button onclick="goToStep('step-action-plan', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📋</span>My Action Plan</button>
+                    <button onclick="goToStep('step-journal', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📓</span>Wins Journal</button>
+                    <button onclick="goToStep('step-profile', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">👤</span>Profile &amp; Settings</button>
+                </div>
+            </section>
+
+            <!-- HOW TO USE -->
+            <section id="step-help" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-blue-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">📖</span>
+                    <div><h2 class="text-lg font-bold text-white">How to use this App</h2><p class="text-[11px] text-blue-400 font-medium">Everything explained simply</p></div>
+                </div>
+                <div id="help-body" class="max-h-[62vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- EXAMPLES OF PROMOTIONS -->
+            <section id="step-examples" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">🏆</span>
+                    <div><h2 class="text-lg font-bold text-white">Examples of Promotions</h2><p class="text-[11px] text-amber-400 font-medium">6 learning stories</p></div>
+                </div>
+                <div class="flex gap-2 mb-3">
+                    <button id="ex-btn-list" onclick="setExView('list')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-list"></i> List</button>
+                    <button id="ex-btn-grid" onclick="setExView('grid')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-table-cells-large"></i> Grid</button>
+                </div>
+                <div id="ex-list" class="max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <p class="text-[10px] text-slate-500 mt-3 leading-snug">These are illustrative stories with made-up characters, written to show how each strategy can work. Tap a story to read it.</p>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- WINS JOURNAL -->
+            <section id="step-journal" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-emerald-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">📓</span>
+                    <div><h2 class="text-lg font-bold text-white">Wins Journal</h2><p class="text-[11px] text-emerald-400 font-medium">Write every achievement down</p></div>
+                </div>
+                <p class="text-[11px] text-slate-300 mb-2 leading-snug">Add what you finished, fixed or improved. Add numbers when you can. You will need them for reviews and for asking for a raise.</p>
+                <div class="flex gap-2 mb-2">
+                    <input id="win-input" type="text" maxlength="300" placeholder="Example: Cut report time from 20 to 12 minutes" class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:border-emerald-400 outline-none">
+                    <button onclick="addWin()" class="px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-plus"></i> Add</button>
+                </div>
+                <div class="flex items-center justify-between mb-2"><span id="win-count" class="text-[10px] bg-slate-900 px-2 py-0.5 rounded-full text-slate-400 font-semibold">0 wins</span><button onclick="copyWins()" class="text-[11px] text-amber-400 font-bold"><i class="fa-solid fa-copy"></i> Copy list</button></div>
+                <div id="win-list" class="space-y-2 max-h-[45vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- GLOSSARY -->
+            <section id="step-glossary" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-purple-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">📚</span>
+                    <div><h2 class="text-lg font-bold text-white">Glossary</h2><p class="text-[11px] text-purple-400 font-medium">Simple meanings of key words</p></div>
+                </div>
+                <input id="gl-search" type="text" placeholder="Search a word..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:border-purple-400 outline-none mb-3">
+                <div id="gl-list" class="space-y-2 max-h-[55vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- PROFILE AND SETTINGS -->
+            <section id="step-profile" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">👤</span>
+                    <div><h2 class="text-lg font-bold text-white">Profile and Settings</h2><p class="text-[11px] text-amber-400 font-medium">Make the app yours</p></div>
+                </div>
+                <div class="max-h-[70vh] overflow-y-auto pr-1 no-scrollbar space-y-4">
+                    <div class="flex flex-col items-center">
+                        <div class="av-ring w-24 h-24" id="prof-avatar-big"></div>
+                        <div class="flex gap-2 mt-3">
+                            <label class="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-[11px] font-bold cursor-pointer active:scale-95"><i class="fa-solid fa-camera"></i> Upload my photo<input id="avatar-file" type="file" accept="image/*" class="hidden" onchange="onPhotoPicked(this)"></label>
+                            <button id="photo-remove" onclick="removePhoto()" class="hidden px-3 py-2 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold active:scale-95">Remove photo</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">Your name</label>
+                        <input id="prof-name" type="text" maxlength="30" placeholder="Your first name" oninput="saveProfileName()" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:border-amber-400 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">Your position (the Adviser uses it)</label>
+                        <select id="prof-pos" onchange="saveProfilePos()" class="w-full bg-slate-900 text-slate-100 text-xs rounded-xl p-2.5 border border-slate-700 focus:border-amber-400 outline-none">
+                            <option value="">Not sure yet</option>
+                            <option value="leader">🛡️ Leader (#1)</option>
+                            <option value="challenger">⚔️ Challenger (#2)</option>
+                            <option value="flanker">🚀 Flanker (#3)</option>
+                            <option value="guerrilla">🥷 Underdog (Guerrilla)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-300 mb-1.5">Choose an avatar (50 people)</p>
+                        <div id="avatar-grid" class="grid grid-cols-5 gap-2 max-h-[34vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-300 mb-1.5">Appearance</p>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <button id="theme-dark-btn" onclick="setTheme('dark')" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-moon"></i> Night (default)</button>
+                            <button id="theme-light-btn" onclick="setTheme('light')" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-sun"></i> Day</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button id="size-s" onclick="setSize('s')" class="py-2 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold active:scale-95">Small text</button>
+                            <button id="size-m" onclick="setSize('m')" class="py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95">Normal</button>
+                            <button id="size-l" onclick="setSize('l')" class="py-2 rounded-xl bg-slate-700 text-slate-200 text-sm font-bold active:scale-95">Large</button>
+                        </div>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-slate-900/60 border border-slate-700/60">
+                        <p class="text-xs font-bold text-amber-400 mb-0.5">🧭 Adviser data bank</p>
+                        <p id="bank-stats" class="text-[11px] text-slate-400 mb-2"></p>
+                        <p class="text-[11px] text-slate-300 mb-1.5 font-semibold">Teach the Adviser a new answer</p>
+                        <input id="teach-q" type="text" maxlength="200" placeholder="Question, e.g. How do I prepare for a night shift lead role?" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-amber-400 outline-none mb-2">
+                        <textarea id="teach-a" rows="3" maxlength="1200" placeholder="Your answer" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-amber-400 outline-none mb-2"></textarea>
+                        <button onclick="teachAdviser()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95 mb-2"><i class="fa-solid fa-plus"></i> Add to my data bank</button>
+                        <div class="grid grid-cols-3 gap-2">
+                            <label class="py-2 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold text-center cursor-pointer active:scale-95">Import update<input type="file" accept=".json,application/json" class="hidden" onchange="importBank(this)"></label>
+                            <button onclick="exportBank()" class="py-2 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold active:scale-95">Export mine</button>
+                            <button onclick="clearBank()" class="py-2 rounded-xl bg-slate-700 text-red-400 text-[11px] font-bold active:scale-95">Delete mine</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="clearChat(); showToast('Chat cleared')" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95">Clear Adviser chat</button>
+                        <button onclick="resetAll()" class="py-2.5 rounded-xl bg-red-600/30 border border-red-500/40 text-red-300 text-xs font-bold active:scale-95">Delete all my data</button>
+                    </div>
+                </div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- ABOUT -->
+            <section id="step-about" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-600/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">ℹ️</span>
+                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V04</p></div>
+                </div>
+                <div class="space-y-3 text-xs text-slate-300 leading-relaxed max-h-[62vh] overflow-y-auto pr-1 no-scrollbar selectable">
+                    <div class="flex justify-center hiprogress-logo-container"></div>
+                    <p><b class="text-slate-100">Promotion Warfare</b> is a free guide that helps you grow at a company. You map the people around you, find the strategy that fits your position and turn it into small weekly moves.</p>
+                    <p><b class="text-slate-100">What is inside:</b> a company power map and pyramid drawing, the Strategic Square, 4 strategies with 15 simple explanations, an interactive Action Plan, a Wins Journal, a Glossary, 6 example stories and a Career Adviser chat with <span id="about-bank">3,000 questions and answers</span>.</p>
+                    <p><b class="text-slate-100">About the Adviser:</b> it is a smart search through a built-in data bank. It remembers what you talked about and understands different ways of asking, but it is not a human and not a live AI. It can look up new topics on the web when you ask it to.</p>
+                    <p><b class="text-slate-100">The idea:</b> the four strategies (defensive, offensive, flanking, guerrilla) are inspired by classic business strategy thinking and adapted to personal careers. The war words are only a metaphor: win by being useful, honest and respectful.</p>
+                    <p><b class="text-slate-100">Please note:</b> this is educational guidance, not legal, medical, financial or HR advice. Stories are made-up examples.</p>
+                    <p>Made by <b class="text-amber-400">HiProgress</b>. Visit our shop: <a class="text-amber-400 underline" href="https://hiprogress.etsy.com" target="_blank" rel="noopener noreferrer">hiprogress.etsy.com</a></p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <button onclick="goToStep('step-privacy', 0)" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-lock"></i> Privacy Policy</button>
+                    <button onclick="goToStep('step-welcome', 0)" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                </div>
+            </section>
+
+
+            <!-- PRIVACY POLICY PAGE -->
+            <section id="step-privacy" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-700 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3 pb-3 border-b border-slate-700">
+                    <span class="w-10 h-10 rounded-2xl bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-lg">🔒</span>
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Privacy Policy</h2>
+                        <p class="text-[11px] text-slate-400 font-medium">Your data stays on your phone</p>
+                    </div>
+                </div>
+                <div class="space-y-2 text-xs leading-relaxed max-h-[60vh] overflow-y-auto pr-1 no-scrollbar mb-5 selectable"><p class="font-semibold text-slate-100">1. Who we are</p><p class="text-slate-400">Promotion Warfare is a free educational app made by HiProgress (Israel). Our shop is at hiprogress.etsy.com. This policy explains what the app does with your information. Last updated: 29 October 2026.</p><p class="font-semibold text-slate-100">2. What stays on your phone</p><p class="text-slate-400">Everything you type or choose stays on your own device, in the app&#x27;s local storage: your optional name, your avatar or photo, the people on your power map, your Action Plan, your Wins Journal, your chat with the Adviser, answers you add to the data bank and your theme and text-size settings. We do not receive this information and we cannot see it.</p><p class="font-semibold text-slate-100">3. What we collect</p><p class="text-slate-400">Nothing. There are no accounts, no ads, no analytics, no tracking and no access to your contacts, location, microphone or camera.</p><p class="font-semibold text-slate-100">4. Your profile photo</p><p class="text-slate-400">If you choose to upload a picture, the app shrinks it to a small square and stores it only on your phone. It is never uploaded anywhere. You can remove it at any time in Profile and Settings.</p><p class="font-semibold text-slate-100">5. The Career Adviser</p><p class="text-slate-400">The Adviser answers from the built-in data bank inside the app. It works offline and your questions are not sent anywhere. It is a program that finds answers in its data bank. It is not a person and it is not a live AI service.</p><p class="font-semibold text-slate-100">6. Optional web search</p><p class="text-slate-400">Only if you tap &quot;Search the web&quot;, the words of your question are sent over the internet to Wikipedia (Wikimedia Foundation) to fetch a short summary. Wikipedia&#x27;s own privacy policy applies to that request. No other service is contacted and nothing is sent unless you tap that button. You can save a result to your data bank on your phone.</p><p class="font-semibold text-slate-100">7. Public libraries we load</p><p class="text-slate-400">To display the app, it loads the Tailwind CSS and Font Awesome files from public content delivery networks (CDNs). Like any website file request, this lets those providers see technical details such as your IP address when the files are first downloaded. After that the app keeps a copy for offline use.</p><p class="font-semibold text-slate-100">8. Links and sharing</p><p class="text-slate-400">Links to our Etsy shop, to web results and to other sites open in your browser, where their own policies apply. When you use Save / Share on a picture or file, you choose where it goes through your phone&#x27;s share sheet.</p><p class="font-semibold text-slate-100">9. Age</p><p class="text-slate-400">The app is meant for adults, 18 years and older, and is not directed to children.</p><p class="font-semibold text-slate-100">10. Your control</p><p class="text-slate-400">You can edit or delete your data in Profile and Settings. &quot;Delete all my data&quot; removes everything the app stored. Clearing the app&#x27;s storage in your phone settings or uninstalling the app also removes it.</p><p class="font-semibold text-slate-100">11. Not professional advice</p><p class="text-slate-400">The app gives general educational guidance about careers. It is not legal, medical, financial or human-resources advice. Example stories are made-up characters written for learning.</p><p class="font-semibold text-slate-100">12. Changes and contact</p><p class="text-slate-400">If this policy changes, the new version will appear in the app with a new date. For questions, contact us through the HiProgress shop on Etsy: hiprogress.etsy.com.</p></div>
+                <button onclick="goToStep('step-welcome', 0)" class="w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Welcome
+                </button>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] hidden px-4 py-2 rounded-full bg-amber-500 text-slate-950 text-xs font-bold shadow-lg whitespace-nowrap"></div>
+
+    <!-- Modal Popup Bottom Sheet -->
+    <div id="modal-container" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-end justify-center p-0 sm:p-4" onclick="closeCurrentModal()">
+        <div class="bg-slate-900 border-t sm:border border-slate-700 w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl modal-animate max-h-[85vh] flex flex-col justify-between" onclick="event.stopPropagation()">
+            <div>
+                <div class="w-12 h-1.5 bg-slate-600 rounded-full mx-auto mb-4 opacity-60 sm:hidden"></div>
+                <div class="flex items-center space-x-2 mb-3">
+                    <i class="fa-solid fa-lightbulb text-amber-400 text-lg"></i>
+                    <h3 id="modal-title" class="font-bold text-white text-base leading-tight">Strategy Insight</h3>
+                </div>
+                <div id="modal-body" class="text-slate-300 text-xs leading-relaxed space-y-3 overflow-y-auto max-h-[55vh] pr-1 no-scrollbar">
+                    <!-- Dynamic Text Inserted Here -->
+                </div>
+            </div>
+            <div class="pt-5 mt-4 border-t border-slate-800">
+                <button onclick="closeCurrentModal()" class="w-full py-3 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs shadow-lg shadow-red-600/30 active:scale-95 transition">
+                    Got it, close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Adviser bubble -->
+    <button id="adviser-fab" onclick="openAdviser()" class="fixed bottom-5 right-4 z-40 flex items-center gap-2 pl-3 pr-4 py-3 rounded-full bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold text-xs shadow-xl active:scale-95 fab-pulse" aria-label="Open the Career Adviser">
+        <span class="text-lg leading-none">🧭</span> Adviser
+    </button>
+
+    <!-- Career Adviser chat -->
+    <div id="adviser-sheet" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[55] hidden flex items-end justify-center" onclick="closeAdviser()">
+        <div id="adviser-panel" class="bg-slate-900 border-t border-slate-700 w-full max-w-md rounded-t-3xl shadow-2xl flex flex-col modal-animate" style="height:88vh" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-lg">🧭</div>
+                    <div>
+                        <p class="text-sm font-bold text-white leading-tight">Career Adviser</p>
+                        <p class="text-[10px] text-emerald-400">● Works offline · remembers our chat</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1">
+                    <button onclick="clearChat()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800" title="New chat" aria-label="New chat"><i class="fa-solid fa-rotate-right"></i></button>
+                    <button onclick="closeAdviser()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800" aria-label="Close"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+            </div>
+            <div id="chat-log" class="flex-1 overflow-y-auto px-3 py-3 space-y-3"></div>
+            <div id="chat-chips" class="px-3 pb-2 flex gap-2 overflow-x-auto no-scrollbar"></div>
+            <form class="p-3 border-t border-slate-800 flex gap-2" onsubmit="return submitChat(event)">
+                <input id="chat-input" type="text" autocomplete="off" maxlength="300" placeholder="Ask about your career..." class="flex-1 bg-slate-950/80 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-slate-100 focus:border-amber-400 outline-none">
+                <button type="submit" class="w-12 rounded-2xl bg-red-600 hover:bg-red-500 text-white active:scale-95" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Mobile Footer Bar with HiProgress Banner -->
+    <footer class="bg-slate-900/90 backdrop-blur-md border-t border-slate-800 py-3.5 px-4 text-center">
+        <div class="max-w-md mx-auto">
+            <a href="https://hiprogress.etsy.com" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 bg-slate-950/80 border border-slate-800 hover:border-amber-400/50 rounded-2xl transition group mb-2">
+                <div class="flex items-center space-x-3">
+                    <div class="hiprogress-logo-container"></div>
+                    <span class="text-[11px] text-slate-300 text-left leading-tight font-medium">
+                        Enjoying this App? Support us and visit our shop. <span class="text-amber-400 font-semibold underline">Tap the HiProgress logo.</span>
+                    </span>
+                </div>
+                <i class="fa-solid fa-store text-amber-400 text-xs ml-2 opacity-80 group-hover:opacity-100"></i>
+            </a>
+            <p class="text-[10px] text-slate-500">Promotion Warfare System V04 &bull; Mobile PWA Edition</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript Logic Engine -->
+    <script>
+        // Builds a simple popup: plain explanation + examples + optional tip
+        function buildModal(meaning, examples, tip) {
+            const lis = examples.map(e => `<li>${e}</li>`).join('');
+            return `<p class="font-semibold text-slate-100">In simple words:</p>` +
+                   `<p>${meaning}</p>` +
+                   `<p class="font-semibold text-amber-400 pt-1">Examples:</p>` +
+                   `<ul class="list-disc pl-4 space-y-1.5 text-slate-300">${lis}</ul>` +
+                   (tip ? `<p class="text-[11px] italic text-slate-400 pt-1">💡 ${tip}</p>` : '');
+        }
+
+        // Modal database: simple explanations with examples
+        const modalData = {
+            // ---------- DEFENSIVE (LEADER) ----------
+            'modal-1': {
+                title: `Defensive: Only for the Leader`,
+                text: buildModal(
+                    `"Defending" only works if you are already the best or most trusted person in your area. Your job is to keep that spot by staying reliable. If you are not #1 yet, just defending gets you nowhere.`,
+                    [
+                        `You are the fastest and most accurate person on your team at packing orders. Keep your numbers high and your area clean, so the boss keeps thinking of you first.`,
+                        `You know the customer system better than anyone. Write down the steps and help others when they ask, so you stay "the person who knows".`,
+                        `You always show up on time and finish your tasks. Don't get lazy now. One sloppy week can give someone else a chance to take your place.`
+                    ]
+                )
+            },
+            'modal-2': {
+                title: `Defensive: Attack Yourself First`,
+                text: buildModal(
+                    `Find your own weak spots and fix them before somebody else points them out. It is better to improve your work yourself than to be told off later.`,
+                    [
+                        `You always make your weekly report the slow way. Build a simple template that does it in half the time, before a newer coworker shows a faster way.`,
+                        `Once a month ask your manager: "What is one thing I can do better?" Fixing a small problem early makes you look smart.`,
+                        `The company is moving to a new program. Spend one hour a week learning it, even if you are great with the old one.`
+                    ]
+                )
+            },
+            'modal-3': {
+                title: `Defensive: Answer Your Rival's Good Ideas`,
+                text: buildModal(
+                    `When a rival comes up with a good idea, don't ignore it. Join it, copy the good part, or make it even better, so the boss does not see only them as the "idea person". Do it honestly, without blocking or sabotaging anyone.`,
+                    [
+                        `A coworker suggests a new checklist that saves time. Say: "Great idea, I'll test it on my shift and share the results."`,
+                        `Someone gets praised for a better way to greet customers. Learn it and add your own improvement on top.`,
+                        `A rival is about to start a project in your area. Offer early to help lead one part of it, instead of watching it get taken from you.`
+                    ]
+                )
+            },
+            'modal-4': {
+                title: `Defensive: Keep Something in Reserve`,
+                text: buildModal(
+                    `Don't use all your energy, favors and goodwill on every small thing. Save some for the day something big happens.`,
+                    [
+                        `Don't say "yes" to every extra task. If you are exhausted in week one, you can't help when the boss has a real emergency.`,
+                        `Don't argue about small things like who gets the better desk. Save your "I disagree" for things that really matter, like an unfair schedule.`,
+                        `Help coworkers from time to time. Later, when you need someone to cover for you for a day, they will say yes.`
+                    ]
+                )
+            },
+
+            // ---------- OFFENSIVE (CHALLENGER) ----------
+            'modal-challenger-1': {
+                title: `Offensive: Win at the Point That Matters`,
+                text: buildModal(
+                    `Don't try to be better at everything. Pick the one thing your bosses care about most, and be clearly better than the leader at that one thing.`,
+                    [
+                        `Your boss cares most about fast deliveries. Become the best at speed instead of working on ten different things.`,
+                        `The company wants more online sales. Learn how to make great product photos and descriptions, and show the results.`,
+                        `The biggest complaint in your team is a messy stockroom. Fix it and show "before and after" pictures.`
+                    ]
+                )
+            },
+            'modal-challenger-2': {
+                title: `Offensive: Find the Leader's Weak Spot`,
+                text: buildModal(
+                    `Watch where the top person is weak, and be strong exactly there. This way you grow fast without fighting them where they are strongest.`,
+                    [
+                        `The leader is great with customers but forgets paperwork. You become the person with neat, on-time paperwork.`,
+                        `The leader answers messages slowly. You always reply within an hour.`,
+                        `The leader doesn't like new apps. You learn Excel or useful AI tools and help the team with them.`
+                    ],
+                    `Show your strength quietly. Never say bad things about the leader.`
+                )
+            },
+            'modal-challenger-3': {
+                title: `Offensive: Focus on One Small Area`,
+                text: buildModal(
+                    `Don't spread yourself thin. Choose one visible task, do it extremely well, and only then move to the next one.`,
+                    [
+                        `Instead of trying to "improve everything", take just the weekly sales report. Make it perfect, clear and always on time.`,
+                        `Pick one type of customer complaint and learn to solve it completely, so people send those cases to you.`,
+                        `For your first 3 months, be known for one thing, like "the guy who fixes the schedule". Add more later.`
+                    ]
+                )
+            },
+            'modal-challenger-4': {
+                title: `Offensive: Strength Can Be a Weakness`,
+                text: buildModal(
+                    `The leader's biggest strengths, like long experience or a big team, can also make them slow. Don't compete with them on experience. Compete on speed, new tools and results you can count.`,
+                    [
+                        `The leader has 15 years of experience but works on paper. You show a simple phone app that does the same job in 5 minutes.`,
+                        `Don't say "I know more than he does". Show numbers instead: "I finished 30 orders today, the average was 20."`,
+                        `The leader's big team takes two weeks to decide. You deliver a small test in two days.`
+                    ],
+                    `Respect their experience. Just show that you are quicker and fresher.`
+                )
+            },
+
+            // ---------- FLANKING (NO. 3) ----------
+            'modal-flanker-1': {
+                title: `Flanking: Act Fast When the Leader Stumbles`,
+                text: buildModal(
+                    `When the leader makes a mistake or a plan fails, be ready with a solution. Don't laugh at the mistake. Help fix it quickly and calmly.`,
+                    [
+                        `The leader's presentation is delayed because a file broke. You already have a clean backup version and offer it.`,
+                        `A shipment mistake happens. Instead of blaming anyone, you bring a simple plan to fix it.`,
+                        `The leader is away and a task gets stuck. You ask to take it over and do it well.`
+                    ]
+                )
+            },
+            'modal-flanker-2': {
+                title: `Flanking: Go Where Nobody Is Yet`,
+                text: buildModal(
+                    `Find work that nobody else wants or has noticed yet. If you start early, you become the expert before anyone else cares.`,
+                    [
+                        `Nobody wants to learn the company's new software. You learn it first and become the one people ask.`,
+                        `The company wants to start on social media, but nobody is in charge. You volunteer.`,
+                        `The shared folder is a mess and everyone complains. You organize it and keep it clean.`
+                    ]
+                )
+            },
+            'modal-flanker-3': {
+                title: `Flanking: Surprise With a Finished Result`,
+                text: buildModal(
+                    `Work quietly on something useful, and show it only when it is ready. A finished result impresses much more than an idea.`,
+                    [
+                        `You build a simple spreadsheet that tracks stock for two weeks. Then you show your boss that it already works.`,
+                        `The price list is confusing. Instead of just saying so, you bring a clean new version.`,
+                        `Before the meeting, you prepare a one-page proposal with real numbers.`
+                    ],
+                    `Do it without hurting your normal work, and never hide it in a sneaky way. Just wait until it is ready.`
+                )
+            },
+
+            // ---------- GUERRILLA (UNDERDOG) ----------
+            'modal-guerrilla-1': {
+                title: `Guerrilla: Step Back, Then Act at the Right Time`,
+                text: buildModal(
+                    `When someone stronger is pushing hard, don't fight them. Step back, wait, and act when things calm down or when others are tired. Pick only the battles that really matter, and give helpful ideas, not harsh criticism.`,
+                    [
+                        `A senior coworker is stressed and angry in a meeting. Don't argue. Talk to them later when they are calm.`,
+                        `A big project leaves everyone exhausted by Friday. You offer to finish the last part, and you become the reliable one.`,
+                        `A plan is going nowhere. Don't say "this is bad". Say "what if we try it this way?"`
+                    ]
+                )
+            },
+            'modal-guerrilla-2': {
+                title: `Guerrilla: Own a Small Area`,
+                text: buildModal(
+                    `Don't try to compete with the whole company. Choose one small, boring or ignored job that nobody wants, and become the best at it. Then people depend on you.`,
+                    [
+                        `You become the one who keeps the price list file up to date and correct.`,
+                        `You learn the label printer or the return process better than anyone, so everyone asks you when something goes wrong.`,
+                        `You take care of the daily report that everyone hates doing, and you make it fast and error-free.`
+                    ]
+                )
+            },
+            'modal-guerrilla-3': {
+                title: `Guerrilla: Stay Humble, Even When You Win`,
+                text: buildModal(
+                    `When you succeed, don't start acting like the boss or like you are better than others. Stay friendly and open. Arrogant people lose their supporters fast.`,
+                    [
+                        `You got praised for a good job. Say "thanks, the team helped a lot" and share the credit.`,
+                        `After a small win, you still help carry boxes and don't tell others what to do.`,
+                        `You keep asking questions and learning from others, even from people with less experience.`
+                    ]
+                )
+            },
+            'modal-guerrilla-4': {
+                title: `Guerrilla: Be Ready to Move On`,
+                text: buildModal(
+                    `Don't get stuck in a place that is bad for you. Keep your options open so you can change teams or jobs calmly when you need to.`,
+                    [
+                        `Keep your CV updated and learn skills that are useful in any company, like Excel, customer service or basic English writing.`,
+                        `Your manager keeps shouting and you learn nothing for months. Ask politely about moving to another team.`,
+                        `If you leave, do it politely and say thank you. Never insult people or the company. You will need good references later.`
+                    ]
+                )
+            }
+        };
+
+        // Company Map Data Model
+        let mapData = [
+            { name: 'Sarah Jenkins', position: 'CEO / Director', rank: '1' },
+            { name: 'Marcus Vance', position: 'VP of Operations', rank: '1' },
+            { name: 'David Miller', position: 'Senior PM', rank: '2' },
+            { name: 'Elena Rostova', position: 'Tech Lead', rank: '2' },
+            { name: 'Alex Rivera', position: 'Marketing Lead', rank: '3' },
+            { name: 'Chris Evans', position: 'Junior Analyst', rank: '4' }
+        ];
+
+        // Page Navigation Controller
+        function goToStep(stepId, progressNum) {
+            const allSections = document.querySelectorAll('main section');
+            allSections.forEach(sec => sec.classList.add('hidden'));
+
+            const target = document.getElementById(stepId);
+            if (stepId === 'step-action-plan') { renderPlanMap(); renderMoves(); }
+            if (target) {
+                target.classList.remove('hidden');
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            // Update Progress Bar
+            const bar = document.getElementById('progress-bar');
+            const label = document.getElementById('step-label');
+            const pct = document.getElementById('step-percentage');
+
+            if (bar && label && pct) {
+                const totalSteps = 5;
+                const calculatePct = Math.min(Math.round((progressNum / totalSteps) * 100), 100);
+                
+                bar.style.width = calculatePct + '%';
+                label.innerText = `Stage ${Math.floor(progressNum)} of 5`;
+                pct.innerText = `${calculatePct}% Completed`;
+            }
+        }
+
+        // Show Strategy Shortcut
+        function showStrategy(stratKey, progressNum) {
+            goToStep('strat-' + stratKey, progressNum);
+        }
+
+        // Navigation Drawer Toggle
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer-menu');
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+            }
+        }
+
+        // Modal Handlers
+        function openModal(modalId) {
+            const modal = document.getElementById('modal-container');
+            const titleEl = document.getElementById('modal-title');
+            const bodyEl = document.getElementById('modal-body');
+
+            const item = modalData[modalId] || { title: 'Strategy Details', text: '<p>Detail information currently unavailable.</p>' };
+            
+            if (titleEl && bodyEl && modal) {
+                titleEl.innerText = item.title;
+                bodyEl.innerHTML = item.text;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeCurrentModal() {
+            const modal = document.getElementById('modal-container');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        // Dark/Light Theme Switcher
+        function toggleTheme() {
+            const body = document.getElementById('app-body');
+            const icon = document.getElementById('theme-icon');
+            if (!body) return;
+
+            body.classList.toggle('dark');
+            if (body.classList.contains('dark')) {
+                body.style.backgroundColor = '#0f172a';
+                if (icon) icon.className = 'fa-solid fa-sun text-amber-400';
+            } else {
+                body.style.backgroundColor = '#f1f5f9';
+                if (icon) icon.className = 'fa-solid fa-moon text-slate-700';
+            }
+        }
+
+        // Map Builder Engine: Render Editable Table Rows
+        function renderMapTable() {
+            const tbody = document.getElementById('map-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            mapData.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition';
+                tr.innerHTML = `
+                    <td class="p-2">
+                        <input type="text" value="${escapeHtml(row.name)}" oninput="mapData[${index}].name = this.value" placeholder="Full Name" class="w-full bg-slate-950/80 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 focus:border-amber-400 outline-none">
+                    </td>
+                    <td class="p-2">
+                        <input type="text" value="${escapeHtml(row.position)}" oninput="mapData[${index}].position = this.value" placeholder="Job Title" class="w-full bg-slate-950/80 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 focus:border-amber-400 outline-none">
+                    </td>
+                    <td class="p-2 text-center">
+                        <select onchange="mapData[${index}].rank = this.value" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-xs text-amber-400 font-bold focus:border-amber-400 outline-none text-center">
+                            <option value="1" ${row.rank === '1' ? 'selected' : ''}>Rank 1 (Top)</option>
+                            <option value="2" ${row.rank === '2' ? 'selected' : ''}>Rank 2 (Mid)</option>
+                            <option value="3" ${row.rank === '3' ? 'selected' : ''}>Rank 3 (Key)</option>
+                            <option value="4" ${row.rank === '4' ? 'selected' : ''}>Rank 4 (Base)</option>
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function addMapRow() {
+            mapData.push({ name: '', position: '', rank: '3' });
+            renderMapTable();
+        }
+
+        function removeLastMapRow() {
+            if (mapData.length > 1) {
+                mapData.pop();
+                renderMapTable();
+            }
+        }
+
+        // Generate Graphical Tier Pyramid Map
+        function generateVisualMap() {
+            const container = document.getElementById('pyramid-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const tierDefs = [
+                { rank: '1', title: 'Tier 1: Executive Leaders', color: 'border-amber-500 bg-amber-500/10 text-amber-300', icon: '👑', badgeBg: 'bg-amber-500/20 border-amber-500/40' },
+                { rank: '2', title: 'Tier 2: Senior & Mid Management', color: 'border-purple-500 bg-purple-500/10 text-purple-300', icon: '⭐', badgeBg: 'bg-purple-500/20 border-purple-500/40' },
+                { rank: '3', title: 'Tier 3: Key Stakeholders & Ops', color: 'border-blue-500 bg-blue-500/10 text-blue-300', icon: '🛡️', badgeBg: 'bg-blue-500/20 border-blue-500/40' },
+                { rank: '4', title: 'Tier 4: General Team / Base', color: 'border-emerald-500 bg-emerald-500/10 text-emerald-300', icon: '👥', badgeBg: 'bg-emerald-500/20 border-emerald-500/40' }
+            ];
+
+            tierDefs.forEach(tier => {
+                const members = mapData.filter(d => String(d.rank) === tier.rank && d.name.trim() !== '');
+
+                const tierCard = document.createElement('div');
+                tierCard.className = `p-3.5 rounded-2xl border ${tier.color} shadow-md`;
+
+                let membersHtml = '';
+                if (members.length === 0) {
+                    membersHtml = `<span class="text-[11px] text-slate-500 italic block mt-1">No members assigned to Rank ${tier.rank}</span>`;
+                } else {
+                    membersHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">`;
+                    members.forEach(m => {
+                        const initial = m.name.charAt(0).toUpperCase() || '?';
+                        membersHtml += `
+                            <div class="flex items-center space-x-2.5 p-2 rounded-xl bg-slate-950/80 border border-slate-800">
+                                <div class="w-7 h-7 rounded-full ${tier.badgeBg} border flex items-center justify-center text-xs font-bold text-white shrink-0">
+                                    ${initial}
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs font-bold text-slate-100 truncate leading-tight">${escapeHtml(m.name)}</p>
+                                    <p class="text-[10px] text-slate-400 truncate leading-tight">${escapeHtml(m.position || 'Team Member')}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    membersHtml += `</div>`;
+                }
+
+                tierCard.innerHTML = `
+                    <div class="flex items-center justify-between pb-1.5 border-b border-slate-700/50">
+                        <span class="text-xs font-bold flex items-center gap-1.5">
+                            <span>${tier.icon}</span> ${tier.title}
+                        </span>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-900 text-slate-400">${members.length} member(s)</span>
+                    </div>
+                    ${membersHtml}
+                `;
+
+                container.appendChild(tierCard);
+            });
+
+            goToStep('step-map-pyramid', 1.8);
+        }
+
+
+        // ===== "Do it" -> Action Plan system =====
+        const doIt = {
+            'modal-1': 'Be the most reliable person on your team: finish every task on time this week.',
+            'modal-2': 'Ask your manager: "What is one thing I can do better?"',
+            'modal-3': 'When a coworker has a good idea, support it and add your own improvement.',
+            'modal-4': 'Say no to one non-important request this week to save energy for what matters.',
+            'modal-challenger-1': 'Pick the ONE thing your boss cares about most and get really good at it.',
+            'modal-challenger-2': 'Find one thing the leader is weak at and become strong at it.',
+            'modal-challenger-3': 'Choose one small, visible task and do it perfectly before taking more.',
+            'modal-challenger-4': 'Show your results with numbers (e.g. "30 orders today vs 20 average").',
+            'modal-flanker-1': 'Prepare a backup plan for one important task so you can step in if something fails.',
+            'modal-flanker-2': 'Volunteer to learn a new tool or job nobody else wants yet.',
+            'modal-flanker-3': 'Build one useful thing quietly (a sheet, a checklist) and show it finished.',
+            'modal-guerrilla-1': 'Next time someone stronger pushes, step back and talk to them later when calm.',
+            'modal-guerrilla-2': 'Pick one small boring job and become the go-to expert on it.',
+            'modal-guerrilla-3': 'Share the credit after a win: say "thanks, the team helped".',
+            'modal-guerrilla-4': 'Update your CV and learn one skill that works in any company.'
+        };
+        const quickIdeas = [
+            'Learn one new name and greet everyone with a smile today.',
+            'Ask a more experienced coworker to be your mentor.',
+            'Spend 30 minutes learning a new work tool.',
+            'Write down 3 things you finished this week.',
+            'Arrive 10 minutes early for a whole week.'
+        ];
+        let myMoves = [];
+        try { myMoves = JSON.parse(localStorage.getItem('pw_moves') || '[]'); } catch (e) { myMoves = []; }
+        function saveMoves() { try { localStorage.setItem('pw_moves', JSON.stringify(myMoves)); } catch (e) {} }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.innerText = msg; t.classList.remove('hidden');
+            clearTimeout(window._toastT);
+            window._toastT = setTimeout(() => t.classList.add('hidden'), 1800);
+        }
+        function addMove(id, text) {
+            if (myMoves.some(m => m.id === id)) { showToast('Already in your Action Plan'); return false; }
+            myMoves.push({ id, text, done: false });
+            saveMoves(); renderMoves(); markDoIt();
+            showToast('Added to your Action Plan ✓');
+            return true;
+        }
+        function addToPlan(id) { if (doIt[id]) addMove(id, doIt[id]); }
+        function addCustomTask() {
+            const inp = document.getElementById('custom-task');
+            const v = inp ? inp.value.trim() : '';
+            if (!v) return;
+            addMove('c' + Date.now(), v);
+            inp.value = '';
+        }
+        function renderQuickChips() {
+            const box = document.getElementById('quick-chips');
+            if (!box) return;
+            box.innerHTML = '';
+            quickIdeas.forEach((t, i) => {
+                const b = document.createElement('button');
+                b.className = 'px-2.5 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-[10px] text-slate-200 text-left active:scale-95';
+                b.innerText = '+ ' + t;
+                b.onclick = () => addMove('q' + i, t);
+                box.appendChild(b);
+            });
+        }
+        function toggleMove(i) { myMoves[i].done = !myMoves[i].done; saveMoves(); renderMoves(); if (myMoves[i].done) showToast('Nice! Move completed 💪'); }
+        function removeMove(i) { myMoves.splice(i, 1); saveMoves(); renderMoves(); markDoIt(); }
+        function renderMoves() {
+            const box = document.getElementById('my-moves');
+            if (!box) return;
+            box.innerHTML = myMoves.length ? '' : '<p class="text-[11px] text-slate-500 italic">Nothing yet. Tap "Do it" on any strategy card to add a move here.</p>';
+            myMoves.forEach((m, i) => {
+                const d = document.createElement('div');
+                d.className = 'flex items-start gap-2 p-2.5 rounded-xl bg-slate-900/80 border ' + (m.done ? 'border-emerald-500/50' : 'border-slate-700/60');
+                d.innerHTML = `<input type="checkbox" ${m.done ? 'checked' : ''} onchange="toggleMove(${i})" class="mt-0.5 form-checkbox rounded text-emerald-500 focus:ring-0 cursor-pointer">
+                    <span class="flex-1 text-xs leading-snug ${m.done ? 'line-through text-slate-500' : 'text-slate-200'}">${escapeHtml(m.text)}</span>
+                    <button onclick="removeMove(${i})" class="text-slate-500 hover:text-red-400 text-xs px-1"><i class="fa-solid fa-xmark"></i></button>`;
+                box.appendChild(d);
+            });
+            refreshStats();
+        }
+        function markDoIt() {
+            document.querySelectorAll('.doit-btn').forEach(b => {
+                const added = myMoves.some(m => m.id === b.dataset.id);
+                b.querySelector('span').innerText = added ? 'Added ✓' : 'Do it';
+                b.classList.toggle('opacity-60', added);
+            });
+        }
+        function refreshStats() {
+            const auto = document.querySelectorAll('#plan-checklist input[type="checkbox"]');
+            const autoDone = document.querySelectorAll('#plan-checklist input[type="checkbox"]:checked').length;
+            const total = auto.length + myMoves.length;
+            const done = autoDone + myMoves.filter(m => m.done).length;
+            const pct = total ? Math.round(done / total * 100) : 0;
+            const set = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
+            set('stat-picks', myMoves.length); set('stat-done', done); set('stat-power', pct + '%');
+            const bar = document.getElementById('power-bar'); if (bar) bar.style.width = pct + '%';
+            const msg = pct === 100 && total ? '🏆 Plan complete! You are a true strategist.' : pct >= 60 ? '🔥 Great progress, keep going!' : pct >= 20 ? '⚡ Good start. Keep taking small steps.' : '🎯 Complete moves to raise your Power Level.';
+            set('power-msg', msg);
+        }
+        function renderPlanMap() {
+            const box = document.getElementById('plan-map');
+            if (!box) return;
+            const tiers = [
+                { r: '1', t: '👑 Top', c: 'border-amber-500/60 text-amber-300' },
+                { r: '2', t: '⭐ Mid', c: 'border-purple-500/60 text-purple-300' },
+                { r: '3', t: '🛡️ Key', c: 'border-blue-500/60 text-blue-300' },
+                { r: '4', t: '👥 Base', c: 'border-emerald-500/60 text-emerald-300' }
+            ];
+            box.innerHTML = '';
+            tiers.forEach((tier, idx) => {
+                const names = mapData.filter(d => String(d.rank) === tier.r && d.name.trim() !== '');
+                const chips = names.length ? names.map(n => `<span class="px-2 py-0.5 rounded-full bg-slate-950/80 text-[10px] text-slate-100">${escapeHtml(n.name)}</span>`).join('') : '<span class="text-[10px] text-slate-600 italic">empty</span>';
+                const row = document.createElement('div');
+                row.className = 'mx-auto flex items-center gap-2 p-1.5 rounded-xl border bg-slate-900/70 ' + tier.c;
+                row.style.width = (70 + idx * 10) + '%';
+                row.innerHTML = `<span class="text-[10px] font-bold shrink-0 w-12">${tier.t}</span><div class="flex flex-wrap gap-1">${chips}</div>`;
+                box.appendChild(row);
+            });
+        }
+
+        // Interactive Action Plan & To-Do Generator Engine
+        const actionPlanDatabase = {
+            leader: [
+                'Audit core team processes and eliminate operational single points of failure.',
+                'Establish bi-weekly syncs with senior executives to showcase project progress.',
+                'Identify potential successor candidates to cultivate supportive loyalty.'
+            ],
+            challenger: [
+                'Pinpoint top executive pain points and deliver a targeted solution report.',
+                'Benchmark key project metrics against competitors to highlight efficiency wins.',
+                'Build strategic alliances with adjacent department leads.'
+            ],
+            flanker: [
+                'Take full ownership of an emerging tool or process ignored by top leadership.',
+                'Build a working prototype or workflow demo quietly before presenting it.',
+                'Document specialized expertise to establish undisputed domain leadership.'
+            ],
+            guerrilla: [
+                'Carve out a vital niche project that nobody else wants to manage.',
+                'Assist overloaded colleagues on key deadlines to build grassroots support.',
+                'Keep career options and skillsets flexible to pivot smoothly when needed.'
+            ]
+        };
+
+        const challengeDatabase = {
+            toxic: 'Maintain written documentation of all key project decisions and agreements.',
+            visibility: 'Publish concise monthly executive summaries detailing quantifiable team wins.',
+            stagnant: 'Automate repetitive workflows to free up time for strategic projects.'
+        };
+
+        function generateActionPlan() {
+            const posSelect = document.getElementById('plan-position');
+            const checklistContainer = document.getElementById('plan-checklist');
+            if (!posSelect || !checklistContainer) return;
+
+            const selectedPos = posSelect.value;
+            const posTasks = actionPlanDatabase[selectedPos] || actionPlanDatabase.challenger;
+
+            let tasks = [...posTasks];
+
+            // Add challenge tasks
+            const checkedBoxes = document.querySelectorAll('.plan-challenge:checked');
+            checkedBoxes.forEach(box => {
+                if (challengeDatabase[box.value]) {
+                    tasks.push(challengeDatabase[box.value]);
+                }
+            });
+
+            checklistContainer.innerHTML = '';
+
+            tasks.forEach((taskText, index) => {
+                const taskId = `task-${index}`;
+                const div = document.createElement('div');
+                div.className = 'flex items-start space-x-2.5 p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/60 hover:border-slate-600 transition';
+                div.innerHTML = `
+                    <input type="checkbox" id="${taskId}" onchange="updatePlanProgress()" class="mt-0.5 form-checkbox rounded text-red-600 focus:ring-0 cursor-pointer">
+                    <label for="${taskId}" class="text-xs text-slate-200 cursor-pointer select-none leading-snug flex-1">${escapeHtml(taskText)}</label>
+                `;
+                checklistContainer.appendChild(div);
+            });
+
+            updatePlanProgress();
+        }
+
+        function updatePlanProgress() {
+            const total = document.querySelectorAll('#plan-checklist input[type="checkbox"]').length;
+            const checked = document.querySelectorAll('#plan-checklist input[type="checkbox"]:checked').length;
+            const counter = document.getElementById('plan-counter');
+
+            if (counter) {
+                counter.innerText = `${checked} / ${total} Done`;
+            }
+            refreshStats();
+        }
+
+        // Initialize HiProgress Logo Templates across all containers
+        function initializeLogos() {
+            const tmpl = document.getElementById('hiprogress-logo-template');
+            const containers = document.querySelectorAll('.hiprogress-logo-container');
+            if (!tmpl) return;
+
+            containers.forEach(container => {
+                container.innerHTML = '';
+                container.appendChild(tmpl.content.cloneNode(true));
+            });
+        }
+
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {})); }
+
+        // On Page Ready Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeLogos();
+            renderMapTable();
+            renderQuickChips();
+            renderMoves();
+            markDoIt();
+            generateActionPlan();
+        });
+    </script>
+    <script src="js/avatars.js" defer></script>
+    <script src="bank.js" defer></script>
+    <script src="js/adviser.js" defer></script>
+    <script src="js/app2.js" defer></script>
+</body>
+</html>
