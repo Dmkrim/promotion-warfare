@@ -184,9 +184,69 @@
         @keyframes playPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
         body.light a[class*="from-slate-900"]{background-image:none!important;background-color:rgba(255,255,255,.95)!important}
         body.light .tick-bar{background:rgba(100,116,139,.25)}
+
+        /* ===== V06 additions ===== */
+        .ai-cheat .cl{stroke-dasharray:14;animation:clLine 3s ease-in-out infinite}.ai-cheat .c2{animation-delay:.5s}.ai-cheat .c3{animation-delay:1s}
+        @keyframes clLine{0%{stroke-dashoffset:14}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:14}}
+        .ai-cheat .cdot{animation:cdotPulse 1.6s ease-in-out infinite;transform-origin:50% 50%}
+        @keyframes cdotPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.5)}}
+        .ai-lab .gdot{animation:gdotMove 4s ease-in-out infinite}
+        @keyframes gdotMove{0%,100%{transform:translate(0,0)}25%{transform:translate(14px,0)}50%{transform:translate(14px,-14px)}75%{transform:translate(0,-14px)}}
+
+        .skip-link{position:absolute;left:-9999px;top:8px;z-index:100;background:#fbbf24;color:#0f172a;padding:8px 14px;border-radius:10px;font-weight:800;font-size:13px}
+        .skip-link:focus{left:8px}
+        :focus-visible{outline:2px solid #fbbf24;outline-offset:2px;border-radius:6px}
+        input:focus-visible,select:focus-visible,textarea:focus-visible{outline-offset:0}
+        .pm-over{outline:2px dashed #fbbf24;outline-offset:2px;background-color:rgba(251,191,36,.12)!important}
+        .pm-ghost{position:fixed;z-index:9998;transform:translate(-50%,-130%);padding:6px 12px;border-radius:12px;background:#f59e0b;color:#0f172a;font-weight:800;font-size:12px;box-shadow:0 8px 20px rgba(0,0,0,.4);pointer-events:none;max-width:70vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .gl-term{border-bottom:1.5px dotted #fbbf24;cursor:help;color:inherit}
+        body.light .gl-term{border-bottom-color:#b45309}
+        #gl-pop{position:fixed;z-index:9990;padding:10px 12px;border-radius:14px;background:#0f172a;color:#e2e8f0;border:1px solid rgba(251,191,36,.6);box-shadow:0 12px 30px rgba(0,0,0,.45);font-size:12px;line-height:1.4;display:block}
+        #gl-pop.hidden{display:none}
+        #gl-pop b{display:block;color:#fbbf24;margin-bottom:2px}
+        #gl-pop span{display:block}
+        #gl-pop a{display:inline-block;margin-top:6px;color:#fbbf24;font-weight:700;font-size:11px;text-decoration:underline}
+        body.light #gl-pop{background:#fff;color:#0f172a;border-color:#b45309}
+        body.light #gl-pop b,body.light #gl-pop a{color:#b45309}
+        .time-chip{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:9999px;background:rgba(251,191,36,.14);color:#fbbf24;font-size:10px;font-weight:700;vertical-align:middle;white-space:nowrap}
+        body.light .time-chip{background:rgba(180,83,9,.12);color:#b45309}
+        #seal{position:fixed;inset:0;z-index:9997;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,.55)}
+        #seal.hidden{display:none}
+        .seal-stamp{width:210px;height:210px;border-radius:9999px;border:7px double #ef4444;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);transform:scale(3) rotate(-30deg);opacity:0}
+        #seal.seal-on .seal-stamp{animation:stampIn .75s cubic-bezier(.2,1.2,.3,1) forwards}
+        @keyframes stampIn{0%{transform:scale(3) rotate(-30deg);opacity:0}55%{transform:scale(.9) rotate(-12deg);opacity:1}75%{transform:scale(1.06) rotate(-15deg)}100%{transform:scale(1) rotate(-13deg);opacity:1}}
+        .seal-in{display:flex;flex-direction:column;align-items:center;color:#ef4444;line-height:1.05;text-align:center}
+        .seal-in b{font-size:24px;font-weight:900;letter-spacing:2px;text-shadow:0 0 1px #ef4444}
+        .seal-in small{font-size:10px;font-weight:700;letter-spacing:2px;margin-top:4px;opacity:.85}
+        .seal-check{font-size:44px;font-weight:900;margin-bottom:2px}
+        #badge-pop{position:fixed;left:50%;top:-90px;transform:translateX(-50%);z-index:9996;display:flex;align-items:center;gap:12px;padding:10px 18px;border-radius:18px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;box-shadow:0 12px 30px rgba(0,0,0,.45);transition:top .45s cubic-bezier(.2,1.1,.3,1);max-width:92vw}
+        #badge-pop.bp-on{top:14px}
+        #badge-pop .bp-e{font-size:30px}
+        #badge-pop small{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.9}
+        #badge-pop b{font-size:14px}
+        #print-area{display:none}
+        .pr-tier{margin:4px auto;padding:5px 8px;border:1px solid #444;border-radius:6px;font-size:11pt;text-align:center}
+        @media print{
+          @page{margin:14mm}
+          header,footer,#adviser-fab,#startover-wrap,#drawer-menu,#progress-container,#fx-layer,#gl-pop,#toast,#adviser-sheet,#modal-container,#badge-pop,#seal,.skip-link,.no-print,.time-chip{display:none!important}
+          html,body{background:#fff!important;color:#000!important;background-image:none!important}
+          body.printing > *:not(#print-area){display:none!important}
+          body.printing #print-area{display:block!important;color:#000;background:#fff;font-family:Georgia,serif;font-size:11pt;padding:0}
+          #print-area h1{font-size:20pt;margin:0 0 2pt}#print-area h2{font-size:14pt;margin:14pt 0 4pt;border-bottom:1.5px solid #000;padding-bottom:2pt}#print-area h3{font-size:12pt;margin:8pt 0 3pt}
+          #print-area table{width:100%;border-collapse:collapse;margin:4pt 0}#print-area th,#print-area td{border:1px solid #888;padding:3pt 6pt;text-align:left;font-size:10.5pt}#print-area th{background:#eee}
+          #print-area ul{margin:3pt 0 3pt 16pt;padding:0}#print-area .pr-chk{list-style:none;margin-left:2pt}
+          #print-area .pr-sub{color:#333;margin:0 0 6pt}#print-area .pr-foot{margin-top:18pt;font-size:9pt;color:#555;text-align:center}
+          #print-area tr,#print-area li,.pr-tier{break-inside:avoid}
+          body:not(.printing) #app-main{max-width:none!important}
+          body:not(.printing) #app-main *{color:#000!important;background:transparent!important;box-shadow:none!important;border-color:#999!important;backdrop-filter:none!important}
+          body:not(.printing) #app-main section{border:none!important}
+          body:not(.printing) *[class*="max-h-"],body:not(.printing) .overflow-y-auto{max-height:none!important;overflow:visible!important}
+        }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between select-none antialiased transition-colors duration-300 dark app-bg-overlay" id="app-body">
+    <a href="#app-main" class="skip-link">Skip to content</a>
+    <div id="print-area" aria-hidden="true"></div>
 
     <!-- Reusable Template for the HiProgress logo (circular picture, no black corners) -->
     <template id="hiprogress-logo-template">
@@ -232,7 +292,7 @@
             </div>
             <div id="drawer-nav" class="flex-1 overflow-y-auto no-scrollbar pb-2"></div>
             <div class="pt-3 border-t border-slate-800 text-center">
-                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V05</p>
+                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V06</p>
             </div>
         </div>
     </div>
@@ -317,6 +377,33 @@
                     Fill in names, titles, and Power Ranks (<strong>1 = Top Executive</strong>, <strong>4 = Entry / Base</strong>) to plot your organization's hierarchy pyramid.
                 </p>
 
+                <!-- Companies (profiles), examples, sort and filter -->
+                <div class="mb-3 p-3 rounded-2xl bg-slate-900/60 border border-slate-700/60">
+                    <div class="flex items-center gap-2">
+                        <label for="cp-select" class="text-[11px] font-bold text-slate-300 shrink-0">🏢 Company</label>
+                        <select id="cp-select" onchange="cpSwitch(this.value)" class="flex-1 min-w-0 bg-slate-950 text-slate-100 text-xs rounded-xl p-2 border border-slate-700 focus:border-amber-400 outline-none"></select>
+                    </div>
+                    <div class="grid grid-cols-4 gap-1.5 mt-2">
+                        <button onclick="cpNew()" class="py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-plus"></i> New</button>
+                        <button onclick="cpRename()" class="py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-100 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-pen"></i> Rename</button>
+                        <button onclick="cpDelete()" class="py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-red-400 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-trash"></i> Delete</button>
+                        <button onclick="cpCompare()" class="py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-amber-300 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-scale-balanced"></i> Compare</button>
+                    </div>
+                    <div id="cp-compare" class="hidden mt-2 p-2 rounded-xl bg-slate-950/70 border border-slate-700/60"></div>
+                    <div class="flex gap-2 mt-2">
+                        <label for="persona-select" class="sr-only">Quick-load an example</label>
+                        <select id="persona-select" class="flex-1 min-w-0 bg-slate-950 text-slate-100 text-[11px] rounded-xl p-2 border border-slate-700 outline-none"></select>
+                        <button onclick="cpLoadPersona()" class="px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-[11px] font-bold active:scale-95">Load</button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1.5">Your table saves by itself. An example opens as a new company, so nothing is lost.</p>
+                </div>
+                <div class="flex gap-1.5 mb-2" role="group" aria-label="Sort the table">
+                    <button id="sort-rank" onclick="sortMap('rank')" aria-pressed="false" class="flex-1 py-1.5 rounded-lg bg-slate-700 text-slate-100 text-[10px] font-bold active:scale-95">↕ Rank</button>
+                    <button id="sort-name" onclick="sortMap('name')" aria-pressed="false" class="flex-1 py-1.5 rounded-lg bg-slate-700 text-slate-100 text-[10px] font-bold active:scale-95">A–Z Name</button>
+                    <button id="sort-pos" onclick="sortMap('pos')" aria-pressed="false" class="flex-1 py-1.5 rounded-lg bg-slate-700 text-slate-100 text-[10px] font-bold active:scale-95">A–Z Position</button>
+                </div>
+                <div class="mb-2"><label for="map-filter" class="sr-only">Filter by name or position</label><input id="map-filter" type="search" oninput="mapFilter()" placeholder="🔍 Filter by name or position" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-amber-400 outline-none"><p id="map-filter-note" class="text-[10px] text-slate-500 mt-0.5"></p></div>
+
                 <!-- Responsive Table Wrapper -->
                 <div class="overflow-x-auto mb-4 border border-slate-700 rounded-2xl bg-slate-900/80 max-h-[45vh] overflow-y-auto no-scrollbar">
                     <table class="w-full text-left text-xs text-slate-200">
@@ -373,7 +460,7 @@
                 </div>
 
                 <!-- Visual Hierarchy Pyramid Container -->
-                <div id="pyramid-container" class="space-y-3 mb-6 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
+                <div id="pyramid-container" data-noswipe class="space-y-3 mb-6 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
                     <!-- Dynamic Tier Pyramid Rendered Here -->
                 </div>
 
@@ -784,6 +871,8 @@
 
                 <div class="mb-5 pt-3 border-t border-slate-700/80">
   <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">⚔️ My Moves (from "Do it")</h3>
+  <p id="mv-summary" class="text-[11px] mb-1.5" aria-live="polite"></p>
+  <div id="mv-filters" class="flex flex-wrap gap-1.5 mb-2" role="group" aria-label="Filter moves"></div>
   <div id="my-moves" class="space-y-2 mb-3"></div>
   <div class="flex gap-2 mb-3"><input id="custom-task" type="text" placeholder="Add your own move..." class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
   <button onclick="addCustomTask()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-plus"></i></button></div>
@@ -802,6 +891,12 @@
                     <div id="plan-checklist" class="space-y-2.5 mb-4">
                         <!-- Dynamically Inserted Tasks -->
                     </div>
+                </div>
+
+                <div class="no-print mb-4 p-3 rounded-2xl bg-slate-900/60 border border-slate-700/60">
+                    <p class="text-xs font-bold text-amber-400 mb-0.5">🖨️ Take it with you</p>
+                    <p class="text-[11px] text-slate-400 mb-2 leading-snug">Print your table, pyramid, strategy and plan, or save them as a PDF with your phone's print screen. You can also download a CSV file for Excel.</p>
+                    <div class="grid grid-cols-2 gap-2"><button onclick="printDossier()" class="py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-[11px] font-extrabold active:scale-95"><i class="fa-solid fa-print"></i> Print / Save as PDF</button><button onclick="exportCSV()" class="py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 text-[11px] font-bold active:scale-95"><i class="fa-solid fa-file-csv"></i> Download CSV</button></div>
                 </div>
 
                 <div class="flex justify-between items-center pt-2">
@@ -827,7 +922,14 @@
                     <button onclick="saveWelcomeName()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95">Save</button>
                 </div>
                 <p class="text-xs text-slate-300 leading-relaxed mt-3 mb-3">Map your workplace, pick the strategy that fits your position and take one small smart move every week.</p>
-                <div id="welcome-tip" class="text-left p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-4"></div>
+                <div id="welcome-tip" class="text-left p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-3"></div>
+                <button id="welcome-badges" onclick="goToStep('step-badges', 0)" class="w-full mb-3 px-3 py-2 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-xs text-slate-200 flex items-center gap-2 active:scale-98 transition"></button>
+                <div id="install-banner" class="hidden text-left p-3 rounded-2xl bg-blue-500/10 border border-blue-500/40 mb-3">
+                    <p class="text-xs font-bold text-blue-300">📲 Install this app</p>
+                    <p class="text-[11px] text-slate-300 mt-0.5 leading-snug">Put it on your home screen. It opens full screen and works offline.</p>
+                    <p id="install-hint" class="hidden text-[11px] text-amber-300 mt-1"></p>
+                    <div class="flex gap-2 mt-2"><button onclick="pwInstall()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold active:scale-95">Install</button><button onclick="pwInstallClose()" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold active:scale-95">Not now</button></div>
+                </div>
                 <button onclick="goToStep('step-start', 1)" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-extrabold text-sm shadow-lg shadow-red-900/30 flex items-center justify-center gap-2 active:scale-98 transition mb-3">
                     <i class="fa-solid fa-play ai-play"></i> Start the Strategy
                 </button>
@@ -837,6 +939,8 @@
                     <button onclick="openAdviser()" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-compass" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="14" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2"/><circle cx="17" cy="17" r="11" fill="#dbeafe"/><g stroke="#64748b" stroke-width="1.2" stroke-linecap="round"><path d="M17 7.2v2M17 24.8v2M7.2 17h2M24.8 17h2"/></g><g class="needle"><path d="M17 7l3.2 10H13.8z" fill="#ef4444"/><path d="M17 27l-3.2-10h6.4z" fill="#f8fafc" stroke="#94a3b8" stroke-width=".6"/></g><circle cx="17" cy="17" r="1.8" fill="#fbbf24"/></svg></span>Ask the Adviser</button>
                     <button onclick="goToStep('step-action-plan', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-clip" viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="5" width="22" height="26" rx="3" fill="#f1f5f9"/><rect x="12" y="2.5" width="10" height="6" rx="2" fill="#ef4444"/><g fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path class="tick t1" d="M9.5 14l2 2 3.5-4"/><path class="tick t2" d="M9.5 20l2 2 3.5-4"/><path class="tick t3" d="M9.5 26l2 2 3.5-4"/></g><g stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round"><path d="M18 14h7M18 20h7M18 26h7"/></g></svg></span>My Action Plan</button>
                     <button onclick="goToStep('step-journal', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-note" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="3" width="21" height="28" rx="3" fill="#059669"/><rect x="8" y="3" width="18" height="28" rx="2" fill="#f8fafc"/><path d="M5 9h5M5 15h5M5 21h5M5 27h5" stroke="#34d399" stroke-width="2" stroke-linecap="round"/><g stroke="#475569" stroke-width="1.6" stroke-linecap="round"><path class="ln l1" d="M12 11h11"/><path class="ln l2" d="M12 17h11"/><path class="ln l3" d="M12 23h11"/></g><g class="pencil"><path d="M21 5l5 5-9 9-5.4.4.4-5.4z" fill="#f59e0b" transform="translate(4 7) scale(.62)"/><path d="M12 22l1-3 2 2z" fill="#334155" transform="translate(4 7) scale(.62)"/></g></svg></span>Wins Journal</button>
+                    <button onclick="goToStep('step-cheat', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-cheat" viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="4" width="22" height="27" rx="3" fill="#7c3aed"/><rect x="8.5" y="6.5" width="17" height="22" rx="2" fill="#f5f3ff"/><g stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"><path class="cl c1" d="M11 12h12"/><path class="cl c2" d="M11 17h12"/><path class="cl c3" d="M11 22h8"/></g><circle class="cdot" cx="24" cy="24" r="2.2" fill="#f59e0b"/></svg></span>Cheat Sheet</button>
+                    <button onclick="goToStep('step-lab', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-lab" viewBox="0 0 34 34" aria-hidden="true"><rect x="4" y="4" width="26" height="26" rx="3" fill="#0f172a" stroke="#fbbf24" stroke-width="1.6"/><path d="M17 4v26M4 17h26" stroke="#475569" stroke-width="1"/><rect x="17" y="4" width="13" height="13" fill="#10b981" opacity=".35"/><rect x="4" y="4" width="13" height="13" fill="#f97316" opacity=".3"/><rect x="17" y="17" width="13" height="13" fill="#a855f7" opacity=".3"/><rect x="4" y="17" width="13" height="13" fill="#ef4444" opacity=".3"/><circle class="gdot" cx="10" cy="24" r="3.2" fill="#fbbf24" stroke="#0f172a" stroke-width="1"/></svg></span>Strategy Lab</button>
                     <button onclick="goToStep('step-profile', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><span class="pw-me-av av-ring ai-av" style="width:32px;height:32px"></span></span>Profile &amp; Settings</button>
                 </div>
             </section>
@@ -962,7 +1066,7 @@
             <section id="step-about" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-600/40 rounded-3xl p-5 shadow-2xl">
                 <div class="flex items-center space-x-3 mb-3">
                     <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">ℹ️</span>
-                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V05</p></div>
+                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V06</p></div>
                 </div>
                 <div class="space-y-3 text-xs text-slate-300 leading-relaxed max-h-[62vh] overflow-y-auto pr-1 no-scrollbar selectable">
                     <div class="flex justify-center hiprogress-logo-container"></div>
@@ -979,6 +1083,53 @@
                 </div>
             </section>
 
+
+            
+            <!-- STRATEGY LAB -->
+            <section id="step-lab" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg" aria-hidden="true">🔬</span>
+                    <div><h2 class="text-lg font-bold text-white">Strategy Lab</h2><p class="text-[11px] text-amber-400 font-medium">Position grid and what-if</p></div>
+                </div>
+                <h3 class="text-xs font-bold text-slate-200 mb-1">1. Where am I? (Position Grid)</h3>
+                <p class="text-[11px] text-slate-400 mb-2 leading-snug">Tap the grid or use the sliders. <b>Visibility</b> = how much leaders notice you. <b>Influence</b> = how much people listen to you.</p>
+                <div id="lab-grid" data-noswipe class="rounded-2xl bg-slate-900/70 border border-slate-700/60 p-2"></div>
+                <div class="mt-2 space-y-2">
+                    <label class="flex items-center gap-2 text-[11px] text-slate-300"><span class="w-16 shrink-0">Visibility</span><input id="lab-vis" type="range" min="0" max="10" step="1" value="5" oninput="labSlide()" aria-label="Visibility from 0 to 10" class="flex-1 accent-amber-500"><span id="lab-vis-v" class="w-5 text-right font-bold text-amber-400">5</span></label>
+                    <label class="flex items-center gap-2 text-[11px] text-slate-300"><span class="w-16 shrink-0">Influence</span><input id="lab-inf" type="range" min="0" max="10" step="1" value="5" oninput="labSlide()" aria-label="Influence from 0 to 10" class="flex-1 accent-amber-500"><span id="lab-inf-v" class="w-5 text-right font-bold text-amber-400">5</span></label>
+                </div>
+                <div id="lab-result" class="mt-3 p-3 rounded-2xl bg-slate-900/60 border border-slate-700/60" aria-live="polite"></div>
+                <h3 class="text-xs font-bold text-slate-200 mt-5 mb-1">2. What if…? (What-if mode)</h3>
+                <p class="text-[11px] text-slate-400 mb-2 leading-snug">See how your playbook changes when something happens at work.</p>
+                <label for="wi-select" class="sr-only">Choose a situation</label>
+                <select id="wi-select" onchange="wiChange()" class="w-full bg-slate-900 text-slate-100 text-xs rounded-xl p-2.5 border border-slate-700 focus:border-amber-400 outline-none mb-2"></select>
+                <div id="wi-result" aria-live="polite"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- CHEAT SHEET -->
+            <section id="step-cheat" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-purple-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg" aria-hidden="true">🗂️</span>
+                    <div><h2 class="text-lg font-bold text-white">Cheat Sheet</h2><p class="text-[11px] text-purple-400 font-medium">Quick review before a hard meeting</p></div>
+                </div>
+                <label for="cheat-search" class="sr-only">Search the cheat sheet</label>
+                <input id="cheat-search" type="search" oninput="cheatSearch()" placeholder="🔍 Search a rule or phrase" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:border-purple-400 outline-none mb-2">
+                <div id="cheat-chips" data-noswipe class="flex gap-1.5 overflow-x-auto no-scrollbar pb-2 mb-1" role="group" aria-label="Filter the cheat sheet"></div>
+                <div id="cheat-list" class="space-y-3 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
+
+            <!-- BADGES -->
+            <section id="step-badges" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
+                <div class="flex items-center space-x-3 mb-3">
+                    <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg" aria-hidden="true">🏅</span>
+                    <div><h2 class="text-lg font-bold text-white">My Badges</h2><p class="text-[11px] text-amber-400 font-medium">Milestones you unlock as you progress</p></div>
+                </div>
+                <p id="badge-count" class="text-[11px] text-slate-400 mb-2"></p>
+                <div id="badge-grid" class="grid grid-cols-2 gap-2.5 max-h-[62vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
+            </section>
 
             <!-- PRIVACY POLICY PAGE -->
             <section id="step-privacy" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-700 rounded-3xl p-5 shadow-2xl">
@@ -1069,7 +1220,7 @@
                 </div>
                 <i class="fa-solid fa-store text-amber-400 text-xs ml-2 opacity-80 group-hover:opacity-100"></i>
             </a>
-            <p class="text-[10px] text-slate-500">Promotion Warfare System V05 &bull; Mobile PWA Edition</p>
+            <p class="text-[10px] text-slate-500">Promotion Warfare System V06 &bull; Mobile PWA Edition</p>
         </div>
     </footer>
 
@@ -1689,7 +1840,9 @@
     <script src="js/strategies.js" defer></script>
     <script src="bank.js" defer></script>
     <script src="js/adviser.js" defer></script>
+    <script src="js/v6data.js" defer></script>
     <script src="js/app2.js" defer></script>
     <script src="js/extras.js" defer></script>
+    <script src="js/v6.js" defer></script>
 </body>
 </html>

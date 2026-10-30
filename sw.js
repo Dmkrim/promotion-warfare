@@ -1,6 +1,6 @@
 // Simple offline cache: app shell + runtime caching of CDN files (Tailwind, FontAwesome)
-const CACHE = 'promotion-warfare-v5';
-const SHELL = ['./', './index.html', './privacy.html', './manifest.webmanifest', './bank.js', './js/avatars.js', './js/adviser.js', './js/app2.js', './js/strategies.js', './js/extras.js', './app-icon.png', './hiprogress-logo.png', './004.jpg', './icons/icon-192.png', './icons/icon-512.png'];
+const CACHE = 'promotion-warfare-v6';
+const SHELL = ['./', './index.html', './privacy.html', './manifest.webmanifest', './bank.js', './js/avatars.js', './js/adviser.js', './js/app2.js', './js/strategies.js', './js/extras.js', './js/v6data.js', './js/v6.js', './app-icon.png', './hiprogress-logo.png', './004.jpg', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
