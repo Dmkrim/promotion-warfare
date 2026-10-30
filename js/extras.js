@@ -258,7 +258,7 @@
     'step-q1': { p: 'step-square' }, 'step-q2': { p: 'step-q1' }, 'step-q3': { p: 'step-q2' },
     'strat-leader': { p: 'step-q1' }, 'strat-challenger': { p: 'step-q2' }, 'strat-flanker': { p: 'step-q3' }, 'strat-guerrilla': { p: 'step-q3' },
     'step-action-plan': { p: 'step-start' },
-    'step-help': HOME, 'step-examples': HOME, 'step-journal': HOME, 'step-glossary': HOME, 'step-profile': HOME, 'step-about': HOME, 'step-privacy': HOME
+    'step-help': HOME, 'step-examples': HOME, 'step-journal': HOME, 'step-glossary': HOME, 'step-profile': HOME, 'step-about': HOME, 'step-privacy': HOME, 'step-lab': HOME, 'step-cheat': HOME, 'step-badges': HOME
   };
   var sw = null, suppress = 0;
   function overlayOpen() {

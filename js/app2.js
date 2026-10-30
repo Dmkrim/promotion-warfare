@@ -96,13 +96,17 @@
   var NAV = [
     { g: 'Home', items: [['🏠', 'Welcome', 'step-welcome']] },
     { g: 'Learn the Strategy', items: [['🏰', 'Step 1: Battlefield', 'step-start'], ['🗺️', 'Company Power Map', 'step-map-builder'], ['👑', 'Power Pyramid (drawing)', '#pyramid'], ['📐', 'Step 2: Strategic Square', 'step-square'], ['🛡️', 'Defensive (Leader)', 'strat-leader'], ['⚔️', 'Offensive (Challenger)', 'strat-challenger'], ['🚀', 'Flanking (No. 3)', 'strat-flanker'], ['🥷', 'Guerrilla (Underdog)', 'strat-guerrilla']] },
-    { g: 'My Tools', items: [['📋', 'Interactive Action Plan', 'step-action-plan'], ['🤖', 'Career Adviser (chat)', '#adviser'], ['📓', 'Wins Journal', 'step-journal'], ['📚', 'Glossary', 'step-glossary']] },
+    { g: 'My Tools', items: [['📋', 'Interactive Action Plan', 'step-action-plan'], ['🤖', 'Career Adviser (chat)', '#adviser'], ['🔬', 'Strategy Lab (grid & what-if)', 'step-lab'], ['🗂️', 'Cheat Sheet', 'step-cheat'], ['📓', 'Wins Journal', 'step-journal'], ['📚', 'Glossary', 'step-glossary'], ['🏅', 'My Badges', 'step-badges']] },
+    { g: 'Share & Install', items: [['🖨️', 'Print / Save as PDF', '#print'], ['📄', 'Download CSV', '#csv'], ['📲', 'Install the app', '#install']] },
     { g: 'Stories & Help', items: [['🏆', 'Examples of Promotions', 'step-examples'], ['📖', 'How to use this App', 'step-help']] },
     { g: 'Me & the App', items: [['👤', 'Profile and Settings', 'step-profile'], ['ℹ️', 'About this App', 'step-about'], ['🔒', 'Privacy Policy', 'step-privacy']] }
   ];
   window.navTo = function (target) {
     closeOverlay('drawer', true);
     if (target === '#adviser') { window.openAdviser(); return; }
+    if (target === '#print') { if (window.printDossier) window.printDossier(); return; }
+    if (target === '#csv') { if (window.exportCSV) window.exportCSV(); return; }
+    if (target === '#install') { if (window.pwInstall) window.pwInstall(); return; }
     if (target === '#pyramid') { if (window.generateVisualMap) window.generateVisualMap(); return; }
     window.goToStep(target, STAGE_PAGES[target] || 0);
   };
@@ -160,6 +164,10 @@
     ['🗺️', 'Step 1: Battlefield and Power Map', 'Open <b>Create the Map</b>. Type the names and job titles of people you work with and give each a rank (1 = top boss, 4 = base). Tap <b>Show the Map</b> to see the tiers, then tap <b>Draw it</b> to get a simple picture of your company pyramid. You can save or share the picture.'],
     ['📐', 'Step 2: Strategic Square', 'Answer 3 quick questions: Are you #1? Are you #2? Are you #3? Your answers lead you to one of four strategies: Defensive (Leader), Offensive (Challenger), Flanking (No. 3) or Guerrilla (Underdog).'],
     ['💡', '"Explain it" and "Do it" buttons', 'Every strategy card has rules. <b>Explain it</b> opens a simple explanation with 3 examples. <b>Do it</b> adds that rule as a move in your Action Plan. The button changes to "Added" so you know it is saved.'],
+    ['🏢', 'Several companies, auto-save and examples', 'Everything you type in the Power Rank Table saves by itself. On the table page use <b>Company</b> to keep more than one workplace (for example Current Job and Dream Organization) and tap <b>Compare</b> to see how crowded each top is. <b>Quick-load an example</b> opens a ready-made story as a new company. You can also sort the table and filter it by name or position.'],
+    ['🔬', 'Strategy Lab: grid and what-if', 'The <b>Position Grid</b> shows where you stand by visibility and influence, and checks it against your Strategic Square answer. <b>What-if</b> shows how your strategy changes if the boss leaves, you get promoted, a rival joins and more, with 3 moves for each case.'],
+    ['🗂️', 'Cheat Sheet, checklists and badges', 'The <b>Cheat Sheet</b> gives the core rules of each strategy in one place, plus checklists for a hard meeting and a performance review. Each strategy page has a <b>rules checklist</b>. You unlock <b>badges</b> as you progress.'],
+    ['🖨️', 'Print, PDF and CSV', 'On the Action Plan page tap <b>Print / Save as PDF</b>. In the print screen choose "Save as PDF". <b>Download CSV</b> gives a file for Excel. Each move can have a status, a due date and a priority flag.'],
     ['📋', 'Interactive Action Plan', 'Your plan shows your power map, your moves, a Power Level bar and a to-do list. Tick moves when done. You can also add your own moves or tap a quick idea. Your Power Level grows as you complete moves.'],
     ['🤖', 'The Career Adviser (chat bubble)', 'Tap the round <b>Adviser</b> bubble at the bottom. Ask in your own words, for example: "My boss never notices my work", "How do I ask for a raise?" or "I am new, where do I start?". Then follow up with short messages like "give me an example", "what should I say?", "what mistakes?" or "what next?". The Adviser remembers what you were talking about. If it does not know a topic, tap <b>Search the web</b> and save the result.'],
     ['📓', 'Wins Journal', 'Write down every achievement with the date. Before your review or when you ask for a raise, you will have real proof of your results.'],
@@ -264,6 +272,8 @@
     ['Delegate', 'Give a task to someone else and trust them to do it.'], ['Stagnant project', 'A project that is not moving and gives no growth.'],
     ['Toxic politics', 'Unfair games, gossip and blame at work.'], ['Performance review', 'A formal talk about how you did and what comes next.']
   ];
+  if (window.PW6 && PW6.GLOSS_EXTRA) GLOSS = GLOSS.concat(PW6.GLOSS_EXTRA);
+  window.PW_GLOSS = GLOSS;
   function renderGlossary() {
     var q = ($('gl-search') ? $('gl-search').value : '').trim().toLowerCase(), box = $('gl-list'); if (!box) return;
     var rows = GLOSS.filter(function (g) { return !q || g[0].toLowerCase().indexOf(q) >= 0 || g[1].toLowerCase().indexOf(q) >= 0; });
