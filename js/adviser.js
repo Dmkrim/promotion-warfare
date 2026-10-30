@@ -121,10 +121,11 @@
 
   Adviser.prototype.addUserEntries = function (arr) {
     this.user = arr || [];
-    var self = this;
+    this.userK = this.user.map(function (u) { return tokens(u.k || ''); });
     this.userTok = this.user.map(function (u) {
-      var t = tokens(u.q + ' ' + u.q + ' ' + (u.k || ''));
-      return t;
+      var seen = {}, out = [];
+      tokens((u.q || '') + ' ' + (u.k || '')).forEach(function (t) { if (!seen[t]) { seen[t] = 1; out.push(t); } });
+      return out;
     });
   };
 
@@ -169,14 +170,21 @@
   };
 
   Adviser.prototype._userMatch = function (msgTok) {
-    var best = -1, bs = 0;
+    var best = -1, bs = 0, seen = {}, mu = [];
+    msgTok.forEach(function (t) { if (!seen[t]) { seen[t] = 1; mu.push(t); } });
+    if (!mu.length) return null;
     for (var i = 0; i < this.user.length; i++) {
-      var ut = this.userTok[i], hit = 0;
-      msgTok.forEach(function (t) { if (ut.indexOf(t) >= 0) hit++; });
-      var sc = msgTok.length ? hit / Math.max(msgTok.length, ut.length) : 0;
-      if (hit >= 2 && sc > bs) { bs = sc; best = i; }
+      var ut = this.userTok[i]; if (!ut.length) continue;
+      var hit = 0;
+      mu.forEach(function (t) { if (ut.indexOf(t) >= 0) hit++; });
+      if (!hit) continue;
+      var cov = hit / mu.length, ent = hit / ut.length;
+      if (mu.length < 2 && ent < 0.34 && this.userK[i].indexOf(mu[0]) < 0) continue;
+      if (mu.length >= 2 && hit < 2) continue;
+      var sc = 0.7 * cov + 0.3 * Math.min(1, ent * 1.5);
+      if (sc > bs) { bs = sc; best = i; }
     }
-    return bs >= 0.45 ? { i: best, score: bs } : null;
+    return bs >= 0.5 ? { i: best, score: bs } : null;
   };
 
   Adviser.prototype._decay = function () {

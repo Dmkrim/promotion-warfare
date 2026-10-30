@@ -119,7 +119,7 @@
       });
     });
     box.innerHTML = html;
-    var v = $('drawer-ver'); if (v) v.innerText = 'Promotion Warfare System V04';
+    var v = $('drawer-ver'); if (v) v.innerText = 'Promotion Warfare System V05';
   }
 
   /* ---------- avatars in header ---------- */
@@ -342,14 +342,37 @@
   }
   window.chipTap = function (i) {
     var c = lastChips[i]; if (!c) return;
+    if (c.addText) { if (window.addMove) window.addMove(c.addText.id, c.addText.text); return; }
     if (c.add) { var card = PW_BANK.cards[c.add.idx]; if (window.addMove) window.addMove('adv-' + card.id, card.s1); return; }
     sendChat(c.q);
   };
+  /* strategy ideas (80 extra tips) answered directly */
+  var TIPPOS = [['leader', /\b(leader|defen[cs]ive|number one)\b|#1/i, 'Leader (#1)'], ['challenger', /\b(challenger|offensive|number two)\b|#2/i, 'Challenger (#2)'], ['flanker', /\b(flanker|flanking|number three)\b|#3/i, 'Flanker (#3)'], ['guerrilla', /\b(guerrilla|underdog)\b/i, 'Underdog (Guerrilla)']];
+  var tipIdx = {}, lastTipPos = '';
+  function tipsReply(text) {
+    if (!window.PW_TIPS || !/\b(ideas?|suggest(ions?)?|tips?|strateg(y|ies)|moves?)\b/i.test(text)) return null;
+    var pos = '', label = '';
+    TIPPOS.forEach(function (t) { if (!pos && t[1].test(text)) { pos = t[0]; label = t[2]; } });
+    if (!pos && /\b(more|other|another|new|different|next)\b/i.test(text) && lastTipPos) pos = lastTipPos;
+    if (!pos && /\b(my|me|for me|give)\b/i.test(text) && profile().position) pos = profile().position;
+    if (!pos || !PW_TIPS[pos]) return null;
+    TIPPOS.forEach(function (t) { if (t[0] === pos) label = t[2]; });
+    var list = PW_TIPS[pos], n = list.length, st = tipIdx[pos] || 0;
+    tipIdx[pos] = (st + 3) % n; lastTipPos = pos;
+    var out = 'Here are 3 ideas for the ' + label + ' position:\n', chips = [];
+    for (var k = 0; k < 3; k++) {
+      var i = (st + k) % n, t = list[i];
+      out += '\n' + (k + 1) + '. ' + t[0] + ': ' + t[1];
+      chips.push({ label: '➕ ' + t[0], addText: { id: 'tip-' + pos + '-' + i, text: t[0] + ': ' + t[1] } });
+    }
+    chips.push({ label: '🔄 More ideas', q: 'more ideas for the ' + pos });
+    return { text: out, chips: chips, card: -1 };
+  }
   function sendChat(text) {
     text = (text || '').trim(); if (!text || busy) return;
     CHAT.push({ r: 'u', t: text.slice(0, 400) }); busy = true; renderChat();
     var adv = getAdviser(), res;
-    try { res = adv ? adv.reply(text) : { text: 'My data bank is still loading. Please try again in a moment.', chips: [] }; }
+    try { res = tipsReply(text) || (adv ? adv.reply(text) : { text: 'My data bank is still loading. Please try again in a moment.', chips: [] }); }
     catch (e) { console.error(e); res = { text: 'Sorry, something went wrong. Please rephrase your question.', chips: [] }; }
     var delay = Math.min(1100, 350 + res.text.length * 3);
     setTimeout(function () {
