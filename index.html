@@ -140,6 +140,50 @@
         body.light .sel-on{background:#f59e0b!important;color:#0f172a!important}
         body.light .av-ring{background:#e2e8f0}
         body.light details[open]>summary{color:#b45309}
+
+        /* ===== V05 additions ===== */
+        #fx-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+        .pw-conf{position:absolute;display:block;transform:translate(-50%,-50%);animation:confFly .95s cubic-bezier(.15,.7,.3,1) forwards;will-change:transform,opacity;line-height:1}
+        @keyframes confFly{0%{opacity:1;transform:translate(-50%,-50%) scale(.4) rotate(0)}70%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy) + 40px)) scale(1) rotate(var(--rot))}}
+        .pw-cheer{position:absolute;transform:translate(-50%,0);padding:4px 12px;border-radius:9999px;background:#f59e0b;color:#0f172a;font-weight:800;font-size:12px;box-shadow:0 6px 16px rgba(0,0,0,.35);white-space:nowrap;animation:cheerUp 1.25s ease-out forwards}
+        @keyframes cheerUp{0%{opacity:0;transform:translate(-50%,10px) scale(.7)}15%{opacity:1;transform:translate(-50%,0) scale(1.08)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-34px) scale(1)}}
+        .pw-pop{animation:pwPop .38s ease}
+        @keyframes pwPop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+        .swap-in{animation:swapIn .6s ease}
+        @keyframes swapIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
+        .tick-bar{height:3px;border-radius:9999px;background:rgba(148,163,184,.25);overflow:hidden}
+        .tick-bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:9999px;animation:tickFill 30s linear forwards}
+        @keyframes tickFill{from{width:0}to{width:100%}}
+        .swipe-peek{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+        #app-main{overflow-x:clip;touch-action:pan-y}
+        img,canvas,a{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none}
+        /* animated welcome icons */
+        .ai{width:34px;height:34px;display:block;overflow:visible}
+        .ai *{transform-box:fill-box}
+        .ai-book .flip{transform-origin:0% 50%;animation:pageFlip 2.6s ease-in-out infinite}
+        @keyframes pageFlip{0%,15%{transform:scaleX(1)}55%{transform:scaleX(-1);opacity:.55}56%{opacity:1}56.1%,100%{transform:scaleX(-1);opacity:0}}
+        .ai-book .flip2{transform-origin:0% 50%;animation:pageFlip 2.6s ease-in-out 1.3s infinite}
+        .ai-trophy .cup{transform-origin:50% 100%;animation:trophyBob 2s ease-in-out infinite}
+        @keyframes trophyBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-3px) rotate(3deg)}}
+        .ai-trophy .star{transform-origin:50% 50%;animation:twinkle 1.6s ease-in-out infinite}
+        .ai-trophy .star.s2{animation-delay:.5s}.ai-trophy .star.s3{animation-delay:1s}
+        @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.4)}50%{opacity:1;transform:scale(1.15)}}
+        .ai-compass .needle{transform-origin:50% 50%;animation:needleSwing 3s ease-in-out infinite}
+        @keyframes needleSwing{0%{transform:rotate(-40deg)}25%{transform:rotate(25deg)}50%{transform:rotate(-12deg)}75%{transform:rotate(38deg)}100%{transform:rotate(-40deg)}}
+        .ai-clip .tick{stroke-dasharray:12;stroke-dashoffset:12;animation:tickDraw 3s ease-in-out infinite}
+        .ai-clip .t2{animation-delay:.5s}.ai-clip .t3{animation-delay:1s}
+        @keyframes tickDraw{0%{stroke-dashoffset:12}20%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:12}}
+        .ai-note .ln{transform-origin:0% 50%;animation:lineWrite 3s ease-in-out infinite}
+        .ai-note .l2{animation-delay:.9s}.ai-note .l3{animation-delay:1.8s}
+        @keyframes lineWrite{0%{transform:scaleX(0)}30%,85%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+        .ai-note .pencil{animation:pencilMove 3s ease-in-out infinite}
+        @keyframes pencilMove{0%{transform:translate(0,0)}30%{transform:translate(8px,-1px)}33%{transform:translate(0,5px)}60%{transform:translate(8px,4px)}63%{transform:translate(0,10px)}90%{transform:translate(8px,9px)}100%{transform:translate(0,0)}}
+        .ai-av{border-radius:9999px;animation:ringPulse 2.2s ease-out infinite}
+        @keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.55)}70%,100%{box-shadow:0 0 0 9px rgba(251,191,36,0)}}
+        .ai-play{animation:playPulse 1.4s ease-in-out infinite}
+        @keyframes playPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+        body.light a[class*="from-slate-900"]{background-image:none!important;background-color:rgba(255,255,255,.95)!important}
+        body.light .tick-bar{background:rgba(100,116,139,.25)}
     </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between select-none antialiased transition-colors duration-300 dark app-bg-overlay" id="app-body">
@@ -156,9 +200,7 @@
                 <i class="fa-solid fa-bars text-base"></i>
             </button>
             <div class="flex items-center space-x-2 cursor-pointer min-w-0" onclick="goToStep('step-welcome', 0)">
-                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-red-900/30 shrink-0">
-                    <i class="fa-solid fa-chess-knight text-sm"></i>
-                </div>
+                <img src="app-icon.png" alt="" class="w-9 h-9 rounded-[10px] shadow-md shadow-black/30 shrink-0" width="36" height="36">
                 <div class="min-w-0">
                     <h1 class="font-bold text-sm tracking-wide text-white leading-tight truncate">Promotion Warfare</h1>
                     <p class="text-[10px] text-slate-400 font-medium">Career Strategy Guide</p>
@@ -190,7 +232,7 @@
             </div>
             <div id="drawer-nav" class="flex-1 overflow-y-auto no-scrollbar pb-2"></div>
             <div class="pt-3 border-t border-slate-800 text-center">
-                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V04</p>
+                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V05</p>
             </div>
         </div>
     </div>
@@ -742,10 +784,12 @@
 
                 <div class="mb-5 pt-3 border-t border-slate-700/80">
   <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">⚔️ My Moves (from "Do it")</h3>
-  <div id="my-moves" class="space-y-2 max-h-[30vh] overflow-y-auto pr-1 no-scrollbar mb-3"></div>
+  <div id="my-moves" class="space-y-2 mb-3"></div>
   <div class="flex gap-2 mb-3"><input id="custom-task" type="text" placeholder="Add your own move..." class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
   <button onclick="addCustomTask()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-plus"></i></button></div>
-  <p class="text-[10px] text-slate-500 mb-1.5">Quick ideas (tap to add):</p>
+  <div class="flex items-center justify-between mb-1.5"><p class="text-[10px] text-slate-500">Quick ideas (tap to add) · new list every 30 s</p>
+  <button onclick="nextQuickIdeas()" class="px-2 py-0.5 rounded-full bg-slate-700 text-amber-300 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-rotate"></i> New ideas</button></div>
+  <div id="quick-bar" class="tick-bar mb-2"><i></i></div>
   <div id="quick-chips" class="flex flex-wrap gap-1.5"></div>
 </div>
 <!-- Dynamic Action Plan Checklist -->
@@ -755,7 +799,7 @@
                         <span id="plan-counter" class="text-[10px] bg-slate-900 px-2 py-0.5 rounded-full text-slate-400 font-semibold">0 / 0 Done</span>
                     </div>
 
-                    <div id="plan-checklist" class="space-y-2.5 max-h-[35vh] overflow-y-auto pr-1 no-scrollbar mb-4">
+                    <div id="plan-checklist" class="space-y-2.5 mb-4">
                         <!-- Dynamically Inserted Tasks -->
                     </div>
                 </div>
@@ -774,7 +818,7 @@
             
             <!-- WELCOME -->
             <section id="step-welcome" class="card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl text-center">
-                <div class="flex justify-center mb-3"><img src="app-icon.png" alt="Promotion Warfare app icon" class="w-28 h-28 rounded-3xl shadow-xl shadow-black/40" width="112" height="112"></div>
+                <div class="flex justify-center mb-2"><div id="pw-spin-wrap" class="relative" style="width:136px;height:136px"><img id="pw-spin-img" src="app-icon.png" alt="" class="absolute inset-0 w-full h-full rounded-3xl transition-opacity duration-300"><canvas id="pw-spin" role="img" aria-label="Promotion Warfare app icon, turning in 3D (tap to spin again)" class="absolute inset-0 w-full h-full"></canvas></div></div>
                 <h2 class="text-2xl font-extrabold text-white leading-tight">Promotion Warfare</h2>
                 <p class="text-xs text-amber-400 font-semibold mb-1">Win your career with strategy, not luck</p>
                 <p id="welcome-greet" class="text-sm text-slate-200 font-bold mt-3">Welcome!</p>
@@ -785,15 +829,15 @@
                 <p class="text-xs text-slate-300 leading-relaxed mt-3 mb-3">Map your workplace, pick the strategy that fits your position and take one small smart move every week.</p>
                 <div id="welcome-tip" class="text-left p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-4"></div>
                 <button onclick="goToStep('step-start', 1)" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-extrabold text-sm shadow-lg shadow-red-900/30 flex items-center justify-center gap-2 active:scale-98 transition mb-3">
-                    <i class="fa-solid fa-play"></i> Start the Strategy
+                    <i class="fa-solid fa-play ai-play"></i> Start the Strategy
                 </button>
                 <div class="grid grid-cols-2 gap-2.5">
-                    <button onclick="goToStep('step-help', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📖</span>How to use this App</button>
-                    <button onclick="goToStep('step-examples', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">🏆</span>Examples of Promotions</button>
-                    <button onclick="openAdviser()" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">🧭</span>Ask the Adviser</button>
-                    <button onclick="goToStep('step-action-plan', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📋</span>My Action Plan</button>
-                    <button onclick="goToStep('step-journal', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">📓</span>Wins Journal</button>
-                    <button onclick="goToStep('step-profile', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="text-xl">👤</span>Profile &amp; Settings</button>
+                    <button onclick="goToStep('step-help', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-book" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="6" width="28" height="22" rx="3" fill="#2563eb"/><rect x="5" y="8" width="12" height="18" rx="1.5" fill="#f1f5f9"/><rect x="17" y="8" width="12" height="18" rx="1.5" fill="#e2e8f0"/><g stroke="#94a3b8" stroke-width="1" stroke-linecap="round"><path d="M7.5 12h7M7.5 15h7M7.5 18h5"/><path d="M19.5 12h7M19.5 15h7M19.5 18h5"/></g><rect class="flip" x="17" y="8" width="12" height="18" rx="1.5" fill="#fff" stroke="#cbd5e1" stroke-width=".8"/><rect class="flip2" x="17" y="8" width="12" height="18" rx="1.5" fill="#fff" stroke="#cbd5e1" stroke-width=".8"/><path d="M17 7v20" stroke="#1d4ed8" stroke-width="1.4"/></svg></span>How to use this App</button>
+                    <button onclick="goToStep('step-examples', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-trophy" viewBox="0 0 34 34" aria-hidden="true"><g class="cup"><path d="M10 6h14v7a7 7 0 0 1-14 0z" fill="#fbbf24"/><path d="M10 8H5c0 5 2.5 7 5.3 7M24 8h5c0 5-2.5 7-5.3 7" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><rect x="15.2" y="19" width="3.6" height="5" fill="#f59e0b"/><rect x="11" y="24" width="12" height="4" rx="1.5" fill="#d97706"/><path d="M13 8v5a4 4 0 0 0 2 3.5" stroke="#fde68a" stroke-width="1.6" fill="none" stroke-linecap="round"/></g><path class="star s1" d="M28 3l1.2 2.6L32 6.8l-2.8 1.2L28 10.6 26.8 8 24 6.8l2.8-1.2z" fill="#fde047"/><path class="star s2" d="M5 21l.9 2 2.1.9-2.1.9L5 27l-.9-2.2L2 23.9l2.1-.9z" fill="#fde047"/><path class="star s3" d="M30 20l.8 1.7 1.7.8-1.7.7L30 25l-.8-1.8-1.7-.7 1.7-.8z" fill="#fef08a"/></svg></span>Examples of Promotions</button>
+                    <button onclick="openAdviser()" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-compass" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="14" fill="#1e3a8a" stroke="#fbbf24" stroke-width="2"/><circle cx="17" cy="17" r="11" fill="#dbeafe"/><g stroke="#64748b" stroke-width="1.2" stroke-linecap="round"><path d="M17 7.2v2M17 24.8v2M7.2 17h2M24.8 17h2"/></g><g class="needle"><path d="M17 7l3.2 10H13.8z" fill="#ef4444"/><path d="M17 27l-3.2-10h6.4z" fill="#f8fafc" stroke="#94a3b8" stroke-width=".6"/></g><circle cx="17" cy="17" r="1.8" fill="#fbbf24"/></svg></span>Ask the Adviser</button>
+                    <button onclick="goToStep('step-action-plan', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-clip" viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="5" width="22" height="26" rx="3" fill="#f1f5f9"/><rect x="12" y="2.5" width="10" height="6" rx="2" fill="#ef4444"/><g fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path class="tick t1" d="M9.5 14l2 2 3.5-4"/><path class="tick t2" d="M9.5 20l2 2 3.5-4"/><path class="tick t3" d="M9.5 26l2 2 3.5-4"/></g><g stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round"><path d="M18 14h7M18 20h7M18 26h7"/></g></svg></span>My Action Plan</button>
+                    <button onclick="goToStep('step-journal', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-note" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="3" width="21" height="28" rx="3" fill="#059669"/><rect x="8" y="3" width="18" height="28" rx="2" fill="#f8fafc"/><path d="M5 9h5M5 15h5M5 21h5M5 27h5" stroke="#34d399" stroke-width="2" stroke-linecap="round"/><g stroke="#475569" stroke-width="1.6" stroke-linecap="round"><path class="ln l1" d="M12 11h11"/><path class="ln l2" d="M12 17h11"/><path class="ln l3" d="M12 23h11"/></g><g class="pencil"><path d="M21 5l5 5-9 9-5.4.4.4-5.4z" fill="#f59e0b" transform="translate(4 7) scale(.62)"/><path d="M12 22l1-3 2 2z" fill="#334155" transform="translate(4 7) scale(.62)"/></g></svg></span>Wins Journal</button>
+                    <button onclick="goToStep('step-profile', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><span class="pw-me-av av-ring ai-av" style="width:32px;height:32px"></span></span>Profile &amp; Settings</button>
                 </div>
             </section>
 
@@ -918,7 +962,7 @@
             <section id="step-about" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-600/40 rounded-3xl p-5 shadow-2xl">
                 <div class="flex items-center space-x-3 mb-3">
                     <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">ℹ️</span>
-                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V04</p></div>
+                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V05</p></div>
                 </div>
                 <div class="space-y-3 text-xs text-slate-300 leading-relaxed max-h-[62vh] overflow-y-auto pr-1 no-scrollbar selectable">
                     <div class="flex justify-center hiprogress-logo-container"></div>
@@ -953,6 +997,12 @@
 
         </div>
     </main>
+
+    <div id="startover-wrap" class="hidden w-full max-w-md mx-auto px-4 pb-4">
+        <button onclick="goToStep('step-welcome', 0)" class="w-full py-3 rounded-2xl bg-slate-900/70 border border-amber-500/60 text-amber-400 hover:bg-slate-800 text-sm font-bold flex items-center justify-center gap-2 active:scale-95 transition">
+            <i class="fa-solid fa-house"></i> Start over
+        </button>
+    </div>
 
     <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] hidden px-4 py-2 rounded-full bg-amber-500 text-slate-950 text-xs font-bold shadow-lg whitespace-nowrap"></div>
 
@@ -1019,7 +1069,7 @@
                 </div>
                 <i class="fa-solid fa-store text-amber-400 text-xs ml-2 opacity-80 group-hover:opacity-100"></i>
             </a>
-            <p class="text-[10px] text-slate-500">Promotion Warfare System V04 &bull; Mobile PWA Edition</p>
+            <p class="text-[10px] text-slate-500">Promotion Warfare System V05 &bull; Mobile PWA Edition</p>
         </div>
     </footer>
 
@@ -1460,13 +1510,16 @@
             const box = document.getElementById('quick-chips');
             if (!box) return;
             box.innerHTML = '';
-            quickIdeas.forEach((t, i) => {
+            const qlist = (window.PW_QUICK && window.PW_QUICK.length) ? window.PW_QUICK : quickIdeas;
+            const qoff = window.pwQuickOffset || 0;
+            for (let k = 0; k < Math.min(6, qlist.length); k++) {
+                const i = (qoff + k) % qlist.length, t = qlist[i];
                 const b = document.createElement('button');
                 b.className = 'px-2.5 py-1 rounded-full bg-slate-700 hover:bg-slate-600 text-[10px] text-slate-200 text-left active:scale-95';
                 b.innerText = '+ ' + t;
                 b.onclick = () => addMove('q' + i, t);
                 box.appendChild(b);
-            });
+            }
         }
         function toggleMove(i) { myMoves[i].done = !myMoves[i].done; saveMoves(); renderMoves(); if (myMoves[i].done) showToast('Nice! Move completed 💪'); }
         function removeMove(i) { myMoves.splice(i, 1); saveMoves(); renderMoves(); markDoIt(); }
@@ -1529,22 +1582,34 @@
             leader: [
                 'Audit core team processes and eliminate operational single points of failure.',
                 'Establish bi-weekly syncs with senior executives to showcase project progress.',
-                'Identify potential successor candidates to cultivate supportive loyalty.'
+                'Identify potential successor candidates to cultivate supportive loyalty.',
+                'Write down your top 3 customers or tasks and check each one every week.',
+                'Teach one coworker a key part of your job so you can take on bigger things.',
+                'Ask one trusted person what your biggest weakness is, and fix it.'
             ],
             challenger: [
                 'Pinpoint top executive pain points and deliver a targeted solution report.',
                 'Benchmark key project metrics against competitors to highlight efficiency wins.',
-                'Build strategic alliances with adjacent department leads.'
+                'Build strategic alliances with adjacent department leads.',
+                'Pick one skill where you can beat the leader and practice it every day.',
+                'Bring one new improvement idea to your manager this week.',
+                'Save proof of your wins with numbers in one folder.'
             ],
             flanker: [
                 'Take full ownership of an emerging tool or process ignored by top leadership.',
                 'Build a working prototype or workflow demo quietly before presenting it.',
-                'Document specialized expertise to establish undisputed domain leadership.'
+                'Document specialized expertise to establish undisputed domain leadership.',
+                'Write a one-page guide about your niche and share it with the team.',
+                'Find the thing everyone hates doing and make it easy.',
+                'Count how much time or money your niche saves, and tell your manager.'
             ],
             guerrilla: [
                 'Carve out a vital niche project that nobody else wants to manage.',
                 'Assist overloaded colleagues on key deadlines to build grassroots support.',
-                'Keep career options and skillsets flexible to pivot smoothly when needed.'
+                'Keep career options and skillsets flexible to pivot smoothly when needed.',
+                'Finish one small task before its deadline and say nothing, just deliver.',
+                'Learn the name of one person in each nearby department and greet them.',
+                'Update your CV with one new result you achieved.'
             ]
         };
 
@@ -1562,15 +1627,12 @@
             const selectedPos = posSelect.value;
             const posTasks = actionPlanDatabase[selectedPos] || actionPlanDatabase.challenger;
 
-            let tasks = [...posTasks];
-
-            // Add challenge tasks
-            const checkedBoxes = document.querySelectorAll('.plan-challenge:checked');
-            checkedBoxes.forEach(box => {
-                if (challengeDatabase[box.value]) {
-                    tasks.push(challengeDatabase[box.value]);
-                }
+            // Always six tasks: challenge tasks you tick take the place of the last position tasks
+            const chTasks = [];
+            document.querySelectorAll('.plan-challenge:checked').forEach(box => {
+                if (challengeDatabase[box.value]) chTasks.push(challengeDatabase[box.value]);
             });
+            const tasks = [...posTasks.slice(0, Math.max(0, 6 - chTasks.length)), ...chTasks].slice(0, 6);
 
             checklistContainer.innerHTML = '';
 
@@ -1624,8 +1686,10 @@
         });
     </script>
     <script src="js/avatars.js" defer></script>
+    <script src="js/strategies.js" defer></script>
     <script src="bank.js" defer></script>
     <script src="js/adviser.js" defer></script>
     <script src="js/app2.js" defer></script>
+    <script src="js/extras.js" defer></script>
 </body>
 </html>

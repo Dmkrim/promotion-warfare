@@ -1,11 +1,13 @@
 PROMOTION WARFARE - WEB APP PACKAGE
-V04 - standard (files kept separate)
+V05 - standard (files kept separate)
 ===================================
 Files
   index.html              the app (welcome, help, examples, journal, glossary, profile, about, privacy)
   privacy.html            the same Privacy Policy as a web page (for store listings)
   bank.js                 Adviser data bank (3000 questions and answers)
-  js/                     adviser.js (engine), avatars.js (50 avatars), app2.js (app logic)
+  js/                     adviser.js (engine), avatars.js (50 avatars), app2.js (app logic),
+                          strategies.js (80 extra strategy ideas + quick ideas), extras.js (swipe, animations)
+  app-icon.png            the app icon (Welcome page and header)
   hiprogress-logo.png     circular logo     004.jpg  background
   manifest.webmanifest, sw.js, icons/    PWA parts
 
