@@ -1,5 +1,5 @@
 PROMOTION WARFARE - WEB APP PACKAGE
-V09 - standard (files kept separate)
+V10 - standard (files kept separate)
 ===================================
 Files
   index.html              the app (welcome, help, examples, journal, glossary, profile, about, privacy)
@@ -63,3 +63,8 @@ V09 (new)
 - Data keys: pw_salary, pw_meet, pw_boss, pw_fb, pw_voice (all included in Backup and Restore).
 - Voice needs a phone and browser that support speech. The buttons are hidden when not supported.
 - Extra space under the HiProgress banner so the round buttons never cover it.
+
+V10 (new)
+- js/v10data.js and js/v10.js: Office Politics Game. 30 stories, 3 levels of 10, no timer, animated meters, lessons, ranks, share, 2 new badges (31 in total).
+- Voice picker in Profile and Settings (voice list, speed, pitch, test button) in js/v9.js.
+- Data keys: pw_game, and pw_voice now also stores voice, speed and pitch.
