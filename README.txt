@@ -1,5 +1,5 @@
 PROMOTION WARFARE - WEB APP PACKAGE
-V07 - standard (files kept separate)
+V08 - standard (files kept separate)
 ===================================
 Files
   index.html              the app (welcome, help, examples, journal, glossary, profile, about, privacy)
@@ -9,7 +9,8 @@ Files
                           strategies.js (80 extra strategy ideas + quick ideas), extras.js (swipe, animations),
                           v6data.js (example profiles, checklists, cheat sheet, badges), v6.js (V06 features),
                           howto.js (Adviser answers about how to use the app),
-                          v7data.js (10 examples, 25 challenges, 100 abbreviations, 12-week mission, stories), v7.js (V07 features)
+                          v7data.js (10 examples, 25 challenges, 100 abbreviations, 12-week mission, stories), v7.js (V07 features),
+                          v8data.js (daily cards, quiz, phrasebook content), v8.js (V08 features)
   app-icon.png            the app icon (Welcome page and header)
   hiprogress-logo.png     circular logo     004.jpg  background
   manifest.webmanifest, sw.js, icons/    PWA parts
@@ -19,6 +20,11 @@ HOW TO USE
   2. Open the site once on your phone while online. After that it also works offline.
   3. In PWABuilder enter the site address and build the Android package.
      Privacy Policy address for stores: https://YOUR-SITE/privacy.html
+
+NEW IN V08
+  Daily 1-minute lesson with streak (Welcome page). Quiz and Flashcards (160 questions incl. 100 abbreviations).
+  Phrasebook (40 scripts). Career Tools: CV Bullet Builder, Interview STAR Stories, Goal Builder with progress bars.
+  4 new badges (25 in total).
 
 NEW IN V07 (second update)
   Pinch-zoom allowed. Grammar fixes. 10 quick-load examples. You are added to the Power Rank Table
@@ -41,3 +47,10 @@ NOTES
   - Tailwind and FontAwesome load from the internet on the first visit and are then cached.
   - Web search in the Adviser uses Wikipedia only and needs internet.
   - After updating the site, the old version may show once; close and reopen the app.
+
+ANIMATED HELP (added to V08)
+- New file: js/guide.js (upload it with the other files).
+- Each page shows short tips with an arrow the first time it opens. Buttons: Next, Skip, Turn off help.
+- Round "?" button (bottom left) shows the tips again on any page.
+- Profile and Settings has an "Animated help" ON/OFF switch and a "Show all tips again" button.
+- The setting is saved as pw_guide and is included in Backup and Restore.
