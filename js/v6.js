@@ -25,6 +25,7 @@
   function loadRows(rows) { mapData.length = 0; rowsToData(rows).forEach(function (r) { mapData.push(r); }); }
   function edited() { flag('edited', 1); }
   function saveMap() { if (!CP) return; var c = activeCP(); c.rows = mapData.map(function (r) { return { name: r.name, position: r.position, rank: String(r.rank) }; }); persist(); }
+  window.pwSaveMap = function () { saveMap(); }; window.pwActiveCP = function () { return CP ? activeCP() : null; }; window.pwCPlist = function () { return CP; };
   function cpInit() {
     if (!CP || !CP.list || !CP.list.length) {
       CP = { active: 'c1', list: [{ id: 'c1', name: 'Current Job', rows: mapData.map(function (r) { return { name: r.name, position: r.position, rank: r.rank }; }) }] };
@@ -70,7 +71,7 @@
       var top = total ? Math.round((cnt[0] + cnt[1]) / total * 100) : 0;
       return '<tr class="border-t border-slate-700/60"><td class="p-1.5 font-bold text-slate-100">' + esc(c.name) + (c.id === CP.active ? ' ★' : '') + '</td><td class="p-1.5 text-center">' + cnt[0] + '</td><td class="p-1.5 text-center">' + cnt[1] + '</td><td class="p-1.5 text-center">' + cnt[2] + '</td><td class="p-1.5 text-center">' + cnt[3] + '</td><td class="p-1.5 text-center text-amber-400 font-bold">' + top + '%</td><td class="p-1.5">' + (c.pos ? D.POS_ICON[c.pos] + ' ' + esc(D.POS_STRAT[c.pos]) : '–') + '</td></tr>';
     }).join('');
-    box.innerHTML = '<div class="overflow-x-auto"><table class="w-full text-[11px] text-slate-300"><thead><tr class="text-slate-400"><th class="p-1.5 text-left">Company</th><th class="p-1.5">#1</th><th class="p-1.5">#2</th><th class="p-1.5">#3</th><th class="p-1.5">#4</th><th class="p-1.5" title="Share of people in the top 2 tiers">Top-heavy</th><th class="p-1.5 text-left">Strategy</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="text-[10px] text-slate-500 mt-1.5">Top-heavy = share of people in tier 1 and 2. A high number means a crowded top, so promotion is harder and visibility matters more.</p>';
+    box.innerHTML = '<div class="overflow-x-auto"><table class="w-full text-[11px] text-slate-300"><thead><tr class="text-slate-400"><th class="p-1.5 text-left">Company</th><th class="p-1.5">#1</th><th class="p-1.5">#2</th><th class="p-1.5">#3</th><th class="p-1.5">#4</th><th class="p-1.5" title="Share of people in the top 2 tiers">Top-heavy</th><th class="p-1.5 text-left">Strategy</th></tr></thead><tbody>' + rows + '</tbody></table></div><p class="text-[10px] text-slate-500 mt-1.5">Top-heavy = share of people in tiers 1 and 2. A high number means a crowded top, so promotion is harder and visibility matters more.</p>';
     box.classList.remove('hidden');
   };
   window.cpLoadPersona = function () {
@@ -498,11 +499,13 @@
     var p = profile(), f = lsGet('pw_flags', {}), v = f.v || {}, named = mapData.filter(function (d) { return d.name.trim(); }).length;
     var done = myMoves.filter(function (m) { return m.done; }).length, chk = checksState(), full = Object.keys(D.CHECKS).some(function (k) { return D.CHECKS[k].every(function (t, i) { return (chk[k] || [])[i]; }); });
     var chat = lsGet('pw_chat', []).filter(function (m) { return m.r === 'u'; }).length;
-    return {
+    var base = {
       mapped: named >= 4 && !!f.edited, pyramid: !!v.pyramid, highground: !!p.position, explorer: ['leader', 'challenger', 'flanker', 'guerrilla'].every(function (k) { return v[k]; }),
       leader: p.position === 'leader' || !!f.p_leader, challenger: p.position === 'challenger' || !!f.p_challenger, flanker: p.position === 'flanker' || !!f.p_flanker, guerrilla: p.position === 'guerrilla' || !!f.p_guerrilla,
       firstmove: myMoves.length >= 1, planner: myMoves.length >= 5, finisher: done >= 3, rulebook: full, winner: lsGet('pw_wins_log', []).length >= 3, adviser: chat >= 5, lab: !!(f.grid && f.whatif), printed: !!f.printed, complete: !!f.complete
     };
+    try { if (window.pwExtraBadges) { var ex = window.pwExtraBadges(); Object.keys(ex).forEach(function (k) { base[k] = ex[k]; }); } } catch (e) { }
+    return base;
   }
   window.pwCheckBadges = function () { checkBadges(); };
   var firstBadgeRun = true;

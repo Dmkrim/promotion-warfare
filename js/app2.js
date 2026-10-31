@@ -96,8 +96,8 @@
   var NAV = [
     { g: 'Home', items: [['🏠', 'Welcome', 'step-welcome']] },
     { g: 'Learn the Strategy', items: [['🏰', 'Step 1: Battlefield', 'step-start'], ['🗺️', 'Company Power Map', 'step-map-builder'], ['👑', 'Power Pyramid (drawing)', '#pyramid'], ['📐', 'Step 2: Strategic Square', 'step-square'], ['🛡️', 'Defensive (Leader)', 'strat-leader'], ['⚔️', 'Offensive (Challenger)', 'strat-challenger'], ['🚀', 'Flanking (No. 3)', 'strat-flanker'], ['🥷', 'Guerrilla (Underdog)', 'strat-guerrilla']] },
-    { g: 'My Tools', items: [['📋', 'Interactive Action Plan', 'step-action-plan'], ['🤖', 'Career Adviser (chat)', '#adviser'], ['🔬', 'Strategy Lab (grid & what-if)', 'step-lab'], ['🗂️', 'Cheat Sheet', 'step-cheat'], ['📓', 'Wins Journal', 'step-journal'], ['📚', 'Glossary', 'step-glossary'], ['🏅', 'My Badges', 'step-badges']] },
-    { g: 'Share & Install', items: [['🖨️', 'Print / Save as PDF', '#print'], ['📄', 'Download CSV', '#csv'], ['📲', 'Install the app', '#install']] },
+    { g: 'My Tools', items: [['📋', 'Interactive Action Plan', 'step-action-plan'], ['🤖', 'Career Adviser (chat)', '#adviser'], ['🔬', 'Strategy Lab (grid & what-if)', 'step-lab'], ['🗂️', 'Cheat Sheet', 'step-cheat'], ['📓', 'Wins Journal & Raise Pitch', 'step-journal'], ['📚', 'Glossary', 'step-glossary'], ['🏅', 'My Badges', 'step-badges']] },
+    { g: 'Share & Install', items: [['🖨️', 'Print / Save as PDF', '#print'], ['📄', 'Download CSV', '#csv'], ['💾', 'Backup & Restore', '#backup'], ['📲', 'Install the app', '#install']] },
     { g: 'Stories & Help', items: [['🏆', 'Examples of Promotions', 'step-examples'], ['📖', 'How to use this App', 'step-help']] },
     { g: 'Me & the App', items: [['👤', 'Profile and Settings', 'step-profile'], ['ℹ️', 'About this App', 'step-about'], ['🔒', 'Privacy Policy', 'step-privacy']] }
   ];
@@ -170,12 +170,16 @@
     ['🖨️', 'Print, PDF and CSV', 'On the Action Plan page tap <b>Print / Save as PDF</b>. In the print screen choose "Save as PDF". <b>Download CSV</b> gives a file for Excel. Each move can have a status, a due date and a priority flag.'],
     ['📋', 'Interactive Action Plan', 'Your plan shows your power map, your moves, a Power Level bar and a to-do list. Tick moves when done. You can also add your own moves or tap a quick idea. Your Power Level grows as you complete moves.'],
     ['🤖', 'The Career Adviser (chat bubble)', 'Tap the round <b>Adviser</b> bubble at the bottom. Ask in your own words, for example: "My boss never notices my work", "How do I ask for a raise?" or "I am new, where do I start?". Then follow up with short messages like "give me an example", "what should I say?", "what mistakes?" or "what next?". The Adviser remembers what you were talking about. If it does not know a topic, tap <b>Search the web</b> and save the result.'],
-    ['📓', 'Wins Journal', 'Write down every achievement with the date. Before your review or when you ask for a raise, you will have real proof of your results.'],
-    ['🏆', 'Examples of Promotions', 'Read 6 learning stories about people who used the strategies. Switch between List and Grid view and tap a story to open it. The people in the stories are made-up characters created to teach the ideas.'],
+    ['📓', 'Wins Journal', 'Write down every achievement with the date. Before your review or when you ask for a raise, you will have real proof of your results. Then tap <b>Make my raise pitch</b> to turn your wins into a short text for your boss.'],
+    ['🏆', 'Examples of Promotions', 'Read 12 learning stories about people who used the strategies. The "Starter path" button shows the stories for a first job. Switch between List and Grid view and tap a story to open it. The people in the stories are made-up characters created to teach the ideas.'],
     ['👤', 'Menu, Profile and Settings', 'Tap the ☰ button to open the Menu. It lists every page. In Profile and Settings you can choose your name, one of 50 avatars or upload your own photo, switch Day or Night mode and change text size.'],
     ['🌙', 'Day and Night mode', 'Night mode is the default. Use the sun or moon button at the top, or Profile and Settings, to switch.'],
     ['🌐', 'Learning new topics from the web', 'When you are online and the Adviser does not know a topic, it can search Wikipedia and show a short summary. Tap <b>Save to my data bank</b> to keep it for next time. You can also import a data bank update file in Profile and Settings.'],
     ['🔒', 'Your privacy', 'Everything you type stays on your phone. There is no account and no tracking. Read the full Privacy Policy from the Menu.'],
+    ['🎤', 'Raise pitch', 'In the <b>Wins Journal</b> tap <b>Make my raise pitch</b>. Choose what it is for (raise, promotion, review or a short update), pick the time period and how many wins, and add what you are asking for. You get a written version and a version to say out loud. Edit it, then <b>Copy</b>, <b>Share</b> or <b>Print</b>.'],
+    ['📅', 'Weekly mission and reminder', 'The Welcome page shows <b>This week\'s move</b>: a 12-week mission. Tap <b>I did it</b> to check in and build your 🔥 streak. Open <b>Weekly reminder</b> to add a repeating event to your phone calendar.'],
+    ['💾', 'Backup and restore', 'In <b>Profile and Settings</b> tap <b>Export everything</b> to save one backup file. On a new phone tap <b>Import backup</b> and choose the file. The app also asks your phone to protect its storage.'],
+    ['❓', 'Ask the Adviser how to use the app', 'You can ask the Adviser questions about the app itself, for example: "How to enlarge the text?", "How to change the profile picture?", "How do I print my plan?" or "How do I install the app?". It answers and can take you straight to the right page.'],
     ['✅', 'Best way to use it', '1) Make your map. 2) Find your strategy. 3) Tap Do it on 3 rules. 4) Do one move each week. 5) Write your wins. 6) Ask the Adviser when you are stuck.']
   ];
   function renderHelp() {
@@ -200,12 +204,16 @@
       story: 'Rina was the best salesperson and everyone was watching her. She kept notes on each key customer, fixed her own weak spots and trained a junior to run her routine reports. When a regional role opened, her manager knew that her team would be fine without her.',
       moves: ['Defended her territory with monthly check-ins.', 'Attacked her own weak spots first.', 'Trained a successor and shared knowledge.'], lesson: 'Leaders move up when they make themselves replaceable.' },
     { n: 'Leo', age: 20, job: 'Retail assistant', s: 'guerrilla', g: 'm', k: 4, head: 'The returns expert', res: 'Became Assistant Department Manager',
-      story: 'Leo was new and quiet. The returns process was confusing and customers were often angry. He studied it, wrote a one-page guide and became the person everyone called. He never bragged and shared credit, so coworkers were happy to support him when a better role opened.',
+      story: 'Leo was new and quiet. The returns process was confusing and customers were often angry. He studied it, wrote a one-page guide and became the person everyone called. He never bragged and always shared credit, so coworkers were happy to support him when a better role opened.',
       moves: ['Owned a niche (returns).', 'Wrote a short guide so others could learn.', 'Picked his battles and stayed friendly.'], lesson: 'Be useful, be humble and let results speak.' },
     { n: 'Noa', age: 27, job: 'Marketing coordinator', s: 'challenger', g: 'f', k: 5, head: 'One report and three allies', res: 'Promoted to Marketing Specialist',
       story: 'Noa wanted to beat a stronger colleague for a promotion. Instead of competing on everything, she focused on a weekly conversion report the boss loved. She also helped two people in other teams with their data. When the promotion was discussed, three people spoke well of her.',
       moves: ['Attacked on a narrow front: one visible report.', 'Built allies in other departments.', 'Used numbers, not opinions.'], lesson: 'Focus plus allies beats effort spread thin.' }
   ];
+  STORIES = STORIES.concat(window.PW7 ? window.PW7.STORIES : []);
+  STORIES.forEach(function (st, i) { if (st.n === 'Dan' || st.n === 'Leo') st.starter = 1; });
+  var exFilter = 'all';
+  window.setExFilter = function (f) { exFilter = f; renderExamples(); };
   var STRAT = { leader: ['Defensive · Leader', 'bg-emerald-500/20 text-emerald-300'], challenger: ['Offensive · Challenger', 'bg-purple-500/20 text-purple-300'], flanker: ['Flanking · No. 3', 'bg-orange-500/20 text-orange-300'], guerrilla: ['Guerrilla · Underdog', 'bg-red-500/20 text-red-300'] };
   function findAvatar(g, k) {
     var want = g === 'f' ? [2, 3, 5, 7] : [0, 1, 8, 9], n = 0;
@@ -219,7 +227,10 @@
     var l = $('ex-btn-list'), g = $('ex-btn-grid');
     if (l && g) { l.classList.toggle('sel-on', exView === 'list'); g.classList.toggle('sel-on', exView === 'grid'); }
     box.className = exView === 'grid' ? 'grid grid-cols-2 gap-3' : 'space-y-3';
+    var fl = $('ex-btn-all'), fs = $('ex-btn-start'); if (fl && fs) { fl.classList.toggle('sel-on', exFilter === 'all'); fs.classList.toggle('sel-on', exFilter === 'start'); }
+    var cnt = $('ex-count'); if (cnt) cnt.textContent = STORIES.length + ' learning stories · ' + STORIES.filter(function (x) { return x.starter; }).length + ' for a first job';
     box.innerHTML = STORIES.map(function (s, i) {
+      if (exFilter === 'start' && !s.starter) return '';
       var av = PWAvatars.svg(findAvatar(s.g, s.k), 64), st = STRAT[s.s];
       if (exView === 'grid') {
         return '<button onclick="openStory(' + i + ')" class="text-left rounded-2xl bg-slate-900/70 border border-slate-700/60 p-3 active:scale-95 transition"><div class="av-ring w-14 h-14 mx-auto mb-2">' + av + '</div><p class="text-center text-xs font-bold text-white">' + s.n + ', ' + s.age + '</p><p class="text-center text-[10px] text-slate-400 mb-1.5">' + esc(s.job) + '</p><p class="text-center"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ' + st[1] + '">' + st[0] + '</span></p><p class="text-[11px] text-slate-300 mt-2 leading-snug">' + esc(s.head) + '</p></button>';
@@ -247,7 +258,7 @@
   }
   window.addWin = function () {
     var i = $('win-input'), v = i ? i.value.trim().slice(0, 300) : ''; if (!v) { toast('Type your win first'); return; }
-    var wins = lsGet('pw_wins_log', []); wins.push({ t: v, d: new Date().toLocaleDateString() }); lsSet('pw_wins_log', wins); i.value = ''; renderWins(); toast('Win saved 🏅');
+    var wins = lsGet('pw_wins_log', []); wins.push({ t: v, d: new Date().toLocaleDateString(), iso: new Date().toISOString() }); lsSet('pw_wins_log', wins); i.value = ''; renderWins(); toast('Win saved 🏅');
   };
   window.delWin = function (idx) { var wins = lsGet('pw_wins_log', []); wins.splice(idx, 1); lsSet('pw_wins_log', wins); renderWins(); };
   window.copyWins = function () {
@@ -323,16 +334,16 @@
   }
   function renderBankStats() {
     var s = $('bank-stats'); if (!s) return;
-    s.innerText = (window.PW_BANK ? PW_BANK.entries.length : 0) + ' built-in answers + ' + userBank().length + ' of your own';
+    s.innerText = (window.PW_BANK ? PW_BANK.entries.length : 0) + ' built-in answers + ' + userBank().length + ' of your own + ' + (window.PWAbbr ? window.PWAbbr.count() : 0) + ' business abbreviations';
   }
   function saveChat() { CHAT = CHAT.slice(-40); lsSet('pw_chat', CHAT); }
-  function fmt(t) { return esc(t).replace(/\n/g, '<br>'); }
+  function fmt(t) { return esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>'); }
   var lastChips = [];
   function renderChat() {
     var log = $('chat-log'); if (!log) return;
     if (!CHAT.length) {
       var p = profile();
-      CHAT.push({ r: 'a', t: 'Hi' + (p.name ? ' ' + p.name : '') + '! I am your Career Adviser. Ask me anything about getting promoted, your boss, coworkers, skills or the strategies in this app. You can write like you talk.', chips: [{ label: 'How do I get promoted?', q: 'How do I get promoted?' }, { label: 'I am new at work', q: 'I am new at work, where do I start?' }, { label: 'My boss ignores me', q: 'My boss never notices my work' }] });
+      CHAT.push({ r: 'a', t: 'Hi' + (p.name ? ' ' + p.name : '') + '! I am your Career Adviser. Ask me anything about getting promoted, your boss, coworkers, skills or the strategies in this app. You can write like you talk.', chips: [{ label: 'How do I get promoted?', q: 'How do I get promoted?' }, { label: 'I am new at work', q: 'I am new at work, where do I start?' }, { label: 'My boss ignores me', q: 'My boss never notices my work' }, { label: '📱 How to use this app', q: 'How do I use this app?' }] });
     }
     var me = profile();
     log.innerHTML = CHAT.map(function (m, i) {
@@ -352,6 +363,7 @@
   }
   window.chipTap = function (i) {
     var c = lastChips[i]; if (!c) return;
+    if (c.go) { window.closeAdviser(); setTimeout(function () { window.navTo(c.go); }, 60); return; }
     if (c.addText) { if (window.addMove) window.addMove(c.addText.id, c.addText.text); return; }
     if (c.add) { var card = PW_BANK.cards[c.add.idx]; if (window.addMove) window.addMove('adv-' + card.id, card.s1); return; }
     sendChat(c.q);
@@ -382,7 +394,7 @@
     text = (text || '').trim(); if (!text || busy) return;
     CHAT.push({ r: 'u', t: text.slice(0, 400) }); busy = true; renderChat();
     var adv = getAdviser(), res;
-    try { res = tipsReply(text) || (adv ? adv.reply(text) : { text: 'My data bank is still loading. Please try again in a moment.', chips: [] }); }
+    try { res = (window.PWHowto && window.PWHowto.reply(text)) || (window.PWAbbr && window.PWAbbr.reply(text)) || tipsReply(text) || (adv ? adv.reply(text) : { text: 'My data bank is still loading. Please try again in a moment.', chips: [] }); }
     catch (e) { console.error(e); res = { text: 'Sorry, something went wrong. Please rephrase your question.', chips: [] }; }
     var delay = Math.min(1100, 350 + res.text.length * 3);
     setTimeout(function () {

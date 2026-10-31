@@ -25,7 +25,7 @@ window.PW_TIPS = {
   challenger: [
     ['Pick one target skill', 'Choose one skill where you can become better than the leader, and practice it daily.'],
     ['Find the blind spot', 'Look for something the leader is weak at or ignores. Become strong there.'],
-    ['Show numbers', 'Say "30 orders today vs 20 average", not "I worked hard".'],
+    ['Show numbers', 'Say "30 orders today, against an average of 20", not "I worked hard".'],
     ['Take the visible project', 'Volunteer for work that many people will see, and do it very well.'],
     ['Be faster, not louder', 'Reply quickly, deliver on time and keep your voice calm.'],
     ['Ask for harder tasks', 'Tell your manager: "I am ready for something bigger. What can I try?"'],
@@ -47,7 +47,7 @@ window.PW_TIPS = {
   flanker: [
     ['Find a gap', 'Look for a job or topic nobody covers. Fill it carefully.'],
     ['Learn the new tool first', 'Pick a new tool or method that no one owns yet, and get good at it.'],
-    ['Be the go-to for one thing', 'Make people say: "Ask him, he knows this." One clear topic is enough.'],
+    ['Be the go-to for one thing', 'Make people say: "Go to them, they know this." One clear topic is enough.'],
     ['Build quietly, show finished', 'Create a useful sheet, checklist or template. Show it only when it works.'],
     ['Skip the big fight', 'Stay out of the fight between the top two. Work where they are not looking.'],
     ['Link the niche to the boss\'s goals', 'Pick a niche that helps what your manager is measured on.'],

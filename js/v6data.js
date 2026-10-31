@@ -28,7 +28,7 @@ PW6.PERSONAS = [
 PW6.CHECKS = {
   leader: ['I wrote down my top 3 customers or tasks.', 'I checked on each of them this week.', 'I taught a coworker a key part of my job.', 'I asked for honest feedback and fixed one weak spot.', 'I kept energy in reserve: I said no to one extra request.', 'I told my manager one result, with a number.'],
   challenger: ['I picked ONE skill or topic my boss cares about most.', 'I found one thing the leader is weak at.', 'I took one visible task and did it perfectly.', 'I showed a result with numbers.', 'I brought one new idea this week.', 'I asked for a bigger task or the path to the next level.'],
-  flanker: ['I found an area nobody owns yet.', 'I picked one tool or topic to master.', 'I built something small and useful, quietly.', 'I showed it finished, not half-done.', 'I wrote or taught a short guide about it.', 'I have a backup plan for my niche.'],
+  flanker: ['I found an area nobody owns yet.', 'I picked one tool or topic to master.', 'I built something small and useful, quietly.', 'I showed it finished, not half-done.', 'I wrote a short guide about it, or taught it to someone.', 'I have a backup plan for my niche.'],
   guerrilla: ['I picked one small boring job to master.', 'I stepped back from one fight and chose a better moment.', 'I finished one task before the deadline.', 'I shared credit: "thanks, the team helped".', 'I learned one skill that works in any company.', 'I added one new result to my CV.']
 };
 
@@ -53,9 +53,9 @@ PW6.ADVICE = {
 PW6.SCENARIOS = [
   { id: 'boss-leaves', t: 'The top executive (#1) leaves', base: 'A big chair is empty. People will compete for it and the rules may change.', to: { leader: 'leader', challenger: 'leader', flanker: 'challenger', guerrilla: 'flanker' } },
   { id: 'promoted', t: 'I get promoted one level', base: 'New level, new people. At the next level you are new again.', to: { leader: 'guerrilla', challenger: 'leader', flanker: 'challenger', guerrilla: 'flanker' } },
-  { id: 'rival', t: 'A strong new rival joins my team', base: 'Someone good arrives and people compare you.', to: { leader: 'leader', challenger: 'challenger', flanker: 'guerrilla', guerrilla: 'guerrilla' } },
+  { id: 'rival', t: 'A strong new rival joins my team', base: 'Someone good arrives and people start to compare you with that person.', to: { leader: 'leader', challenger: 'challenger', flanker: 'guerrilla', guerrilla: 'guerrilla' } },
   { id: 'reorg', t: 'The company reorganizes or merges', base: 'Teams are mixed and nobody is sure who decides what. For a few months everyone is new.', to: { leader: 'guerrilla', challenger: 'guerrilla', flanker: 'guerrilla', guerrilla: 'guerrilla' } },
-  { id: 'manager', t: 'My direct manager changes', base: 'Your results are not known by the new manager. Build trust again.', to: { leader: 'leader', challenger: 'challenger', flanker: 'flanker', guerrilla: 'guerrilla' } },
+  { id: 'manager', t: 'My direct manager changes', base: 'The new manager does not know your results yet. Build trust again.', to: { leader: 'leader', challenger: 'challenger', flanker: 'flanker', guerrilla: 'guerrilla' } },
   { id: 'win', t: 'I deliver a big, visible win', base: 'People finally notice you. This is the best moment to move.', to: { leader: 'leader', challenger: 'leader', flanker: 'challenger', guerrilla: 'flanker' } }
 ];
 

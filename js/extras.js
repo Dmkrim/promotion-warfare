@@ -286,7 +286,9 @@
   }
   var GAP = 18;
   function onDown(e) {
-    if (sw || overlayOpen()) return;
+    if (window.visualViewport && window.visualViewport.scale > 1.05) { sw = null; return; }   /* zoomed in: panning must not change pages */
+    if (sw) { if (e.pointerId !== sw.id && !sw.drag) sw = null; return; }   /* a second finger (pinch) cancels the swipe */
+    if (overlayOpen()) return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     var t = e.target; if (!t.closest || !t.closest('#app-main')) return;
     if (t.closest('input, textarea, select, .selectable, [data-noswipe]')) return;
