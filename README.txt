@@ -1,5 +1,5 @@
 PROMOTION WARFARE - WEB APP PACKAGE
-V08 - standard (files kept separate)
+V09 - standard (files kept separate)
 ===================================
 Files
   index.html              the app (welcome, help, examples, journal, glossary, profile, about, privacy)
@@ -54,3 +54,12 @@ ANIMATED HELP (added to V08)
 - Round "?" button (bottom left) shows the tips again on any page.
 - Profile and Settings has an "Animated help" ON/OFF switch and a "Show all tips again" button.
 - The setting is saved as pw_guide and is included in Backup and Restore.
+
+
+V09 (new)
+- js/v9.js: Salary Helper, 1:1 Meeting Planner, Boss Style Quiz, Feedback Log, voice input (microphone) and read-aloud. 4 new badges (29 in total).
+- Animated help now covers every page, including the new ones.
+- Removed the "Draw it" box from the Corporate Power Pyramid page.
+- Data keys: pw_salary, pw_meet, pw_boss, pw_fb, pw_voice (all included in Backup and Restore).
+- Voice needs a phone and browser that support speech. The buttons are hidden when not supported.
+- Extra space under the HiProgress banner so the round buttons never cover it.
