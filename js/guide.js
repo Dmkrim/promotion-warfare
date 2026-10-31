@@ -8,6 +8,11 @@
   function go(id) { return '[onclick*="goToStep(\'' + id + '"]'; }
   function inS(sec, sel) { return '#' + sec + ' ' + sel; }
 
+  function STRAT(sec, back) { return [
+      { s: inS(sec, '[onclick*="openModal"]'), t: 'Tap a card to read the full idea with an example.' },
+      { s: inS(sec, '[onclick*="addToPlan"]'), t: 'Tap Do it to add this move to your Action Plan.' },
+      { s: inS(sec, go(back)), t: 'Go back and change your answer.' }
+    ]; }
   var G = {
     'step-welcome': [
       { s: '#welcome-name', t: 'Type your name here. The app will greet you by name.' },
@@ -31,8 +36,8 @@
       { s: inS('step-map-builder', '[onclick*="generateVisualMap"]'), t: 'When you are ready, tap here to see your map.' }
     ],
     'step-map-pyramid': [
-      { s: '#pyr-me', t: 'Choose which person is you. The pyramid shows where you stand.' },
-      { s: inS('step-map-pyramid', '[onclick*="savePyramidImage"]'), t: 'Save the pyramid as a picture.' },
+      { s: '#pyramid-container', t: 'This is your company pyramid. Hold the handle on a card and drag it to change a rank.' },
+      { s: inS('step-map-pyramid', go('step-map-builder')), t: 'Tap Edit to go back and change the people.' },
       { s: inS('step-map-pyramid', go('step-square')), t: 'Next: Step 2, the Strategic Square.' }
     ],
     'step-square': [
@@ -63,6 +68,7 @@
       { s: '#abbr-search', t: 'Search business short forms, like KPI or ROI.' }
     ],
     'step-profile': [
+      { s: '#voice-panel', t: 'Voice: speak instead of typing, and hear answers read aloud.' },
       { s: '#avatar-file', t: 'Pick your photo here.' },
       { s: '#prof-name', t: 'Your name and position go here.' },
       { s: '#theme-dark-btn', t: 'Choose Dark or Light mode.' },
@@ -70,10 +76,49 @@
       { s: '#guide-panel', t: 'This switch turns the animated help on or off.' },
       { s: '#backup-panel', t: 'Save a backup file so you never lose your data.' }
     ],
+    'step-q2': [
+      { s: inS('step-q2', '[onclick*="pickPosition"]'), t: 'Are you the #2? If yes, tap here.' },
+      { s: inS('step-q2', go('step-q3')), t: 'If not, go to the last question.' }
+    ],
+    'step-q3': [
+      { s: inS('step-q3', '[onclick*="pickPosition(\'flanker\')"]'), t: 'Do you have a special skill or area? Pick this.' },
+      { s: inS('step-q3', '[onclick*="pickPosition(\'guerrilla\')"]'), t: 'Small and quick? Pick this one.' }
+    ],
+    'strat-leader': STRAT('strat-leader', 'step-q1'),
+    'strat-challenger': STRAT('strat-challenger', 'step-q2'),
+    'strat-flanker': STRAT('strat-flanker', 'step-q3'),
+    'strat-guerrilla': STRAT('strat-guerrilla', 'step-q3'),
+    'step-help': [{ s: '#help-body', t: 'Short answers on how to use each part of the app. Or ask the Adviser.' }],
+    'step-about': [{ s: inS('step-about', go('step-privacy')), t: 'Read how your data is kept. It stays on your phone.' }],
+    'step-privacy': [{ s: inS('step-privacy', 'h2'), t: 'Your data stays on your phone. This page explains it in plain words.' }],
+    'step-salary': [
+      { s: '#sal-mode', t: 'Choose: ask for a raise, or answer a job offer.' },
+      { s: '#sal-lo', t: 'Add the market low and high for your job. Look them up on a salary website.' },
+      { s: inS('step-salary', '[onclick*="salBuild"]'), t: 'Tap here. You get your ask, your lowest number and what to say.' }
+    ],
+    'step-meeting': [
+      { s: '#mt-who', t: 'Who is the meeting with? Add the name and date.' },
+      { s: inS('step-meeting', '[onclick*="mtItem(0)"]'), t: 'Tap the topics you want to talk about. You get a sentence to say.' },
+      { s: '#mt-notes', t: 'Take notes here. Tap the microphone to speak.' },
+      { s: '#mt-act', t: 'Add action items. Tap Plan to send one to your Action Plan.' }
+    ],
+    'step-boss': [
+      { s: '#boss-who', t: 'Think of one real manager. Add the name if you want.' },
+      { s: inS('step-boss', '[onclick*="bossStart"]'), t: 'Answer 6 short questions to learn the style.' }
+    ],
+    'step-feedback': [
+      { s: '#fb-text', t: 'Write the feedback you got. Tap the microphone to speak it.' },
+      { s: '#fb-kind', t: 'Choose praise or something to improve, who said it and the theme.' },
+      { s: inS('step-feedback', '[onclick*="fbAdd"]'), t: 'Save it. When a theme repeats, the app shows it.' }
+    ],
     'step-tools': [
       { s: inS('step-tools', go('step-cv')), t: 'Turn your wins into CV lines.' },
       { s: inS('step-tools', go('step-star')), t: 'Practice interview answers with the STAR method.' },
-      { s: inS('step-tools', go('step-goals')), t: 'Set goals and track your progress.' }
+      { s: inS('step-tools', go('step-goals')), t: 'Set goals and track your progress.' },
+      { s: inS('step-tools', go('step-salary')), t: 'Plan your salary talk.' },
+      { s: inS('step-tools', go('step-meeting')), t: 'Plan your 1:1 meetings.' },
+      { s: inS('step-tools', go('step-boss')), t: 'Learn your boss style.' },
+      { s: inS('step-tools', go('step-feedback')), t: 'Keep your feedback in one place.' }
     ],
     'step-quiz': [{ s: '#quiz-body', t: 'Pick a quiz or flashcards. Your streak grows each day.' }],
     'step-phrase': [{ s: '#phrase-body', t: 'Search a situation. Tap a phrase to copy it.' }],
