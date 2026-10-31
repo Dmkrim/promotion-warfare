@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promotion Warfare System - Mobile App</title>
 
     <!-- Tailwind CSS CDN -->
@@ -155,7 +155,7 @@
         .tick-bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:9999px;animation:tickFill 30s linear forwards}
         @keyframes tickFill{from{width:0}to{width:100%}}
         .swipe-peek{box-shadow:0 10px 30px rgba(0,0,0,.35)}
-        #app-main{overflow-x:clip;touch-action:pan-y}
+        #app-main{overflow-x:clip;touch-action:pan-y pinch-zoom}
         img,canvas,a{-webkit-user-drag:none;user-drag:none;-webkit-touch-callout:none}
         /* animated welcome icons */
         .ai{width:34px;height:34px;display:block;overflow:visible}
@@ -185,6 +185,14 @@
         body.light a[class*="from-slate-900"]{background-image:none!important;background-color:rgba(255,255,255,.95)!important}
         body.light .tick-bar{background:rgba(100,116,139,.25)}
 
+
+        /* ===== V07 additions ===== */
+        .co-banner{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:9px 13px;border-radius:16px;background:linear-gradient(90deg,rgba(245,158,11,.24),rgba(239,68,68,.16));border:1px solid rgba(245,158,11,.5)}
+        .co-ic{font-size:22px;line-height:1}.co-t{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+        .co-t small{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:#fbbf24;font-weight:700}
+        .co-t b{font-size:15px;color:#fff;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        body.light .co-t b{color:#0f172a}body.light .co-t small{color:#b45309}
+        @media print{.co-banner{border:1px solid #999!important}}
         /* ===== V06 additions ===== */
         .ai-cheat .cl{stroke-dasharray:14;animation:clLine 3s ease-in-out infinite}.ai-cheat .c2{animation-delay:.5s}.ai-cheat .c3{animation-delay:1s}
         @keyframes clLine{0%{stroke-dashoffset:14}30%,80%{stroke-dashoffset:0}100%{stroke-dashoffset:14}}
@@ -292,7 +300,7 @@
             </div>
             <div id="drawer-nav" class="flex-1 overflow-y-auto no-scrollbar pb-2"></div>
             <div class="pt-3 border-t border-slate-800 text-center">
-                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V06</p>
+                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V07</p>
             </div>
         </div>
     </div>
@@ -630,7 +638,7 @@
 
                     <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
                         <p class="text-xs font-bold text-slate-100 mb-1">3. Always block your competitors' strong moves.</p>
-                        <p class="text-[11px] text-slate-400 italic mb-2">Anticipate rivals trying to encroach on your projects and preemptively act.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Anticipate rivals who try to encroach on your projects, and act before they do.</p>
                         <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-3')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
                             <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
                         </button><button data-id="modal-3" onclick="addToPlan('modal-3')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
@@ -638,7 +646,7 @@
 
                     <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-emerald-500/20">
                         <p class="text-xs font-bold text-slate-100 mb-1">4. Keep something in reserve.</p>
-                        <p class="text-[11px] text-slate-400 italic mb-2">Never burn all political capital on a single project. Save energy for crises.</p>
+                        <p class="text-[11px] text-slate-400 italic mb-2">Never burn all of your political capital on a single project. Save energy for crises.</p>
                         <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-4')" class="w-full py-1.5 px-3 rounded-xl bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
                             <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
                         </button><button data-id="modal-4" onclick="addToPlan('modal-4')" class="doit-btn w-full py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95"><i class="fa-solid fa-bolt"></i> <span>Do it</span></button></div>
@@ -670,7 +678,7 @@
 
                 <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
                     <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-purple-500/20">
-                        <p class="text-xs font-bold text-slate-100 mb-1">1. Gain relative advantage at decisive points.</p>
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Gain a relative advantage at decisive points.</p>
                         <p class="text-[11px] text-slate-400 italic mb-2">Focus intensely on one critical skill or project where you can decisively outperform.</p>
                         <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-challenger-1')" class="w-full py-1.5 px-3 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
                             <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
@@ -776,7 +784,7 @@
 
                 <div class="space-y-4 mb-6 max-h-[50vh] overflow-y-auto pr-1 no-scrollbar">
                     <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
-                        <p class="text-xs font-bold text-slate-100 mb-1">1. Retreat when enemy advances; attack when tired.</p>
+                        <p class="text-xs font-bold text-slate-100 mb-1">1. Retreat when the enemy advances; attack when the enemy is tired.</p>
                         <p class="text-[11px] text-slate-400 italic mb-2">Avoid political confrontations. Pick battles wisely and offer subtle constructive critiques.</p>
                         <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-1')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
                             <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
@@ -792,7 +800,7 @@
                     </div>
 
                     <div class="p-3.5 rounded-2xl bg-slate-900/70 border border-red-500/20">
-                        <p class="text-xs font-bold text-slate-100 mb-1">3. Whatever success you achieve, never behave like leader.</p>
+                        <p class="text-xs font-bold text-slate-100 mb-1">3. Whatever success you achieve, never behave like a leader.</p>
                         <p class="text-[11px] text-slate-400 italic mb-2">Maintain humility and agility. Do not isolate yourself with bureaucracy or arrogance.</p>
                         <div class="grid grid-cols-2 gap-2"><button onclick="openModal('modal-guerrilla-3')" class="w-full py-1.5 px-3 rounded-xl bg-red-600/30 hover:bg-red-600/50 text-red-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition active:scale-95">
                             <i class="fa-solid fa-lightbulb text-amber-400"></i> Explain it
@@ -850,23 +858,11 @@
                     </select>
                 </div>
 
-                <!-- Challenge Multi-Select -->
-                <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-300 mb-1.5">2. Select Workplace Challenges:</label>
-                    <div class="space-y-2">
-                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
-                            <input type="checkbox" value="toxic" onchange="generateActionPlan()" class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
-                            <span class="text-xs text-slate-300">Toxic or aggressive office politics</span>
-                        </label>
-                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
-                            <input type="checkbox" value="visibility" onchange="generateActionPlan()" checked class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
-                            <span class="text-xs text-slate-300">Lack of executive visibility</span>
-                        </label>
-                        <label class="flex items-center space-x-2 bg-slate-900/60 p-2.5 rounded-xl border border-slate-700/60 cursor-pointer">
-                            <input type="checkbox" value="stagnant" onchange="generateActionPlan()" class="plan-challenge form-checkbox rounded text-red-600 focus:ring-0">
-                            <span class="text-xs text-slate-300">Stagnant projects or bureaucracy</span>
-                        </label>
-                    </div>
+                <!-- Workplace challenges: drop menu with moves to add -->
+                <div class="mb-5" id="ch-box">
+                    <label for="ch-select" class="block text-xs font-bold text-slate-300 mb-1.5">2. Choose a Workplace Challenge:</label>
+                    <select id="ch-select" onchange="chPick()" class="w-full bg-slate-900 text-slate-100 text-xs rounded-xl p-3 border border-slate-700 focus:border-red-500 outline-none cursor-pointer"></select>
+                    <div id="ch-moves" class="space-y-2 mt-2" aria-live="polite"></div>
                 </div>
 
                 <div class="mb-5 pt-3 border-t border-slate-700/80">
@@ -876,7 +872,7 @@
   <div id="my-moves" class="space-y-2 mb-3"></div>
   <div class="flex gap-2 mb-3"><input id="custom-task" type="text" placeholder="Add your own move..." class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl p-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
   <button onclick="addCustomTask()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95"><i class="fa-solid fa-plus"></i></button></div>
-  <div class="flex items-center justify-between mb-1.5"><p class="text-[10px] text-slate-500">Quick ideas (tap to add) · new list every 30 s</p>
+  <div class="flex items-center justify-between mb-1.5"><p class="text-[10px] text-slate-500">Quick ideas (tap to add) · new list every 30 seconds</p>
   <button onclick="nextQuickIdeas()" class="px-2 py-0.5 rounded-full bg-slate-700 text-amber-300 text-[10px] font-bold active:scale-95"><i class="fa-solid fa-rotate"></i> New ideas</button></div>
   <div id="quick-bar" class="tick-bar mb-2"><i></i></div>
   <div id="quick-chips" class="flex flex-wrap gap-1.5"></div>
@@ -922,6 +918,8 @@
                     <button onclick="saveWelcomeName()" class="px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold active:scale-95">Save</button>
                 </div>
                 <p class="text-xs text-slate-300 leading-relaxed mt-3 mb-3">Map your workplace, pick the strategy that fits your position and take one small smart move every week.</p>
+                <div id="weekly-card" class="text-left p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-3"></div>
+                <div id="backup-nudge" class="hidden text-left p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 mb-3"></div>
                 <div id="welcome-tip" class="text-left p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-3"></div>
                 <button id="welcome-badges" onclick="goToStep('step-badges', 0)" class="w-full mb-3 px-3 py-2 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-xs text-slate-200 flex items-center gap-2 active:scale-98 transition"></button>
                 <div id="install-banner" class="hidden text-left p-3 rounded-2xl bg-blue-500/10 border border-blue-500/40 mb-3">
@@ -959,12 +957,13 @@
             <section id="step-examples" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-amber-500/40 rounded-3xl p-5 shadow-2xl">
                 <div class="flex items-center space-x-3 mb-3">
                     <span class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">🏆</span>
-                    <div><h2 class="text-lg font-bold text-white">Examples of Promotions</h2><p class="text-[11px] text-amber-400 font-medium">6 learning stories</p></div>
+                    <div><h2 class="text-lg font-bold text-white">Examples of Promotions</h2><p id="ex-count" class="text-[11px] text-amber-400 font-medium">12 learning stories</p></div>
                 </div>
                 <div class="flex gap-2 mb-3">
                     <button id="ex-btn-list" onclick="setExView('list')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-list"></i> List</button>
                     <button id="ex-btn-grid" onclick="setExView('grid')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-table-cells-large"></i> Grid</button>
                 </div>
+                <div class="flex gap-2 mb-3"><button id="ex-btn-all" onclick="setExFilter('all')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95">All stories</button><button id="ex-btn-start" onclick="setExFilter('start')" class="flex-1 py-2 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95">🌱 Starter path (first job)</button></div>
                 <div id="ex-list" class="max-h-[58vh] overflow-y-auto pr-1 no-scrollbar"></div>
                 <p class="text-[10px] text-slate-500 mt-3 leading-snug">These are illustrative stories with made-up characters, written to show how each strategy can work. Tap a story to read it.</p>
                 <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
@@ -983,6 +982,7 @@
                 </div>
                 <div class="flex items-center justify-between mb-2"><span id="win-count" class="text-[10px] bg-slate-900 px-2 py-0.5 rounded-full text-slate-400 font-semibold">0 wins</span><button onclick="copyWins()" class="text-[11px] text-amber-400 font-bold"><i class="fa-solid fa-copy"></i> Copy list</button></div>
                 <div id="win-list" class="space-y-2 max-h-[45vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <div id="pitch-box" class="mt-4"></div>
                 <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
             </section>
 
@@ -993,7 +993,8 @@
                     <div><h2 class="text-lg font-bold text-white">Glossary</h2><p class="text-[11px] text-purple-400 font-medium">Simple meanings of key words</p></div>
                 </div>
                 <input id="gl-search" type="text" placeholder="Search a word..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:border-purple-400 outline-none mb-3">
-                <div id="gl-list" class="space-y-2 max-h-[55vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <div id="gl-list" class="space-y-2 max-h-[40vh] overflow-y-auto pr-1 no-scrollbar"></div>
+                <div class="mt-4 p-3 rounded-2xl bg-slate-900/60 border border-purple-500/30"><div class="flex items-center justify-between mb-1.5"><p class="text-xs font-bold text-purple-300">📖 Business abbreviations</p><span id="abbr-count" class="text-[10px] text-slate-500"></span></div><input id="abbr-search" oninput="abbrSearch()" type="text" placeholder="Search KPI, ROI, B2B..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-purple-400 outline-none mb-2"><div id="abbr-list" class="max-h-[40vh] overflow-y-auto pr-1 no-scrollbar" data-noswipe></div><p class="text-[10px] text-slate-500 mt-1.5">You can also ask the Adviser: "What does KPI mean?"</p></div>
                 <button onclick="goToStep('step-welcome', 0)" class="mt-4 w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition"><i class="fa-solid fa-arrow-left"></i> Back to Welcome</button>
             </section>
 
@@ -1054,6 +1055,7 @@
                             <button onclick="clearBank()" class="py-2 rounded-xl bg-slate-700 text-red-400 text-[11px] font-bold active:scale-95">Delete mine</button>
                         </div>
                     </div>
+                    <div id="backup-panel" class="p-3 rounded-2xl bg-slate-900/60 border border-amber-500/30"></div>
                     <div class="grid grid-cols-2 gap-2">
                         <button onclick="clearChat(); showToast('Chat cleared')" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95">Clear Adviser chat</button>
                         <button onclick="resetAll()" class="py-2.5 rounded-xl bg-red-600/30 border border-red-500/40 text-red-300 text-xs font-bold active:scale-95">Delete all my data</button>
@@ -1066,16 +1068,16 @@
             <section id="step-about" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-600/40 rounded-3xl p-5 shadow-2xl">
                 <div class="flex items-center space-x-3 mb-3">
                     <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">ℹ️</span>
-                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V06</p></div>
+                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V07</p></div>
                 </div>
                 <div class="space-y-3 text-xs text-slate-300 leading-relaxed max-h-[62vh] overflow-y-auto pr-1 no-scrollbar selectable">
                     <div class="flex justify-center hiprogress-logo-container"></div>
                     <p><b class="text-slate-100">Promotion Warfare</b> is a free guide that helps you grow at a company. You map the people around you, find the strategy that fits your position and turn it into small weekly moves.</p>
-                    <p><b class="text-slate-100">What is inside:</b> a company power map and pyramid drawing, the Strategic Square, 4 strategies with 15 simple explanations, an interactive Action Plan, a Wins Journal, a Glossary, 6 example stories and a Career Adviser chat with <span id="about-bank">3,000 questions and answers</span>.</p>
+                    <p><b class="text-slate-100">What is inside:</b> a company power map and pyramid drawing, the Strategic Square, 4 strategies with 15 simple explanations, an interactive Action Plan, a Wins Journal with a raise-pitch maker, a Glossary with 100 business abbreviations, a weekly mission, backup and restore, 12 example stories and a Career Adviser chat with <span id="about-bank">3,000 questions and answers</span>.</p>
                     <p><b class="text-slate-100">About the Adviser:</b> it is a smart search through a built-in data bank. It remembers what you talked about and understands different ways of asking, but it is not a human and not a live AI. It can look up new topics on the web when you ask it to.</p>
                     <p><b class="text-slate-100">The idea:</b> the four strategies (defensive, offensive, flanking, guerrilla) are inspired by classic business strategy thinking and adapted to personal careers. The war words are only a metaphor: win by being useful, honest and respectful.</p>
                     <p><b class="text-slate-100">Please note:</b> this is educational guidance, not legal, medical, financial or HR advice. Stories are made-up examples.</p>
-                    <p>Made by <b class="text-amber-400">HiProgress</b>. Visit our shop: <a class="text-amber-400 underline" href="https://hiprogress.etsy.com" target="_blank" rel="noopener noreferrer">hiprogress.etsy.com</a></p>
+                    <p>Made by <b class="text-amber-400">HiProgress</b>.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 mt-4">
                     <button onclick="goToStep('step-privacy', 0)" class="py-2.5 rounded-xl bg-slate-700 text-slate-200 text-xs font-bold active:scale-95"><i class="fa-solid fa-lock"></i> Privacy Policy</button>
@@ -1140,7 +1142,7 @@
                         <p class="text-[11px] text-slate-400 font-medium">Your data stays on your phone</p>
                     </div>
                 </div>
-                <div class="space-y-2 text-xs leading-relaxed max-h-[60vh] overflow-y-auto pr-1 no-scrollbar mb-5 selectable"><p class="font-semibold text-slate-100">1. Who we are</p><p class="text-slate-400">Promotion Warfare is a free educational app made by HiProgress (Israel). Our shop is at hiprogress.etsy.com. This policy explains what the app does with your information. Last updated: 29 October 2026.</p><p class="font-semibold text-slate-100">2. What stays on your phone</p><p class="text-slate-400">Everything you type or choose stays on your own device, in the app&#x27;s local storage: your optional name, your avatar or photo, the people on your power map, your Action Plan, your Wins Journal, your chat with the Adviser, answers you add to the data bank and your theme and text-size settings. We do not receive this information and we cannot see it.</p><p class="font-semibold text-slate-100">3. What we collect</p><p class="text-slate-400">Nothing. There are no accounts, no ads, no analytics, no tracking and no access to your contacts, location, microphone or camera.</p><p class="font-semibold text-slate-100">4. Your profile photo</p><p class="text-slate-400">If you choose to upload a picture, the app shrinks it to a small square and stores it only on your phone. It is never uploaded anywhere. You can remove it at any time in Profile and Settings.</p><p class="font-semibold text-slate-100">5. The Career Adviser</p><p class="text-slate-400">The Adviser answers from the built-in data bank inside the app. It works offline and your questions are not sent anywhere. It is a program that finds answers in its data bank. It is not a person and it is not a live AI service.</p><p class="font-semibold text-slate-100">6. Optional web search</p><p class="text-slate-400">Only if you tap &quot;Search the web&quot;, the words of your question are sent over the internet to Wikipedia (Wikimedia Foundation) to fetch a short summary. Wikipedia&#x27;s own privacy policy applies to that request. No other service is contacted and nothing is sent unless you tap that button. You can save a result to your data bank on your phone.</p><p class="font-semibold text-slate-100">7. Public libraries we load</p><p class="text-slate-400">To display the app, it loads the Tailwind CSS and Font Awesome files from public content delivery networks (CDNs). Like any website file request, this lets those providers see technical details such as your IP address when the files are first downloaded. After that the app keeps a copy for offline use.</p><p class="font-semibold text-slate-100">8. Links and sharing</p><p class="text-slate-400">Links to our Etsy shop, to web results and to other sites open in your browser, where their own policies apply. When you use Save / Share on a picture or file, you choose where it goes through your phone&#x27;s share sheet.</p><p class="font-semibold text-slate-100">9. Age</p><p class="text-slate-400">The app is meant for adults, 18 years and older, and is not directed to children.</p><p class="font-semibold text-slate-100">10. Your control</p><p class="text-slate-400">You can edit or delete your data in Profile and Settings. &quot;Delete all my data&quot; removes everything the app stored. Clearing the app&#x27;s storage in your phone settings or uninstalling the app also removes it.</p><p class="font-semibold text-slate-100">11. Not professional advice</p><p class="text-slate-400">The app gives general educational guidance about careers. It is not legal, medical, financial or human-resources advice. Example stories are made-up characters written for learning.</p><p class="font-semibold text-slate-100">12. Changes and contact</p><p class="text-slate-400">If this policy changes, the new version will appear in the app with a new date. For questions, contact us through the HiProgress shop on Etsy: hiprogress.etsy.com.</p></div>
+                <div class="space-y-2 text-xs leading-relaxed max-h-[60vh] overflow-y-auto pr-1 no-scrollbar mb-5 selectable"><p class="font-semibold text-slate-100">1. Who we are</p><p class="text-slate-400">Promotion Warfare is a free educational app made by HiProgress (Israel). This policy explains what the app does with your information. Last updated: 31 October 2026.</p><p class="font-semibold text-slate-100">2. What stays on your phone</p><p class="text-slate-400">Everything you type or choose stays on your own device, in the app&#x27;s local storage: your optional name, your avatar or photo, the people on your power map, your Action Plan, your Wins Journal, your chat with the Adviser, answers you add to the data bank and your theme and text-size settings, your weekly check-ins and your review date. We do not receive this information and we cannot see it. If you export a backup file, the file is saved where you choose, and only you decide who gets it.</p><p class="font-semibold text-slate-100">3. What we collect</p><p class="text-slate-400">Nothing. There are no accounts, no ads, no analytics, no tracking and no access to your contacts, location, microphone or camera.</p><p class="font-semibold text-slate-100">4. Your profile photo</p><p class="text-slate-400">If you choose to upload a picture, the app shrinks it to a small square and stores it only on your phone. It is never uploaded anywhere. You can remove it at any time in Profile and Settings.</p><p class="font-semibold text-slate-100">5. The Career Adviser</p><p class="text-slate-400">The Adviser answers from the built-in data bank inside the app. It works offline and your questions are not sent anywhere. It is a program that finds answers in its data bank. It is not a person and it is not a live AI service.</p><p class="font-semibold text-slate-100">6. Optional web search</p><p class="text-slate-400">The words of your question are sent over the internet to Wikipedia (Wikimedia Foundation) to fetch a short summary, but only if you tap &quot;Search the web&quot;. Wikipedia&#x27;s own privacy policy applies to that request. No other service is contacted and nothing is sent unless you tap that button. You can save a result to your data bank on your phone.</p><p class="font-semibold text-slate-100">7. Public libraries we load</p><p class="text-slate-400">To display the app, it loads the Tailwind CSS and Font Awesome files from public content delivery networks (CDNs). Like any website file request, this lets those providers see technical details such as your IP address when the files are first downloaded. After that the app keeps a copy for offline use.</p><p class="font-semibold text-slate-100">8. Links and sharing</p><p class="text-slate-400">Links to our Etsy shop, to web results and to other sites open in your browser, where their own policies apply. When you use Save / Share on a picture or file, you choose where it goes through your phone&#x27;s share sheet.</p><p class="font-semibold text-slate-100">9. Age</p><p class="text-slate-400">The app is meant for adults, 18 years and older, and is not directed to children.</p><p class="font-semibold text-slate-100">10. Your control</p><p class="text-slate-400">You can edit or delete your data in Profile and Settings. &quot;Delete all my data&quot; removes everything the app stored. Clearing the app&#x27;s storage in your phone settings or uninstalling the app also removes it.</p><p class="font-semibold text-slate-100">11. Not professional advice</p><p class="text-slate-400">The app gives general educational guidance about careers. It is not legal, medical, financial or human-resources advice. Example stories are made-up characters written for learning.</p><p class="font-semibold text-slate-100">12. Changes and contact</p><p class="text-slate-400">If this policy changes, the new version will appear in the app with a new date. For questions contact dmkrim@gmail.com.</p></div>
                 <button onclick="goToStep('step-welcome', 0)" class="w-full py-2.5 rounded-xl bg-slate-700 text-slate-200 hover:bg-slate-600 text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition">
                     <i class="fa-solid fa-arrow-left"></i> Back to Welcome
                 </button>
@@ -1220,7 +1222,6 @@
                 </div>
                 <i class="fa-solid fa-store text-amber-400 text-xs ml-2 opacity-80 group-hover:opacity-100"></i>
             </a>
-            <p class="text-[10px] text-slate-500">Promotion Warfare System V06 &bull; Mobile PWA Edition</p>
         </div>
     </footer>
 
@@ -1315,7 +1316,7 @@
                     [
                         `Instead of trying to "improve everything", take just the weekly sales report. Make it perfect, clear and always on time.`,
                         `Pick one type of customer complaint and learn to solve it completely, so people send those cases to you.`,
-                        `For your first 3 months, be known for one thing, like "the guy who fixes the schedule". Add more later.`
+                        `For your first 3 months, be known for one thing, like "the person who fixes the schedule". Add more later.`
                     ]
                 )
             },
@@ -1325,7 +1326,7 @@
                     `The leader's biggest strengths, like long experience or a big team, can also make them slow. Don't compete with them on experience. Compete on speed, new tools and results you can count.`,
                     [
                         `The leader has 15 years of experience but works on paper. You show a simple phone app that does the same job in 5 minutes.`,
-                        `Don't say "I know more than he does". Show numbers instead: "I finished 30 orders today, the average was 20."`,
+                        `Don't say "I know more than they do". Show numbers instead: "I finished 30 orders today, the average was 20."`,
                         `The leader's big team takes two weeks to decide. You deliver a small test in two days.`
                     ],
                     `Respect their experience. Just show that you are quicker and fresher.`
@@ -1841,8 +1842,11 @@
     <script src="bank.js" defer></script>
     <script src="js/adviser.js" defer></script>
     <script src="js/v6data.js" defer></script>
+    <script src="js/v7data.js" defer></script>
     <script src="js/app2.js" defer></script>
     <script src="js/extras.js" defer></script>
     <script src="js/v6.js" defer></script>
+    <script src="js/howto.js" defer></script>
+    <script src="js/v7.js" defer></script>
 </body>
 </html>
