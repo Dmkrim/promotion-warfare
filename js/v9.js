@@ -62,7 +62,7 @@
     if (!TTS) { toast('Read-aloud is not supported on this phone'); return; }
     var was = speakingBtn === btn; window.pwStop(); if (was && btn) return;
     text = String(text || '').replace(/\s+/g, ' ').trim(); if (!text) return;
-    var u = new SpeechSynthesisUtterance(text.slice(0, 1800)); u.lang = navigator.language || 'en-US'; u.rate = 0.95;
+    var u = new SpeechSynthesisUtterance(text.slice(0, 1800)), vc = voiceCfg(), pv = pickVoice(); u.lang = pv ? pv.lang : (navigator.language || 'en-US'); if (pv) u.voice = pv; u.rate = vc.rate; u.pitch = vc.pitch;
     u.onend = u.onerror = function () { if (speakingBtn === btn && btn) { btn.textContent = '🔊 Listen'; speakingBtn = null; } };
     if (btn) { speakingBtn = btn; btn.textContent = '⏹ Stop'; }
     try { window.speechSynthesis.speak(u); } catch (e) { }
@@ -82,20 +82,39 @@
     else if (bubbles.length > chatSeen) { chatSeen = bubbles.length; if (voiceCfg().auto && bubbles.length) { var last = bubbles[bubbles.length - 1]; var c = last.cloneNode(true); var x = c.querySelectorAll('button'); for (var k = 0; k < x.length; k++) x[k].remove(); window.pwSpeak(c.innerText || c.textContent, last.querySelector('.pw-spk')); } }
     else chatSeen = bubbles.length;
   }
-  function voiceCfg() { var v = lsGet('pw_voice', {}); return { auto: !!v.auto }; }
+  function voiceCfg() { var v = lsGet('pw_voice', {}); return { auto: !!v.auto, uri: v.uri || '', rate: v.rate || 0.95, pitch: v.pitch || 1 }; }
+  function voiceSet(k, val) { var v = lsGet('pw_voice', {}); v[k] = val; lsSet('pw_voice', v); }
+  function voiceList() {
+    var l = []; try { l = window.speechSynthesis.getVoices() || []; } catch (e) { }
+    var pre = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    var rank = function (v) { var c = (v.lang || '').slice(0, 2).toLowerCase(); return c === pre ? 0 : c === 'en' ? 1 : 2; };
+    return l.slice().sort(function (a, b) { return rank(a) - rank(b) || (a.lang || '').localeCompare(b.lang || '') || a.name.localeCompare(b.name); });
+  }
+  function pickVoice() { var c = voiceCfg(); if (!c.uri) return null; var l = voiceList(); for (var i = 0; i < l.length; i++) if (l[i].voiceURI === c.uri || l[i].name === c.uri) return l[i]; return null; }
   function renderVoicePanel() {
     var host = $('voice-panel');
     if (!host) { var bp = $('backup-panel'); if (!bp) return; host = document.createElement('div'); host.id = 'voice-panel'; host.className = 'p-3 rounded-2xl bg-slate-900/60 border border-amber-500/30 mb-3'; bp.parentNode.insertBefore(host, $('guide-panel') || bp); }
     if (!SR && !TTS) { host.innerHTML = '<div class="text-xs font-bold text-amber-300">🎤 Voice</div><div class="text-[11px] text-slate-400 leading-snug mt-1">This phone does not support voice input or read-aloud.</div>'; return; }
-    var on = voiceCfg().auto;
+    var vc = voiceCfg(), on = vc.auto, vl = voiceList();
+    var opts = '<option value="">Phone default</option>' + vl.map(function (v, i) { var id = v.voiceURI || v.name; return '<option value="' + esc(id) + '"' + (id === vc.uri || v.name === vc.uri ? ' selected' : '') + '>' + esc((i + 1) + '. ' + v.name + ' (' + v.lang + ')') + '</option>'; }).join('');
+    var sel = function (id, cur, arr, lab) { return '<div><label class="text-[10px] text-slate-400 font-bold" for="' + id + '">' + lab + '</label><select id="' + id + '" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-100">' + arr.map(function (o) { return '<option value="' + o[0] + '"' + (Math.abs(o[0] - cur) < 0.01 ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div>'; };
     host.innerHTML = '<div style="display:flex;align-items:center;gap:12px"><div style="flex:1"><div class="text-xs font-bold text-amber-300">🎤 Voice</div><div class="text-[11px] text-slate-400 leading-snug mt-1">Tap 🎤 next to a box to speak instead of typing. Tap 🔊 Listen under an answer to hear it. This switch reads every new Adviser answer aloud.</div></div>' +
-      (TTS ? '<button type="button" id="vc-sw" class="gd-sw" role="switch" aria-label="Read Adviser answers aloud" aria-checked="' + on + '" style="position:relative;width:52px;height:30px;border-radius:15px;border:0;flex-shrink:0;background:' + (on ? '#10b981' : '#475569') + '"><i style="position:absolute;top:3px;left:' + (on ? 25 : 3) + 'px;width:24px;height:24px;border-radius:50%;background:#fff"></i></button>' : '') + '</div>';
-    var sw = $('vc-sw'); if (sw) sw.onclick = function () { var v = voiceCfg(); v.auto = !v.auto; lsSet('pw_voice', v); renderVoicePanel(); toast(v.auto ? 'Adviser answers will be read aloud' : 'Read-aloud is OFF'); };
+      (TTS ? '<button type="button" id="vc-sw" class="gd-sw" role="switch" aria-label="Read Adviser answers aloud" aria-checked="' + on + '" style="position:relative;width:52px;height:30px;border-radius:15px;border:0;flex-shrink:0;background:' + (on ? '#10b981' : '#475569') + '"><i style="position:absolute;top:3px;left:' + (on ? 25 : 3) + 'px;width:24px;height:24px;border-radius:50%;background:#fff"></i></button>' : '') + '</div>' +
+      (TTS ? '<div class="mt-3"><label class="text-[10px] text-slate-400 font-bold" for="vc-voice">Choose a voice (' + vl.length + ' on this phone)</label><select id="vc-voice" class="w-full bg-slate-950/80 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-100">' + opts + '</select>' +
+        '<div class="grid grid-cols-2 gap-2 mt-2">' + sel('vc-rate', vc.rate, [[0.75, 'Slow'], [0.95, 'Normal'], [1.15, 'Fast'], [1.35, 'Very fast']], 'Speed') + sel('vc-pitch', vc.pitch, [[0.8, 'Low'], [1, 'Normal'], [1.2, 'High']], 'Pitch') + '</div>' +
+        '<button type="button" id="vc-test" class="mt-2 w-full py-2 rounded-xl bg-slate-700 text-slate-100 text-[11px] font-bold">▶ Test this voice</button>' +
+        (vl.length < 2 ? '<p class="text-[10px] text-slate-500 leading-snug mt-2">Only a few voices were found. You can add more in your phone settings: Settings → Accessibility (or System) → Text-to-speech → install voice data.</p>' : '<p class="text-[10px] text-slate-500 leading-snug mt-2">Want more voices? Add them in your phone settings under Text-to-speech.</p>') + '</div>' : '');
+    var sw = $('vc-sw'); if (sw) sw.onclick = function () { var v = voiceCfg(); voiceSet('auto', !v.auto); renderVoicePanel(); toast(!v.auto ? 'Adviser answers will be read aloud' : 'Read-aloud is OFF'); };
+    var vs = $('vc-voice'); if (vs) vs.onchange = function () { voiceSet('uri', vs.value); window.pwSpeak('Hello! This is how I sound. I will read your career advice.', null); };
+    var vr = $('vc-rate'); if (vr) vr.onchange = function () { voiceSet('rate', parseFloat(vr.value)); };
+    var vp = $('vc-pitch'); if (vp) vp.onchange = function () { voiceSet('pitch', parseFloat(vp.value)); };
+    var vt = $('vc-test'); if (vt) vt.onclick = function () { window.pwSpeak('Hello! This is how I sound. I will read your career advice.', null); };
   }
   function initVoice() {
     attachMic('chat-input'); attachMic('win-input');
     var log = $('chat-log'); if (log && TTS && window.MutationObserver) { new MutationObserver(function () { decorateChat(); }).observe(log, { childList: true }); decorateChat(); }
     renderVoicePanel();
+    if (TTS && window.speechSynthesis) { try { window.speechSynthesis.onvoiceschanged = function () { renderVoicePanel(); }; } catch (e) { } }
   }
 
   /* ================================================================ 1. salary helper */

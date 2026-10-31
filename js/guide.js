@@ -68,7 +68,7 @@
       { s: '#abbr-search', t: 'Search business short forms, like KPI or ROI.' }
     ],
     'step-profile': [
-      { s: '#voice-panel', t: 'Voice: speak instead of typing, and hear answers read aloud.' },
+      { s: '#voice-panel', t: 'Voice: speak instead of typing, hear answers read aloud, and choose the voice.' },
       { s: '#avatar-file', t: 'Pick your photo here.' },
       { s: '#prof-name', t: 'Your name and position go here.' },
       { s: '#theme-dark-btn', t: 'Choose Dark or Light mode.' },
@@ -106,6 +106,10 @@
       { s: '#boss-who', t: 'Think of one real manager. Add the name if you want.' },
       { s: inS('step-boss', '[onclick*="bossStart"]'), t: 'Answer 6 short questions to learn the style.' }
     ],
+    'step-game': [
+      { s: '#game-body', t: 'Pick a level and play. Read each story and choose the smartest move. No timer!' },
+      { s: '#game-body [onclick*="gmStart"]', t: 'Tap Level 1 to start. More levels unlock when you finish.' }
+    ],
     'step-feedback': [
       { s: '#fb-text', t: 'Write the feedback you got. Tap the microphone to speak it.' },
       { s: '#fb-kind', t: 'Choose praise or something to improve, who said it and the theme.' },
@@ -118,7 +122,8 @@
       { s: inS('step-tools', go('step-salary')), t: 'Plan your salary talk.' },
       { s: inS('step-tools', go('step-meeting')), t: 'Plan your 1:1 meetings.' },
       { s: inS('step-tools', go('step-boss')), t: 'Learn your boss style.' },
-      { s: inS('step-tools', go('step-feedback')), t: 'Keep your feedback in one place.' }
+      { s: inS('step-tools', go('step-feedback')), t: 'Keep your feedback in one place.' },
+      { s: inS('step-tools', go('step-game')), t: 'Play the Office Politics Game.' }
     ],
     'step-quiz': [{ s: '#quiz-body', t: 'Pick a quiz or flashcards. Your streak grows each day.' }],
     'step-phrase': [{ s: '#phrase-body', t: 'Search a situation. Tap a phrase to copy it.' }],
