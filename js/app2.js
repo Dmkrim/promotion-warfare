@@ -176,17 +176,18 @@
     ['🌙', 'Day and Night mode', 'Night mode is the default. Use the sun or moon button at the top, or Profile and Settings, to switch.'],
     ['🌐', 'Learning new topics from the web', 'When you are online and the Adviser does not know a topic, it can search Wikipedia and show a short summary. Tap <b>Save to my data bank</b> to keep it for next time. You can also import a data bank update file in Profile and Settings.'],
     ['🔒', 'Your privacy', 'Everything you type stays on your phone. There is no account and no tracking. Read the full Privacy Policy from the Menu.'],
-    ['☀️', 'Daily lesson, quiz and tools', 'The Welcome page shows a <b>1-minute lesson</b> every day: tap <b>Got it</b> to build your 🔥 streak. <b>Quiz and Flashcards</b> test your knowledge. The <b>Phrasebook</b> has 40 sentences for hard moments. <b>Career Tools</b> has the CV Bullet Builder, Interview STAR stories and the Goal Builder.'],
+    ['☀️', 'Daily lesson, quiz and tools', 'Under the icon buttons on the Welcome page you find a <b>1-minute lesson</b> every day: tap <b>Got it</b> to build your 🔥 streak. <b>Quiz and Flashcards</b> test your knowledge. The <b>Phrasebook</b> has 40 sentences for hard moments. <b>Career Tools</b> has the CV Bullet Builder, Interview STAR stories and the Goal Builder.'],
     ['🎤', 'Raise pitch', 'In the <b>Wins Journal</b> tap <b>Make my raise pitch</b>. Choose what it is for (raise, promotion, review or a short update), pick the time period and how many wins, and add what you are asking for. You get a written version and a version to say out loud. Edit it, then <b>Copy</b>, <b>Share</b> or <b>Print</b>.'],
-    ['📅', 'Weekly mission and reminder', 'The Welcome page shows <b>This week\'s move</b>: a 12-week mission. Tap <b>I did it</b> to check in and build your 🔥 streak. Open <b>Weekly reminder</b> to add a repeating event to your phone calendar.'],
+    ['📅', 'Weekly mission and reminder', 'Under the icon buttons on the Welcome page you find <b>This week\'s move</b>: a 12-week mission. Tap <b>I did it</b> to check in and build your 🔥 streak. Open <b>Weekly reminder</b> to add a repeating event to your phone calendar.'],
     ['💰', 'Salary Helper and meeting tools', 'In <b>Career Tools</b> open the <b>Salary Helper</b> to plan your raise talk, the <b>1:1 Meeting Planner</b> for agendas, notes and actions, the <b>Boss Style Quiz</b> to learn how your manager thinks, and the <b>Feedback Log</b> to save feedback and see repeating themes.'],
-    ['🎮', 'Office Politics Game', 'Open <b>Career Tools</b> → <b>Office Politics Game</b>. Read a short office story and pick one of 3 moves. Watch your Reputation, Allies and Stress. There is no timer. Finish a level to unlock the next one.'],
+    ['🎮', 'Office Politics Game', 'Open <b>Career Tools</b> → <b>Office Politics Game</b>. Read a short office story and pick one of 3 moves. Watch your Reputation, Allies and Stress. There is no timer. Finish a level to unlock the next one. There are 10 levels.'],
     ['🎤', 'Voice', 'Tap <b>🎤</b> next to a box to speak instead of typing. Tap <b>🔊 Listen</b> under an Adviser answer to hear it. Turn on automatic read-aloud, choose a voice, and set the speed in <b>Profile and Settings</b>.'],
     ['❓', 'Animated help', 'Each page shows short tips with arrows. Tap the round <b>?</b> button to see them again. Turn them on or off in <b>Profile and Settings</b> with the <b>Animated help</b> switch.'],
     ['💾', 'Backup and restore', 'In <b>Profile and Settings</b> tap <b>Export everything</b> to save one backup file. On a new phone tap <b>Import backup</b> and choose the file. The app also asks your phone to protect its storage.'],
     ['❓', 'Ask the Adviser how to use the app', 'You can ask the Adviser questions about the app itself, for example: "How to enlarge the text?", "How to change the profile picture?", "How do I print my plan?" or "How do I install the app?". It answers and can take you straight to the right page.'],
     ['✅', 'Best way to use it', '1) Make your map. 2) Find your strategy. 3) Tap Do it on 3 rules. 4) Do one move each week. 5) Write your wins. 6) Ask the Adviser when you are stuck.']
   ];
+  window.PW_HELP = HELP;
   function renderHelp() {
     var b = $('help-body'); if (!b) return;
     b.innerHTML = HELP.map(function (h, i) {
@@ -401,12 +402,13 @@
     var adv = getAdviser(), res;
     try { res = (window.PWHowto && window.PWHowto.reply(text)) || (window.PWAbbr && window.PWAbbr.reply(text)) || tipsReply(text) || (adv ? adv.reply(text) : { text: 'My data bank is still loading. Please try again in a moment.', chips: [] }); }
     catch (e) { console.error(e); res = { text: 'Sorry, something went wrong. Please rephrase your question.', chips: [] }; }
+    try { if (window.PW11) window.PW11.extend(text, res); } catch (e) { console.error(e); }
     var delay = Math.min(1100, 350 + res.text.length * 3);
     setTimeout(function () {
       busy = false;
       var chips = (res.chips || []).slice();
       if (res.card >= 0) chips.push({ label: '➕ Add to my plan', add: { idx: res.card } });
-      CHAT.push({ r: 'a', t: res.text, chips: chips, web2: !!res.web, q: text });
+      CHAT.push({ r: 'a', t: res.text, chips: chips, web2: true, q: text });
       saveChat(); renderChat();
     }, delay);
   }

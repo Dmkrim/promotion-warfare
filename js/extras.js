@@ -352,7 +352,7 @@
   /* ---------------------------------------------------------------- init */
   document.addEventListener('DOMContentLoaded', function () {
     buildPanels();
-    var m = $('app-main'); if (m) { m.style.position = 'relative'; m.style.touchAction = 'pan-y'; }
+    var m = $('app-main'); if (m) { m.style.position = 'relative'; m.style.touchAction = 'pan-y pinch-zoom'; }
     var cv = $('pw-spin'); if (cv) cv.addEventListener('click', function () { window.pwSpinAgain(); });
     setTimeout(function () { onPage('step-welcome'); }, 0);
   });

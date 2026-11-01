@@ -347,7 +347,7 @@
       var upper = w === w.toUpperCase() || /^[A-Z][a-z]?[A-Z]/.test(w) || /^(SaaS|IoT|YoY|MoM)$/i.test(w) && /[A-Z]/.test(w.slice(1));
       if (key === 'it' && !(upper && w === 'IT' && !/^[A-Z ?.!']+$/.test(raw))) return;       /* the word "it" is not the abbreviation IT */
       if (key === 'smart' && !upper) return;
-      if (key.length <= 3 && !upper && !STRONG.test(raw)) return;                              /* "ai", "hr", "pr" need capitals or a clear question */
+      if (key.length <= 3 && !upper && !ASK.test(raw)) return;                              /* "ai", "hr", "pr" need capitals or a clear question */
       if (!upper && !ASK.test(raw)) return;
       seen[key] = 1; found.push(a);
     });

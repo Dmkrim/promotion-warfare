@@ -18,9 +18,21 @@
       { s: '#welcome-name', t: 'Type your name here. The app will greet you by name.' },
       { s: inS('step-welcome', go('step-start')), t: 'Start here! This opens the Battlefield. It is Step 1 of the plan.' },
       { s: inS('step-welcome', go('step-help')), t: 'Not sure how something works? Open the help page.' },
-      { s: inS('step-welcome', '[onclick*="openAdviser"]'), t: 'Ask the Career Adviser any question. Tap here.' },
+      { s: inS('step-welcome', go('step-examples')), t: 'Real stories of promotions, with a starter path for a first job.' },
+      { s: inS('step-welcome', '[onclick*="openAdviser"]'), t: 'Ask the Career Adviser any question. It also searches every page of the app.' },
+      { s: inS('step-welcome', go('step-action-plan')), t: 'Your Action Plan. Pick moves, add challenges and watch your power grow.' },
       { s: inS('step-welcome', go('step-journal')), t: 'Write your wins here. You can turn them into a raise pitch.' },
-      { s: inS('step-welcome', go('step-profile')), t: 'Change your photo, theme, text size and this help in Profile.' },
+      { s: inS('step-welcome', go('step-cheat')), t: 'The Cheat Sheet. Quick rules for each strategy.' },
+      { s: inS('step-welcome', go('step-lab')), t: 'The Strategy Lab. Test what happens with different choices.' },
+      { s: inS('step-welcome', go('step-quiz')), t: 'Quiz and Flashcards. Test what you know. Mistakes come back later.' },
+      { s: inS('step-welcome', go('step-phrase')), t: 'The Phrasebook. Exact sentences for hard moments. Tap to copy.' },
+      { s: inS('step-welcome', go('step-tools')), t: 'Career Tools: CV, interview stories, salary helper, 1:1 planner, boss quiz, feedback log and the Office Politics Game.' },
+      { s: inS('step-welcome', go('step-goals')), t: 'The Goal Builder. Set a goal and watch the progress bar fill.' },
+      { s: inS('step-welcome', go('step-profile')), t: 'Change your photo, theme, voice, text size and this help in Profile.' },
+      { s: '#daily-card', t: 'Your 1-minute lesson for today. Tap Got it to grow your streak.' },
+      { s: '#weekly-card', t: 'This week\'s move. A small mission each week. Tap I did it when done.' },
+      { s: '#welcome-tip', t: 'Today\'s move. One smart idea for today.' },
+      { s: '#welcome-badges', t: 'Your badges. Open to see what you unlocked.' },
       { s: '#adviser-fab', t: 'This button is always here. Tap it to chat with the Adviser.' },
       { s: '[onclick*="toggleDrawer"]', t: 'The Menu has every page of the app.' }
     ],
@@ -139,6 +151,9 @@
   };
 
   var cur = null, steps = [], idx = 0, ov = null;
+  function block(e) { if (ov && !(e.target && e.target.closest && e.target.closest('#gd-tip button'))) { if (e.cancelable) e.preventDefault(); } }
+  function keyblock(e) { if (ov && /^(ArrowUp|ArrowDown|PageUp|PageDown|Home|End| )$/.test(e.key) && !(e.target && e.target.closest && e.target.closest('#gd-tip button'))) e.preventDefault(); }
+  function lock(on) { var h = document.documentElement; h.classList.toggle('gd-lock', on); var f = on ? 'addEventListener' : 'removeEventListener'; document[f]('touchmove', block, { passive: false }); document[f]('wheel', block, { passive: false }); document[f]('keydown', keyblock, true); }
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; }
   function visible(e) { if (!e) return false; var r = e.getBoundingClientRect(); return r.width > 2 && r.height > 2 && e.offsetParent !== null; }
   function currentPage() { var s = document.querySelector('main section:not(.hidden)'); return s ? s.id : null; }
@@ -146,7 +161,7 @@
   function css() {
     if (document.getElementById('guide-css')) return;
     var c = document.createElement('style'); c.id = 'guide-css';
-    c.textContent = '#gd-ov{position:fixed;inset:0;z-index:9000}#gd-ring{position:fixed;border:3px solid #fbbf24;border-radius:14px;box-shadow:0 0 0 9999px rgba(2,6,23,.72);transition:all .3s;pointer-events:none;animation:gdp 1.4s ease-in-out infinite}' +
+    c.textContent = '#gd-ov{position:fixed;inset:0;z-index:9000;touch-action:none}#gd-tip,#gd-ring,#gd-arrow{touch-action:none}#gd-ring{position:fixed;border:3px solid #fbbf24;border-radius:14px;box-shadow:0 0 0 9999px rgba(2,6,23,.72);transition:all .3s;pointer-events:none;animation:gdp 1.4s ease-in-out infinite}' +
       '@keyframes gdp{0%,100%{border-color:#fbbf24}50%{border-color:#fff}}#gd-arrow{position:fixed;font-size:30px;line-height:1;color:#fbbf24;pointer-events:none;z-index:9002;text-shadow:0 2px 6px #000;transition:all .3s}' +
       '#gd-arrow.dn{animation:gdd .8s ease-in-out infinite}#gd-arrow.up{animation:gdu .8s ease-in-out infinite}@keyframes gdd{50%{transform:translateY(8px)}}@keyframes gdu{50%{transform:translateY(-8px)}}' +
       '#gd-tip{position:fixed;left:12px;right:12px;max-width:340px;margin:0 auto;z-index:9003;background:#1e293b;color:#f1f5f9;border:1px solid #f59e0b;border-radius:16px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.6);font-size:14px;line-height:1.35}' +
@@ -161,7 +176,7 @@
   function close(markSeen) {
     if (ov) { ov.remove(); ov = null; }
     ['gd-ring', 'gd-arrow', 'gd-tip'].forEach(function (i) { var e = document.getElementById(i); if (e) e.remove(); });
-    window.removeEventListener('resize', place);
+    window.removeEventListener('resize', place); lock(false);
     if (markSeen && cur) { st.seen[cur] = 1; save(); }
     steps = []; idx = 0;
     updateBtn();
@@ -214,7 +229,7 @@
     var ring = el('div'); ring.id = 'gd-ring'; var ar = el('div'); ar.id = 'gd-arrow'; var tip = el('div'); tip.id = 'gd-tip';
     tip.setAttribute('role', 'dialog'); tip.setAttribute('aria-live', 'polite');
     document.body.appendChild(ov); document.body.appendChild(ring); document.body.appendChild(ar); document.body.appendChild(tip);
-    window.addEventListener('resize', place);
+    window.addEventListener('resize', place); lock(true);
     show(); return true;
   }
 
