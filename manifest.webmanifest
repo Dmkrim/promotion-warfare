@@ -1,26 +1,80 @@
 {
-  "id": "./index.html",
-  "name": "Promotion Warfare",
-  "short_name": "Promotion",
-  "description": "Career strategy guide: map your workplace, choose your strategy and build your action plan. Works offline.",
-  "lang": "en",
-  "dir": "ltr",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
-  "orientation": "portrait",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "categories": ["productivity", "business", "education"],
-  "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ],
-  "shortcuts": [
-    { "name": "Action Plan", "short_name": "Plan", "url": "./index.html?go=plan", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
-    { "name": "Cheat Sheet", "short_name": "Cheat Sheet", "url": "./index.html?go=cheat", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] },
-    { "name": "Career Adviser", "short_name": "Adviser", "url": "./index.html?go=adviser", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }] }
-  ]
+ "id": "/",
+ "name": "Create Your New Product",
+ "short_name": "Product Path",
+ "description": "A step-by-step guide to create, price and sell a new product online.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#d6e1ef",
+ "theme_color": "#1f4fe0",
+ "categories": [
+  "business",
+  "education"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "screenshots": [
+  {
+   "src": "screenshots/01-welcome.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Welcome screen: start a new product or open a saved one"
+  },
+  {
+   "src": "screenshots/02-step3.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Step 3: list similar products and their prices"
+  },
+  {
+   "src": "screenshots/03-step4.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Step 4: parts, suppliers and the total cost"
+  },
+  {
+   "src": "screenshots/04-step9.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Step 9: your final cost and suggested price"
+  },
+  {
+   "src": "screenshots/05-results.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Results: suggested price and profit"
+  },
+  {
+   "src": "screenshots/06-profit.png",
+   "sizes": "1080x1920",
+   "type": "image/png",
+   "form_factor": "narrow",
+   "label": "Results: profit per unit with tips"
+  }
+ ]
 }
