@@ -135,8 +135,23 @@
       { s: inS('step-tools', go('step-meeting')), t: 'Plan your 1:1 meetings.' },
       { s: inS('step-tools', go('step-boss')), t: 'Learn your boss style.' },
       { s: inS('step-tools', go('step-feedback')), t: 'Keep your feedback in one place.' },
-      { s: inS('step-tools', go('step-game')), t: 'Play the Office Politics Game.' }
+      { s: inS('step-tools', go('step-game')), t: 'Play the Office Politics Game.' },
+      { s: inS('step-tools', go('step-boss12')), t: 'Fight office bosses in Boss Battles.' },
+      { s: inS('step-tools', go('step-journey')), t: 'See your career journey and skill tree.' },
+      { s: inS('step-tools', go('step-mood')), t: 'Check in with your mood.' }
     ],
+    'step-boss12': [{ s: '#bb-body', t: 'Pick a boss. Choose the best reply in 4 rounds to win.' }],
+    'step-swipe': [{ s: '#sw-body', t: 'Swipe a card right for a smart move, left for a mistake. Or use the buttons.' }],
+    'step-spin': [{ s: '#spin-body', t: 'Spin the wheel once a day for XP, a mission or a streak freeze.' }],
+    'step-flags': [{ s: '#fl-body', t: 'Tap the lines that are red flags, then check your answer.' }],
+    'step-makeover': [{ s: '#mk-body', t: 'Pick the calm version of the message. Watch the Calm-o-meter.' }],
+    'step-bingo': [{ s: '#bingo-body', t: 'Tap words you hear at work. Five in a row is a BINGO.' }],
+    'step-mood': [{ s: '#mood-body', t: 'Tap the face that matches your day, then save your check-in.' }],
+    'step-focus': [{ s: '#focus-body', t: 'Pick 10, 15 or 25 minutes and focus until the ring is full.' }],
+    'step-review': [{ s: '#rev-body', t: 'Set your review date. The app shows the days left and your next step.' }],
+    'step-journey': [{ s: '#journey-body', t: 'See your level path and skill tree. Tap a skill to learn how to grow it.' }],
+    'step-dash': [{ s: '#dash-body', t: 'Your meters and charts. They fill as you use the app.' }],
+    'step-recap': [{ s: '#recap-body', t: 'Watch your month as slides. Use Back and Next to move.' }],
     'step-quiz': [{ s: '#quiz-body', t: 'Pick a quiz or flashcards. Your streak grows each day.' }],
     'step-phrase': [{ s: '#phrase-body', t: 'Search a situation. Tap a phrase to copy it.' }],
     'step-cv': [{ s: '#cv-body', t: 'Pick your wins, then tap Build. Copy the result.' }],
@@ -259,7 +274,7 @@
   function onPage(id) {
     if (ov) close(false);
     renderPanel(); updateBtn();
-    if (st.on && G[id] && !st.seen[id]) setTimeout(function () { if (currentPage() === id && st.on && !st.seen[id] && !ov) { start(id); } }, 700);
+    if (st.on && G[id] && !st.seen[id] && !window.PW_TOURING) setTimeout(function () { if (currentPage() === id && st.on && !st.seen[id] && !ov) { start(id); } }, 700);
   }
   var _go = window.goToStep;
   if (typeof _go === 'function') window.goToStep = function (id, p, fromPop) { _go(id, p, fromPop); try { onPage(id); } catch (e) { console.error(e); } };
