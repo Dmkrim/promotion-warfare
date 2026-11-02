@@ -1,6 +1,6 @@
 // Simple offline cache: app shell + runtime caching of CDN files (Tailwind, FontAwesome)
-const CACHE = 'promotion-warfare-v11';
-const SHELL = ['./', './index.html', './privacy.html', './manifest.webmanifest', './bank.js', './js/avatars.js', './js/adviser.js', './js/app2.js', './js/strategies.js', './js/extras.js', './js/v6data.js', './js/v7data.js', './js/v8data.js', './js/v8.js', './js/v9.js', './js/v10.js', './js/v11.js', './js/v10data.js', './js/guide.js', './js/v7.js', './js/v6.js', './js/howto.js', './app-icon.png', './hiprogress-logo.png', './004.jpg', './icons/icon-192.png', './icons/icon-512.png'];
+const CACHE = 'promotion-warfare-v12';
+const SHELL = ['./', './index.html', './privacy.html', './manifest.webmanifest', './bank.js', './js/avatars.js', './js/adviser.js', './js/app2.js', './js/strategies.js', './js/extras.js', './js/v6data.js', './js/v7data.js', './js/v8data.js', './js/v8.js', './js/v9.js', './js/v10.js', './js/v11.js', './js/v12data.js', './js/v12core.js', './js/v12vis.js', './js/v12games.js', './js/v10data.js', './js/guide.js', './js/v7.js', './js/v6.js', './js/howto.js', './app-icon.png', './hiprogress-logo.png', './004.jpg', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });

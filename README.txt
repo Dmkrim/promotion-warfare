@@ -76,3 +76,20 @@ V11 (new)
 - Animated help: the page is locked (no scrolling) while a tip is open. The Welcome tour now covers every button and card.
 - Office Politics Game: 7 more levels (10 in total, 86 stories). New levels: Remote Rules, Client Zone, Team Captain, Fire Drill, Next Step, Executive Floor, Grandmaster.
 - Profile and Settings is now one long page.
+
+
+V12 (new): 30 animated features. Files: js/v12data.js, js/v12core.js, js/v12vis.js, js/v12games.js (upload the whole folder).
+- XP and levels (9 titles). Level-up screen with confetti and screen shake. Animated XP ring. 3 level badges.
+- Effects setting in Profile and Settings: Full, Light or Off (also follows your phone's "reduce motion").
+- Sound (made in the browser, no audio files) and vibration: OFF by default. Speaker button in the top bar and a switch in Profile. Vibration works on Android only.
+- Power aura (4 colours), avatar items and animated backgrounds (radar, grid, matrix) that unlock with levels.
+- Day/Night switch is now an animated circle reveal. Cards fold in when you open a page. Parallax tilt on cards. Radar scanner shows while the Adviser thinks.
+- Number counters roll up in the Action Plan. "QUEST COMPLETED" stamp when you finish a move. Liquid-fill meters.
+- Streak flame grows with your streak. Streak freeze saves one missed day (earned at 7, 14 and 30 days, max 2, also a spin prize).
+- Hologram pyramid (drag to turn, gyroscope on Android) with your avatar climbing tiers. Spring bounce when someone changes tier. Cheat Sheet cards open like classified dossiers.
+- Badge pop-ups bounce and flip, with Common / Rare / Epic looks.
+- New pages in Career Tools (now in 3 groups): Boss Battles, Swipe Cards, Spot the Red Flag, Message Makeover, Buzzword Bingo, Daily Spin, Career Journey (path + skill tree), Progress Dashboard, Monthly Recap, Review Countdown, Mood Check-in, Focus Timer.
+- Intro tour (PW12.tour) and the coach owl that reacts to moves, wins and badges.
+- 10 new badges (41 in total). Data keys: pw_fx, pw_sound, pw_xp, pw_act, pw_aura, pw_item, pw_bg, pw_freeze, pw_boss12, pw_swipe, pw_spin, pw_bingo, pw_mood, pw_focus, pw_review, pw_tour.
+- Not included on purpose: share cards (#31).
+- Tested in a desktop browser only. Sound, vibration and gyroscope are untested on a real phone.
