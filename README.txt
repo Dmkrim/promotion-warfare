@@ -93,3 +93,17 @@ V12 (new): 30 animated features. Files: js/v12data.js, js/v12core.js, js/v12vis.
 - 10 new badges (41 in total). Data keys: pw_fx, pw_sound, pw_xp, pw_act, pw_aura, pw_item, pw_bg, pw_freeze, pw_boss12, pw_swipe, pw_spin, pw_bingo, pw_mood, pw_focus, pw_review, pw_tour.
 - Not included on purpose: share cards (#31).
 - Tested in a desktop browser only. Sound, vibration and gyroscope are untested on a real phone.
+
+
+V13 (new): 20 animations for the main pages. File: js/v13.js (upload the whole folder).
+- Promotion meter: a thin bar at the top of every page. Milestones at 25, 50, 75, 100 percent. Tap it to see what builds it.
+- Welcome: Road to promotion with a walking avatar, greeting scene for the time of day, My big goal with a day countdown, and a daily lesson card that is closed until you tap it (stamps DONE when finished).
+- Pyramid: glowing power lines, new people pop in, the pyramid builds itself, Ally / Neutral / Risk marks (green glow, red pulse), and a new "Make a picture to share" button with an animated build.
+- Strategic Square: question cards are dealt in, a mini square shows which strategies are left, and the strategy you get is revealed with a card shuffle.
+- Strategy pages: swipe a rule card right to add it to your plan, left to skip. The Explain it window shows a before and after scene.
+- Action Plan: Battle board for the week (perfect week = flame) and a 15 minute move timer ring (stopwatch button on each move).
+- Adviser: the helper blinks while thinking, types its answer letter by letter, nods at the end, and the buttons slide in. A Practice it button opens a matching game for some topics.
+- Wins Journal: wins wall (one brick per win, gold for wins with numbers). Making the raise pitch now writes itself and stamps READY TO PRESENT.
+- New data keys: pw_goal13, pw_dcopen, pw_rel, pw_promo_ms, pw_mtrun.
+- Effects: Light keeps the fixed pieces, Off removes the moving effects.
+- Note: the old picture box was removed in V09, so the share picture is a new overlay button.
