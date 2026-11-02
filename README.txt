@@ -107,3 +107,5 @@ V13 (new): 20 animations for the main pages. File: js/v13.js (upload the whole f
 - New data keys: pw_goal13, pw_dcopen, pw_rel, pw_promo_ms, pw_mtrun.
 - Effects: Light keeps the fixed pieces, Off removes the moving effects.
 - Note: the old picture box was removed in V09, so the share picture is a new overlay button.
+
+V13 fix: the pyramid build now also builds the hologram (slower, with a "▶ Play build" button under the pyramid). Ally / Neutral / Risk now has a small circle button on every person (tap to cycle). Effects Light also shows the build, the Explain scene and the typing Adviser (only Off turns them off).
