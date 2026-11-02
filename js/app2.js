@@ -189,6 +189,10 @@
   ,
     ['✨', 'XP, levels, streak and effects', 'Everything you do earns XP: finishing a move, saving a win, badges, games. Enough XP gives you a new level with a burst. Open <b>Profile and Settings</b> to choose <b>Effects: Full, Light or Off</b>, turn on sound and vibration, pick a power aura, an avatar item and an animated background. Your daily streak flame grows each day. A streak freeze saves one missed day.'],
     ['🎮', 'New games and tools', 'Open <b>Career Tools</b>. Games: Boss Battles, Swipe Cards, Spot the Red Flag, Message Makeover, Buzzword Bingo and a Daily Spin. Progress: Career Journey with skill tree, Progress Dashboard, Monthly Recap, Review Countdown. Daily tools: Mood Check-in and Focus Timer.']
+,
+    ['🚩', 'Promotion meter and road', 'The thin bar at the very top of every page is your <b>Promotion meter</b>. It grows when you build your map, pick a strategy, finish moves, save wins, earn XP and keep a streak. Tap it to see the parts. At 25, 50, 75 and 100 percent you get a milestone. On the Welcome page the <b>Road to promotion</b> shows your avatar walking toward the flag, and <b>My big goal</b> counts the days to your target date.'],
+    ['🔗', 'Power lines, Ally and Risk', 'On the Corporate Power Pyramid, glowing lines connect each tier to the tier above. Tap a person and mark <b>Ally</b>, <b>Neutral</b> or <b>Risk</b>. Allies glow green and risks pulse red. Tap <b>Make a picture to share</b> to build a picture of your pyramid.'],
+    ['⏱️', 'Move timer, battle board and wins wall', 'In the Action Plan tap the stopwatch next to a move to work on it for 15 minutes. The <b>Battle board</b> shows your week. In the Wins Journal each win is a brick in your <b>wins wall</b>. Wins with numbers are gold.']
 ];
   window.PW_HELP = HELP;
   function renderHelp() {
