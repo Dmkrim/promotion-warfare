@@ -109,3 +109,6 @@ V13 (new): 20 animations for the main pages. File: js/v13.js (upload the whole f
 - Note: the old picture box was removed in V09, so the share picture is a new overlay button.
 
 V13 fix: the pyramid build now also builds the hologram (slower, with a "▶ Play build" button under the pyramid). Ally / Neutral / Risk now has a small circle button on every person (tap to cycle). Effects Light also shows the build, the Explain scene and the typing Adviser (only Off turns them off).
+
+V14: same app as V13 (version label and offline cache name updated to V14, so phones fetch the new files).
+Privacy page updated: the optional voice button (microphone) is now described, to match Google Play's Data safety form.
