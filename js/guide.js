@@ -29,8 +29,8 @@
       { s: inS('step-welcome', go('step-tools')), t: 'Career Tools: CV, interview stories, salary helper, 1:1 planner, boss quiz, feedback log and the Office Politics Game.' },
       { s: inS('step-welcome', go('step-goals')), t: 'The Goal Builder. Set a goal and watch the progress bar fill.' },
       { s: inS('step-welcome', go('step-profile')), t: 'Change your photo, theme, voice, text size and this help in Profile.' },
-      { s: '#daily-card', t: 'Your 1-minute lesson for today. Tap Got it to grow your streak.' },
-      { s: '#weekly-card', t: 'This week\'s move. A small mission each week. Tap I did it when done.' },
+      { s: '#tool-deck', t: 'Tool cards. They change by themselves. Swipe a card away to see the next one, or tap a card to open that tool.' },
+      { s: '#goal-card', t: 'Your big goal. Write it and pick a date. The bar shows how far you are.' },
       { s: '#welcome-tip', t: 'Today\'s move. One smart idea for today.' },
       { s: '#welcome-badges', t: 'Your badges. Open to see what you unlocked.' },
       { s: '#adviser-fab', t: 'This button is always here. Tap it to chat with the Adviser.' },
@@ -64,6 +64,8 @@
       { s: '#ch-box', t: 'Add a workplace challenge to your plan, like a difficult manager.' },
       { s: '#custom-task', t: 'Write your own task here and add it.' },
       { s: '#power-bar', t: 'This bar grows when you finish tasks. Keep it growing!' },
+      { s: '#daily-card', t: 'Your 1-minute lesson for today. Tap Got it to grow your streak.' },
+      { s: '#weekly-card', t: 'This week\'s move. A small mission each week. Tap I did it when done.' },
       { s: inS('step-action-plan', '[onclick*="printDossier"]'), t: 'Print your plan, or export it.' }
     ],
     'step-examples': [
@@ -82,6 +84,7 @@
     'step-profile': [
       { s: '#voice-panel', t: 'Voice: speak instead of typing, hear answers read aloud, and choose the voice.' },
       { s: '#avatar-file', t: 'Pick your photo here.' },
+      { s: '#av-toggle', t: 'Tap here to open all 50 avatars and choose a new one.' },
       { s: '#prof-name', t: 'Your name and position go here.' },
       { s: '#theme-dark-btn', t: 'Choose Dark or Light mode.' },
       { s: '#size-l', t: 'Make the text bigger or smaller.' },

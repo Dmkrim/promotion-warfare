@@ -47,16 +47,61 @@
   }
   var ROAD = [['🗺️', 'Map'], ['🧭', 'Strategy'], ['✅', 'Moves'], ['🏅', 'Wins'], ['⚡', 'Level'], ['🚩', 'Promotion']];
   var roadPos = 0, roadRaf = 0;
+  var RD_CP = [[15, '🗺️', 'Map'], [25, '🧭', 'Strategy'], [50, '✅', 'Moves'], [65, '🏅', 'Wins'], [85, '⚡', 'Level']];
+  var RD_D = 'M12 106 C58 70 98 114 142 90 S212 72 250 84';
+  function roadCss() {
+    if ($('v15-road-css')) return; var st = document.createElement('style'); st.id = 'v15-road-css';
+    st.textContent = [
+      '.rd-svg{display:block;width:100%;border-radius:14px;background:#0f172a}',
+      '.rd-flag{transform-origin:0 6px;transform-box:fill-box}html.fx-full .rd-flag{animation:rdFlag 1.3s ease-in-out infinite alternate}@keyframes rdFlag{from{transform:skewY(-10deg) scaleX(1)}to{transform:skewY(10deg) scaleX(.8)}}',
+      'html.fx-full .rd-sun{animation:rdSun 3s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}@keyframes rdSun{from{opacity:.65;transform:scale(.92)}to{opacity:1;transform:scale(1.12)}}',
+      'html.fx-full .rd-star{animation:rdTw 2.2s ease-in-out infinite alternate}@keyframes rdTw{from{opacity:.2}to{opacity:1}}',
+      'html.fx-full .rd-em{animation:rdEm 3.2s ease-out infinite}@keyframes rdEm{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(8px,-34px);opacity:0}}',
+      'html.fx-full .rd-fire{animation:rdFire .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}@keyframes rdFire{from{transform:scale(.9,1)}to{transform:scale(1.15,1.2)}}',
+      'html.fx-full .rd-bob{animation:rdBob .5s ease-in-out infinite alternate}@keyframes rdBob{from{transform:translateY(0)}to{transform:translateY(-3px)}}',
+      '.rd-cp{fill:#334155;stroke:#64748b;stroke-width:1.5;transition:fill .4s}.rd-cp.on{fill:#fbbf24;stroke:#fff7ed}.rd-cpe{opacity:.45;transition:opacity .4s}.rd-cpe.on{opacity:1}',
+      'html.fx-full .rd-cp.pop{animation:rdPop .7s ease-out;transform-box:fill-box;transform-origin:center}@keyframes rdPop{0%{transform:scale(1)}40%{transform:scale(2.2)}100%{transform:scale(1)}}',
+      '.rd-clash{opacity:0}html.fx-full .rd-clash.go{animation:rdClash 1.1s ease-out}@keyframes rdClash{0%{opacity:0;transform:scale(.3)}30%{opacity:1;transform:scale(1.4)}100%{opacity:0;transform:scale(1)}}',
+      '.rd-win{animation:none}html.fx-full .rd-win{animation:rdWin 1s ease-in-out infinite alternate}@keyframes rdWin{from{opacity:.3}to{opacity:1}}',
+      '.rd-rank{font-size:10px;font-weight:800;color:#fde68a;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.4);border-radius:999px;padding:1px 8px}'
+    ].join('\n'); document.head.appendChild(st);
+  }
+  function rdRank(v) { return v >= 100 ? 'General' : v >= 75 ? 'Commander' : v >= 55 ? 'Captain' : v >= 35 ? 'Sergeant' : v >= 15 ? 'Soldier' : 'Recruit'; }
   function drawRoad() {
-    var box = $('road-card'); if (!box) return; var v = promoPct(); var d = 'M20 46 C70 6 110 6 150 30 S230 54 280 14';
+    var box = $('road-card'); if (!box) return; roadCss(); var v = promoPct();
     if (!box.firstChild) {
-      box.innerHTML = '<div class="flex justify-between items-center mb-1"><p class="text-[10px] font-bold uppercase tracking-wider text-amber-300">🛣️ Road to promotion</p><b id="road-n" class="text-sm text-white">0%</b></div><svg viewBox="0 0 300 64" class="w-full" role="img" aria-label="Career road"><path d="' + d + '" fill="none" stroke="#334155" stroke-width="7" stroke-linecap="round"/><path id="road-p" d="' + d + '" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 7"/><text x="282" y="10" font-size="16" id="road-flag">🚩</text><text id="road-av" x="0" y="0" font-size="17" text-anchor="middle">🧑‍💼</text></svg><p id="road-t" class="text-[11px] text-slate-300 text-center"></p>';
+      var stars = '', k; for (k = 0; k < 9; k++) stars += '<circle class="rd-star" cx="' + (20 + k * 29 + (k % 3) * 7) + '" cy="' + (8 + (k * 13) % 30) + '" r="1.1" fill="#fef9c3" style="animation-delay:' + (k * 0.35) + 's"/>';
+      var em = ''; for (k = 0; k < 4; k++) em += '<circle class="rd-em" cx="' + (258 + k * 6) + '" cy="40" r="1.6" fill="#fb923c" style="animation-delay:' + (k * 0.8) + 's"/>';
+      box.innerHTML = '<div class="flex justify-between items-center mb-1.5"><p class="text-[10px] font-bold uppercase tracking-wider text-amber-300">⚔️ Road to promotion</p><span id="road-rank" class="rd-rank">Recruit</span><b id="road-n" class="text-sm text-white">0%</b></div>' +
+        '<svg viewBox="0 0 300 120" class="rd-svg" role="img" aria-label="Your road to the promotion fortress"><defs><linearGradient id="rd-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e1b4b"/><stop offset=".55" stop-color="#7c2d12"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>' +
+        '<rect width="300" height="120" fill="url(#rd-sky)"/>' + stars + '<circle class="rd-sun" cx="62" cy="34" r="13" fill="#fb923c"/><circle cx="62" cy="34" r="8" fill="#fde68a"/>' +
+        '<polygon points="0,86 38,48 66,70 104,38 140,74 176,52 214,80 250,56 300,84 300,120 0,120" fill="#312e81" opacity=".85"/>' +
+        '<polygon points="0,104 46,84 92,100 150,82 210,98 262,86 300,96 300,120 0,120" fill="#1e293b"/>' +
+        '<g id="rd-castle"><rect x="244" y="42" width="44" height="40" fill="#475569"/><rect x="238" y="34" width="14" height="48" fill="#64748b"/><rect x="280" y="34" width="14" height="48" fill="#64748b"/>' +
+        '<path d="M238 34h3v-4h3v4h3v-4h3v4h2v3h-14z M280 34h3v-4h3v4h3v-4h3v4h2v3h-14z M244 42h4v-4h4v4h4v-4h4v4h4v-4h4v4h4v-4h4v4h0v3h-36z" fill="#64748b"/>' +
+        '<path d="M258 82v-14a7 7 0 0 1 14 0v14z" fill="#0f172a"/><rect x="264" y="14" width="1.6" height="22" fill="#e2e8f0"/><path class="rd-flag" d="M265.6 14h14l-4 4.5 4 4.5h-14z" fill="#ef4444"/>' + em + '</g>' +
+        '<path d="' + RD_D + '" fill="none" stroke="#44403c" stroke-width="10" stroke-linecap="round"/><path d="' + RD_D + '" fill="none" stroke="#a8a29e" stroke-width="1.4" stroke-dasharray="3 6" stroke-linecap="round"/>' +
+        '<path id="road-p" d="' + RD_D + '" fill="none" stroke="#fbbf24" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="0 9999" style="filter:drop-shadow(0 0 3px #f59e0b)"/>' +
+        '<g id="rd-cps"></g><text x="14" y="98" font-size="13" class="rd-fire">⛺</text><text x="28" y="105" font-size="10" class="rd-fire">🔥</text>' +
+        '<text id="rd-clash" class="rd-clash" font-size="18" text-anchor="middle" x="0" y="0" style="transform-box:fill-box;transform-origin:center">⚔️</text>' +
+        '<g id="road-av"><g class="rd-bob"><text x="0" y="0" font-size="17" text-anchor="middle">🛡️</text></g></g></svg>' +
+        '<p id="road-t" class="text-[11px] text-slate-300 text-center mt-1.5"></p>';
+      var pp = $('road-p'), L = pp.getTotalLength(), g = $('rd-cps'), h = '';
+      RD_CP.forEach(function (c, i) { var pt = pp.getPointAtLength(L * c[0] / 100); h += '<g><circle class="rd-cp" data-t="' + c[0] + '" cx="' + pt.x + '" cy="' + pt.y + '" r="4.2"/><text class="rd-cpe" data-t="' + c[0] + '" x="' + pt.x + '" y="' + (pt.y - 9) + '" font-size="9" text-anchor="middle">' + c[1] + '</text></g>'; });
+      g.innerHTML = h;
     }
     var p = $('road-p'), av = $('road-av'), len = p.getTotalLength(), to = v / 100 * len, from = roadPos;
     var next = promoParts().filter(function (x) { return x[1] < ({ Map: 15, Strategy: 10, Moves: 25, Wins: 15, Level: 20, Streak: 15 })[x[0]] - 0.5; })[0];
-    $('road-t').textContent = v >= 100 ? 'You did it. Time for your promotion talk!' : next ? 'Next boost: ' + ({ Map: 'add people to your map', Strategy: 'pick your strategy', Moves: 'finish a move', Wins: 'save a win', Level: 'earn XP', Streak: 'do your daily lesson' })[next[0]] : 'Keep going!';
-    cancelAnimationFrame(roadRaf); var t0 = performance.now(), dur = full() ? 1100 : 0, n = $('road-n');
-    (function step(t) { var k = dur ? Math.min(1, (t - t0) / dur) : 1, e = 1 - Math.pow(1 - k, 3), cur = from + (to - from) * e, pt = p.getPointAtLength(Math.max(0, Math.min(len, cur))); av.setAttribute('x', pt.x); av.setAttribute('y', pt.y - 5); n.textContent = Math.round(cur / len * 100) + '%'; roadPos = cur; if (k < 1) roadRaf = requestAnimationFrame(step); })(t0);
+    $('road-t').textContent = v >= 100 ? 'You did it. Time for your promotion talk!' : next ? 'Next battle: ' + ({ Map: 'add people to your map', Strategy: 'pick your strategy', Moves: 'finish a move', Wins: 'save a win', Level: 'earn XP', Streak: 'do your daily lesson' })[next[0]] : 'Keep marching!';
+    $('road-rank').textContent = rdRank(v);
+    var cps = [].slice.call(box.querySelectorAll('.rd-cp,.rd-cpe')), fl = box.querySelector('.rd-flag'); if (fl) fl.style.fill = v >= 100 ? '#fbbf24' : '#ef4444';
+    cancelAnimationFrame(roadRaf); var t0 = performance.now(), dur = full() ? 1300 : 0, n = $('road-n');
+    (function step(t) {
+      var k = dur ? Math.min(1, (t - t0) / dur) : 1, e = 1 - Math.pow(1 - k, 3), cur = from + (to - from) * e, pt = p.getPointAtLength(Math.max(0, Math.min(len, cur))), pc = cur / len * 100;
+      av.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + (pt.y - 7).toFixed(1) + ')'); p.setAttribute('stroke-dasharray', Math.max(0.01, cur) + ' 9999'); n.textContent = Math.round(pc) + '%'; roadPos = cur;
+      cps.forEach(function (c) { var on = pc + 0.4 >= +c.getAttribute('data-t'), was = c.classList.contains('on'); c.classList.toggle('on', on); if (on && !was && dur && c.tagName === 'circle') { c.classList.remove('pop'); void c.getBoundingClientRect(); c.classList.add('pop'); var cl = $('rd-clash'); if (cl) { cl.setAttribute('x', c.getAttribute('cx')); cl.setAttribute('y', +c.getAttribute('cy') - 12); cl.classList.remove('go'); void cl.getBoundingClientRect(); cl.classList.add('go'); } } });
+      if (k < 1) roadRaf = requestAnimationFrame(step);
+    })(t0);
   }
 
   /* ================= 3: greeting scene, 4: goal countdown ================= */
