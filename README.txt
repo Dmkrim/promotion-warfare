@@ -121,3 +121,8 @@ V15 (new): file js/v15.js (upload the whole folder).
 5. Profile: the 50 avatars show only after you tap "Change an Avatar".
 6. "Your 1-minute lesson" and "This week's move" moved to My Action Plan, before "Take it with you".
 7. Help texts, the help tour and the Adviser how-to answers updated for the new places.
+
+V15b (fix): 
+1. A small space (16 px) between "Start the Strategy" and the greeting card below it.
+2. Start screen: when the App opens, a splash screen shows the app icon with a turning ring and a loading bar for at least 1.5 seconds, and stays until the page styles are ready. This hides the big white sword that showed on slow loads. The sword pictures now also have fixed sizes and their styles are inside index.html.
+3. Offline cache name is now promotion-warfare-v15b so phones fetch the new files.
