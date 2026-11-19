@@ -323,7 +323,7 @@
             </div>
             <div id="drawer-nav" class="flex-1 overflow-y-auto no-scrollbar pb-2"></div>
             <div class="pt-3 border-t border-slate-800 text-center">
-                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V14</p>
+                <p id="drawer-ver" class="text-[10px] text-slate-500">Promotion Warfare System V15</p>
             </div>
         </div>
     </div>
@@ -920,6 +920,7 @@
                 <div class="flex justify-center mb-2"><div id="pw-spin-wrap" class="relative" style="width:136px;height:136px"><img id="pw-spin-img" src="app-icon.png" alt="" class="absolute inset-0 w-full h-full rounded-3xl transition-opacity duration-300"><canvas id="pw-spin" role="img" aria-label="Promotion Warfare app icon, turning in 3D (tap to spin again)" class="absolute inset-0 w-full h-full"></canvas></div></div>
                 <h2 class="text-2xl font-extrabold text-white leading-tight">Promotion Warfare</h2>
                 <p class="text-xs text-amber-400 font-semibold mb-1">Win your career with strategy, not luck</p>
+                <button id="start-btn" onclick="goToStep('step-start', 1)" class="start-war w-full rounded-3xl text-white font-extrabold relative overflow-hidden active:scale-98 mt-3 mb-1"><span class="sw-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sw-shine" aria-hidden="true"></span><span class="sw-row"><span class="sw-emb" aria-hidden="true"><span class="sw-a"><svg viewBox="0 0 24 64" class="sw-svg" aria-hidden="true"><path d="M12 1 L17 40 L7 40Z" fill="#f1f5f9"/><path d="M12 1 L12 40 L7 40Z" fill="#94a3b8"/><rect x="2" y="40" width="20" height="5" rx="2.5" fill="#fbbf24"/><rect x="10" y="45" width="4" height="12" fill="#7c2d12"/><circle cx="12" cy="60" r="3.2" fill="#fbbf24"/></svg></span><span class="sw-b"><svg viewBox="0 0 24 64" class="sw-svg" aria-hidden="true"><path d="M12 1 L17 40 L7 40Z" fill="#f1f5f9"/><path d="M12 1 L12 40 L7 40Z" fill="#94a3b8"/><rect x="2" y="40" width="20" height="5" rx="2.5" fill="#fbbf24"/><rect x="10" y="45" width="4" height="12" fill="#7c2d12"/><circle cx="12" cy="60" r="3.2" fill="#fbbf24"/></svg></span><span class="sw-spark">✦</span></span><span class="sw-mid"><b class="sw-t">Start the Strategy</b><small class="sw-s">Tap to begin the battle</small></span><span class="sw-ban" aria-hidden="true"><svg viewBox="0 0 30 44" class="sw-bsvg"><rect x="3" y="2" width="2.4" height="40" fill="#e2e8f0"/><path class="sw-bf" d="M5.4 4h21l-6 7 6 7h-21z" fill="#fef3c7"/></svg></span></span></button>
                 <p id="welcome-greet" class="text-sm text-slate-200 font-bold mt-3">Welcome!</p>
                 <div id="welcome-name-form" class="mt-2 flex gap-2">
                     <input id="welcome-name" type="text" maxlength="30" placeholder="What should I call you?" class="flex-1 bg-slate-950/80 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:border-amber-400 outline-none">
@@ -934,9 +935,6 @@
                     <p id="install-hint" class="hidden text-[11px] text-amber-300 mt-1"></p>
                     <div class="flex gap-2 mt-2"><button onclick="pwInstall()" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold active:scale-95">Install</button><button onclick="pwInstallClose()" class="px-3 py-1.5 rounded-xl bg-slate-700 text-slate-200 text-[11px] font-bold active:scale-95">Not now</button></div>
                 </div>
-                <button onclick="goToStep('step-start', 1)" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-extrabold text-sm shadow-lg shadow-red-900/30 flex items-center justify-center gap-2 active:scale-98 transition mb-3">
-                    <i class="fa-solid fa-play ai-play"></i> Start the Strategy
-                </button>
                 <div class="grid grid-cols-2 gap-2.5">
                     <button onclick="goToStep('step-help', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-book" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="6" width="28" height="22" rx="3" fill="#2563eb"/><rect x="5" y="8" width="12" height="18" rx="1.5" fill="#f1f5f9"/><rect x="17" y="8" width="12" height="18" rx="1.5" fill="#e2e8f0"/><g stroke="#94a3b8" stroke-width="1" stroke-linecap="round"><path d="M7.5 12h7M7.5 15h7M7.5 18h5"/><path d="M19.5 12h7M19.5 15h7M19.5 18h5"/></g><rect class="flip" x="17" y="8" width="12" height="18" rx="1.5" fill="#fff" stroke="#cbd5e1" stroke-width=".8"/><rect class="flip2" x="17" y="8" width="12" height="18" rx="1.5" fill="#fff" stroke="#cbd5e1" stroke-width=".8"/><path d="M17 7v20" stroke="#1d4ed8" stroke-width="1.4"/></svg></span>How to use this App</button>
                     <button onclick="goToStep('step-examples', 0)" class="py-3 px-3 rounded-2xl bg-slate-900/70 border border-slate-700/60 hover:border-amber-400/50 text-slate-100 text-xs font-bold flex flex-col items-center justify-center gap-1.5 transition active:scale-95"><span class="flex items-center justify-center h-9"><svg class="ai ai-trophy" viewBox="0 0 34 34" aria-hidden="true"><g class="cup"><path d="M10 6h14v7a7 7 0 0 1-14 0z" fill="#fbbf24"/><path d="M10 8H5c0 5 2.5 7 5.3 7M24 8h5c0 5-2.5 7-5.3 7" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/><rect x="15.2" y="19" width="3.6" height="5" fill="#f59e0b"/><rect x="11" y="24" width="12" height="4" rx="1.5" fill="#d97706"/><path d="M13 8v5a4 4 0 0 0 2 3.5" stroke="#fde68a" stroke-width="1.6" fill="none" stroke-linecap="round"/></g><path class="star s1" d="M28 3l1.2 2.6L32 6.8l-2.8 1.2L28 10.6 26.8 8 24 6.8l2.8-1.2z" fill="#fde047"/><path class="star s2" d="M5 21l.9 2 2.1.9-2.1.9L5 27l-.9-2.2L2 23.9l2.1-.9z" fill="#fde047"/><path class="star s3" d="M30 20l.8 1.7 1.7.8-1.7.7L30 25l-.8-1.8-1.7-.7 1.7-.8z" fill="#fef08a"/></svg></span>Examples of Promotions</button>
@@ -1041,8 +1039,11 @@
                         </select>
                     </div>
                     <div>
-                        <p class="text-xs font-bold text-slate-300 mb-1.5">Choose an avatar (50 people)</p>
-                        <div id="avatar-grid" class="grid grid-cols-5 gap-2"></div>
+                        <button id="av-toggle" onclick="toggleAvatars()" aria-expanded="false" class="w-full py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-100 text-xs font-bold active:scale-95 transition"><span id="av-toggle-t">🎭 Change an Avatar</span></button>
+                        <div id="av-pick" class="hidden mt-3">
+                            <p class="text-xs font-bold text-slate-300 mb-1.5">Choose an avatar (50 people)</p>
+                            <div id="avatar-grid" class="grid grid-cols-5 gap-2"></div>
+                        </div>
                     </div>
                     <div>
                         <p class="text-xs font-bold text-slate-300 mb-1.5">Appearance</p>
@@ -1207,7 +1208,7 @@
             <section id="step-about" class="hidden card-enter bg-slate-800/90 backdrop-blur-md border border-slate-600/40 rounded-3xl p-5 shadow-2xl">
                 <div class="flex items-center space-x-3 mb-3">
                     <span class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-lg">ℹ️</span>
-                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V14</p></div>
+                    <div><h2 class="text-lg font-bold text-white">About this App</h2><p class="text-[11px] text-blue-400 font-medium">Promotion Warfare System V15</p></div>
                 </div>
                 <div class="space-y-3 text-xs text-slate-300 leading-relaxed max-h-[62vh] overflow-y-auto pr-1 no-scrollbar selectable">
                     <div class="flex justify-center hiprogress-logo-container"></div>
@@ -1999,5 +2000,6 @@
     <script src="js/v12games.js" defer></script>
     <script src="js/v13.js" defer></script>
     <script src="js/guide.js" defer></script>
+    <script src="js/v15.js" defer></script>
 </body>
 </html>

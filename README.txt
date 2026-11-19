@@ -112,3 +112,12 @@ V13 fix: the pyramid build now also builds the hologram (slower, with a "▶ Pla
 
 V14: same app as V13 (version label and offline cache name updated to V14, so phones fetch the new files).
 Privacy page updated: the optional voice button (microphone) is now described, to match Google Play's Data safety form.
+
+V15 (new): file js/v15.js (upload the whole folder).
+1. "Start the Strategy" is now above the greeting. It is twice as big and animated (crossed swords clash with a spark, a waving flag, embers, a shine). Animations stop when Effects is Off.
+2. New "Road to promotion": a battlefield scene. A shield marches along the road to a fortress with a flag. 5 checkpoints light up, and you get a rank (Recruit, Soldier, Sergeant, Captain, Commander, General).
+3. "My big goal" is now after the level box.
+4. New tool cards after the tool buttons: 12 cards, one per tool. They change every 5 seconds, you can swipe a card away, or tap a card to open the tool.
+5. Profile: the 50 avatars show only after you tap "Change an Avatar".
+6. "Your 1-minute lesson" and "This week's move" moved to My Action Plan, before "Take it with you".
+7. Help texts, the help tour and the Adviser how-to answers updated for the new places.
