@@ -126,3 +126,5 @@ V15b (fix):
 1. A small space (16 px) between "Start the Strategy" and the greeting card below it.
 2. Start screen: when the App opens, a splash screen shows the app icon with a turning ring and a loading bar for at least 1.5 seconds, and stays until the page styles are ready. This hides the big white sword that showed on slow loads. The sword pictures now also have fixed sizes and their styles are inside index.html.
 3. Offline cache name is now promotion-warfare-v15b so phones fetch the new files.
+
+V15c (fix): the splash screen ring is now a full round loading ring (before it showed only half of a square). Cache name promotion-warfare-v15c.
