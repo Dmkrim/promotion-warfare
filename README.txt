@@ -136,3 +136,13 @@ V16 (new): file js/v16.js (upload the whole folder).
 4. Back buttons of the 7 game pages now go back to Welcome (they were going to Career Tools).
 5. Help texts, the help tour and the Adviser how-to answers updated.
 6. New saved item: pw_dg16 (the day you opened today's game). It is included in backup.
+
+V17 (new): levels and Reset buttons for the games.
+- NEW files: js/v17.js and js/v17data.js (upload the whole folder).
+- CHANGED files: index.html (2 script tags + label "System V17"), sw.js (cache v17), js/howto.js, js/guide.js, js/app2.js (help texts).
+- Boss Battles, Swipe Cards, Spot the Red Flag, Message Makeover and Buzzword Bingo now have 5 levels (Rookie, Fighter, Strategist, Veteran, Legend). Each level gets harder (timers, more rounds, closer answers, bigger cards, the boss heals). Pass a level to unlock the next one.
+- Every game has a "Reset my results" button (with a Yes/Cancel question). It deletes the levels and best scores of that game only. XP and badges stay.
+- The Office Politics Game already had 10 levels. It only got the Reset button.
+- Daily Spin has nothing to finish (one lucky spin a day), so it is unchanged.
+- Buzzword Bingo: the old free card is still there under the button "Free card (classic)".
+- Saved on the phone in the key pw_lv17. Old scores are not lost. Menu unchanged.
