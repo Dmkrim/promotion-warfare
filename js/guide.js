@@ -123,7 +123,7 @@
       { s: inS('step-boss', '[onclick*="bossStart"]'), t: 'Answer 6 short questions to learn the style.' }
     ],
     'step-game': [
-      { s: '#game-body', t: 'Pick a level and play. Read each story and choose the smartest move. No timer!' },
+      { s: '#game-body', t: 'Pick a level and play. Read each story and choose the smartest move. No timer! Scroll down for the Reset button.' },
       { s: '#game-body [onclick*="gmStart"]', t: 'Tap Level 1 to start. More levels unlock when you finish.' }
     ],
     'step-feedback': [
@@ -142,12 +142,12 @@
       { s: inS('step-tools', go('step-journey')), t: 'See your career journey and skill tree.' },
       { s: inS('step-tools', go('step-mood')), t: 'Check in with your mood.' }
     ],
-    'step-boss12': [{ s: '#bb-body', t: 'Pick a boss. Choose the best reply in 4 rounds to win.' }],
-    'step-swipe': [{ s: '#sw-body', t: 'Swipe a card right for a smart move, left for a mistake. Or use the buttons.' }],
+    'step-boss12': [{ s: '#bb-body', t: 'Pick a level, then a boss. Choose the best replies to win. Beat 3 bosses to unlock the next level.' }],
+    'step-swipe': [{ s: '#sw-body', t: 'Pick a level. Swipe a card right for a smart move, left for a mistake. Or use the buttons.' }],
     'step-spin': [{ s: '#spin-body', t: 'Spin the wheel once a day for XP, a mission or a streak freeze.' }],
-    'step-flags': [{ s: '#fl-body', t: 'Tap the lines that are red flags, then check your answer.' }],
-    'step-makeover': [{ s: '#mk-body', t: 'Pick the calm version of the message. Watch the Calm-o-meter.' }],
-    'step-bingo': [{ s: '#bingo-body', t: 'Tap words you hear at work. Five in a row is a BINGO.' }],
+    'step-flags': [{ s: '#fl-body', t: 'Pick a level. Tap the lines that are red flags, then check your answer.' }],
+    'step-makeover': [{ s: '#mk-body', t: 'Pick a level. Pick the calm version of the message. Watch the Calm-o-meter.' }],
+    'step-bingo': [{ s: '#bingo-body', t: 'Pick a level. Hear the meaning and tap the right word on your card.' }],
     'step-mood': [{ s: '#mood-body', t: 'Tap the face that matches your day, then save your check-in.' }],
     'step-focus': [{ s: '#focus-body', t: 'Pick 10, 15 or 25 minutes and focus until the ring is full.' }],
     'step-review': [{ s: '#rev-body', t: 'Set your review date. The app shows the days left and your next step.' }],
