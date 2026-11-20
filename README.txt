@@ -128,3 +128,11 @@ V15b (fix):
 3. Offline cache name is now promotion-warfare-v15b so phones fetch the new files.
 
 V15c (fix): the splash screen ring is now a full round loading ring (before it showed only half of a square). Cache name promotion-warfare-v15c.
+
+V16 (new): file js/v16.js (upload the whole folder).
+1. The 7 games (Office Politics Game, Boss Battles, Swipe Cards, Spot the Red Flag, Message Makeover, Buzzword Bingo, Daily Spin) are removed from the Career Tools page.
+2. New "Learning Daily Games" field on the Welcome page, right after "Road to promotion". It shows ONE game each day (the game changes at midnight). Each game has its own war-style animated scene. Tap the scene or "Play now" to enter the game. After you tap, it says "Opened today".
+3. The menu (the drawer) is unchanged. All 7 games are still there.
+4. Back buttons of the 7 game pages now go back to Welcome (they were going to Career Tools).
+5. Help texts, the help tour and the Adviser how-to answers updated.
+6. New saved item: pw_dg16 (the day you opened today's game). It is included in backup.
