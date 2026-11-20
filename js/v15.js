@@ -39,7 +39,7 @@
     { go: 'step-lab', t: 'Strategy Lab', d: 'Move on the grid and see what changes. Test ideas before you use them.', c: ['#0f766e', '#2dd4bf'] },
     { go: 'step-quiz', t: 'Quiz & Flashcards', d: 'Test what you know. The questions you miss come back later.', c: ['#a21caf', '#e879f9'] },
     { go: 'step-phrase', t: 'Phrasebook', d: 'Exact sentences for hard moments. Tap one to copy it.', c: ['#0369a1', '#38bdf8'] },
-    { go: 'step-tools', t: 'Career Tools', d: 'CV, interview stories, salary helper, 1:1 planner and career games.', c: ['#4d7c0f', '#a3e635'] },
+    { go: 'step-tools', t: 'Career Tools', d: 'CV, interview stories, salary helper, 1:1 planner, journey and dashboard.', c: ['#4d7c0f', '#a3e635'] },
     { go: 'step-goals', t: 'Goals', d: 'Set a clear goal and watch the progress bar fill. Includes the salary helper.', c: ['#9f1239', '#fb7185'] },
     { go: 'step-profile', t: 'Profile & Settings', d: 'Your name, avatar, theme, text size, effects, voice and backup.', c: ['#334155', '#64748b'] }
   ];
